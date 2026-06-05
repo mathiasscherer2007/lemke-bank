@@ -1,1 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&family=Stack+Sans+Notch:wght@200..700&display=swap');
 @import 'tailwindcss';
+
+.teal-filter {
+    filter: brightness(0) saturate(100%) invert(86%) sepia(97%) saturate(1826%) hue-rotate(92deg) brightness(83%) contrast(101%);
+}
+
+.orange-filter {
+    filter: brightness(0) saturate(100%) invert(55%) sepia(25%) saturate(2723%) hue-rotate(357deg) brightness(103%) contrast(102%);
+}
