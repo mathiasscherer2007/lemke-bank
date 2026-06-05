@@ -25,11 +25,13 @@
 	}
 </script>
 
-<title>Sign Up | Meme-a-Ton</title>
+<svelte:head>
+	<title>Sign Up | LemkeBank</title>
+</svelte:head>
 
-<div class="flex h-screen w-screen items-center justify-center dark:bg-[rgb(46,46,45)] relative">
+<div class="flex h-screen w-screen items-center justify-center dark:bg-[rgb(46,46,45)] relative overflow-hidden">
 	<h2 class="absolute left-5 top-5 text-teal-500 dark:text-teal-400 font-[Stack_Sans_Notch] text-4xl">Lemke<b>Bank</b></h2>
-	<div class="h-full flex items-center justify-center">
+	<div class="h-full flex items-center justify-center w-full">
 		<form
 			use:enhance={() => {
 				submitting = true;
