@@ -26,7 +26,7 @@
 </script>
 
 <svelte:head>
-	<title>Sign Up | LemkeBank</title>
+	<title>Criar Conta | LemkeBank</title>
 </svelte:head>
 
 <div class="flex h-screen w-screen items-center justify-center dark:bg-[rgb(46,46,45)] relative overflow-hidden">
@@ -47,7 +47,7 @@
 			method="POST"
 			class="m-auto flex w-xl flex-col items-center rounded-xl p-5 px-7 bg-[rgb(27,27,26)] dark:text-white"
 		>
-			<h1 class="py-5 pb-7 font-[Stack_Sans_Headline] text-4xl font-bold">Welcome Aboard</h1>
+			<h1 class="py-5 pb-7 font-[Stack_Sans_Headline] text-4xl font-bold">Bem Vindo a Bordo</h1>
 			{#if form?.error?.message && !submitting && warningVisible}
 				<div
 					in:slide
@@ -60,7 +60,7 @@
 				</div>
 			{/if}
 			<div class="my-2 flex w-full flex-col">
-				<label for="username" class="pl-1">Username</label>
+				<label for="username" class="pl-1">Nome de Usuário</label>
 				<input
 					type="text"
 					name="username"
@@ -71,19 +71,19 @@
 				/>
 			</div>
 			<div class="my-2 flex w-full flex-col">
-				<label for="email" class="pl-1">E-mail</label>
+				<label for="email" class="pl-1">Email</label>
 				<input
 					type="email"
 					name="email"
 					id="email"
 					autocomplete="off"
-					placeholder="example@email.com"
+					placeholder="exemplo@email.com"
 					required
 					class="rounded-xl p-3 bg-[rgb(46,46,45)] autofill:bg-[rgb(36,36,35)]"
 				/>
 			</div>
 			<div class="my-2 flex w-full flex-col">
-				<label for="password" class="pl-1">Password</label>
+				<label for="password" class="pl-1">Senha</label>
 				<div class="relative flex">
 					<input
 						type={showPassword ? "text" : "password"}
@@ -102,13 +102,13 @@
 				<button
 					disabled={submitting}
 					class="cursor-pointer rounded-xl p-3 font-bold transition bg-teal-500 dark:bg-teal-400 dark:text-black disabled:cursor-default dark:disabled:bg-transparent border dark:border-teal-400 dark:disabled:text-teal-400 dark:hover:bg-teal-500"
-					>{submitting ? "..." : "Sign Up"}</button
+					>{submitting ? "..." : "Criar Conta"}</button
 				>
 				<span class="flex w-full flex-col items-center pt-5">
 					<p>
-						Already have an account? <a
+						Já tem uma conta? <a
 							href={resolve("/account/login")}
-							class="underline text-teal-500 dark:text-teal-400">Log In</a
+							class="underline text-teal-500 dark:text-teal-400">Iniciar Sessão</a
 						>
 					</p>
 				</span>

@@ -2,9 +2,11 @@
 	import { enhance } from '$app/forms';
 	import { resolve } from '$app/paths';
 	import type { PageProps } from './$types';
+
 	import warningIcon from '$lib/assets/icons/warning.svg';
 	import eyeIcon from '$lib/assets/icons/eye.svg';
 	import crossedEyeIcon from '$lib/assets/icons/eye-crossed.svg';
+	
 	import { slide } from 'svelte/transition';
 
 	let { form }: PageProps = $props();
@@ -24,7 +26,7 @@
 </script>
 
 <svelte:head>
-	<title>Log In | LemkeBank</title>
+	<title>Iniciar Sessão | LemkeBank</title>
 </svelte:head>
 
 <div class="flex h-screen w-screen items-center justify-center dark:bg-[rgb(46,46,45)] relative">
@@ -45,7 +47,7 @@
 			method="POST"
 			class="m-auto flex w-xl flex-col items-center rounded-xl p-5 px-7 bg-[rgb(27,27,26)] dark:text-white"
 		>
-			<h1 class="py-5 pb-7 font-[Stack_Sans_Headline] text-4xl font-bold">Welcome Back</h1>
+			<h1 class="py-5 pb-7 font-[Stack_Sans_Headline] text-4xl font-bold">Bem vindo de volta</h1>
 			{#if form?.error?.message && !submitting && warningVisible}
 				<div
 					in:slide
@@ -58,18 +60,18 @@
 				</div>
 			{/if}
 			<div class="my-2 flex w-full flex-col">
-				<label for="email" class="pl-1">E-mail</label>
+				<label for="email" class="pl-1">Email</label>
 				<input
 					type="email"
 					name="email"
 					id="email"
-					placeholder="example@email.com"
+					placeholder="exemplo@email.com"
 					required
 					class="rounded-xl p-3 bg-[rgb(46,46,45)] autofill:bg-[rgb(36,36,35)]"
 				/>
 			</div>
 			<div class="my-2 flex w-full flex-col">
-				<label for="password" class="pl-1">Password</label>
+				<label for="password" class="pl-1">Senha</label>
 				<div class="relative flex">
 					<input
 						type={showPassword ? 'text' : 'password'}
@@ -83,6 +85,7 @@
 						type="button"
 						onclick={toggleShowPassword}
 						class="absolute right-0 h-full cursor-pointer p-2"
+						aria-label={showPassword ? 'Hide password' : 'Show password'}
 					>
 						<img src={showPassword ? crossedEyeIcon : eyeIcon} alt="show" class="h-full" />
 					</button>
@@ -92,11 +95,11 @@
 				<button
 					disabled={submitting}
 					class="cursor-pointer rounded-xl p-3 font-bold transition bg-teal-500 dark:bg-teal-400 dark:text-black disabled:cursor-default dark:disabled:bg-transparent border dark:border-teal-400 dark:disabled:text-teal-400 dark:hover:bg-teal-500"
-					>{submitting ? '...' : 'Log In'}</button
+					>{submitting ? '...' : 'Iniciar Sessão'}</button
 				>
 				<span class="flex w-full flex-col items-center pt-5">
 					<p>
-						Don't have an account? <a href={resolve('/account/signup')} class="underline text-teal-500 dark:text-teal-400">Sign Up</a
+						Não tem uma conta? <a href={resolve('/account/signup')} class="underline text-teal-500 dark:text-teal-400">Criar conta</a
 						>
 					</p>
 				</span>
