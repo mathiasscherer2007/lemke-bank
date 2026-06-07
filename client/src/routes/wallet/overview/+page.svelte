@@ -6,14 +6,13 @@
     import statementIcon from '$lib/assets/icons/statement.svg';
     import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
     import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
+
+    import MainHeader from '$lib/components/MainHeader.svelte';
+    import MainFooter from '$lib/components/MainFooter.svelte';
 </script>
 
 <div class="flex flex-col min-h-screen">
-	<header class="bg-teal-500 p-4 text-white">
-		<a href={resolve('/wallet/overview')} class="font-[Stack_Sans_Notch] text-3xl"
-			>Lemke<b>Bank</b></a
-		>
-	</header>
+	<MainHeader />
 	<main class="dark:bg-[rgb(27,27,26)] flex-1 px-30 flex flex-col">
 		<div class="dark:bg-[rgb(46,46,45)] text-white py-10 px-15 flex-1">
 			<div>
@@ -70,7 +69,5 @@
             </div>
 		</div>
 	</main>
-	<footer class="bg-teal-950 p-2 text-white text-center">
-        <p class="text-sm">&copy; 2026 LemkeBank. Todos os direitos reservados.</p>
-    </footer>
+    <MainFooter />
 </div>
