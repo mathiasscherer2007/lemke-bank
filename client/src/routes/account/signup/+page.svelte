@@ -47,7 +47,7 @@
 			method="POST"
 			class="m-auto flex w-xl flex-col items-center rounded-xl p-5 px-7 bg-[rgb(27,27,26)] dark:text-white"
 		>
-			<h1 class="py-5 pb-7 font-[Stack_Sans_Headline] text-4xl font-bold">Bem Vindo a Bordo</h1>
+			<h1 class="py-5 pb-7 font-[Stack_Sans_Headline] text-4xl font-bold">Bem vindo a bordo</h1>
 			{#if form?.error?.message && !submitting && warningVisible}
 				<div
 					in:slide

@@ -7,10 +7,11 @@
 
 <div class="flex min-h-screen flex-col">
   <MainHeader />
-  <main class="flex flex-1 flex-col bg-stone-200 px-30 dark:bg-[rgb(27,27,26)]">
+  <main class="flex flex-1 flex-col bg-stone-200 px-20 dark:bg-[rgb(27,27,26)]">
     <div class="flex-1 bg-stone-100 px-15 py-10 text-stone-900 dark:bg-[rgb(46,46,45)] dark:text-white">
       {@render children()}
     </div>
-  </main>
   <MainFooter />
+  </main>
+  
 </div>
