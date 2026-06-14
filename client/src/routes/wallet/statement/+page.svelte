@@ -35,7 +35,7 @@
   <title>Extrato | LemkeBank</title>
 </svelte:head>
 
-<h1 class="font-[Stack_Sans_Headline] text-3xl ml-3 mb-3">Extrato</h1>
+<h1 class="font-['Stack_Sans_Headline'] text-3xl ml-3 mb-3">Extrato</h1>
 <div class="flex w-full gap-2">
   <button type="button" onclick={() => { scrollHorizontal(slider, 'l') }} class="bg-stone-700 rounded-tl-xl rounded-bl-xl p-3 cursor-pointer hover:bg-stone-600 transition">◀</button>
   <div {@attach scrollToBottom} class="flex flex-1 bg-stone-700 overflow-x-auto p-2 scrollbar-thumb-stone-300 scrollbar-none gap-2" bind:this={slider}>

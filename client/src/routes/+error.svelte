@@ -18,7 +18,7 @@
     <div class="flex flex-col items-center justify-center flex-1 bg-stone-100 px-15 py-10 text-stone-900 dark:bg-[rgb(46,46,45)] dark:text-white">
       <img src={errorIcon} alt="Error Icon" class="w-25 h-25 dark:invert" />
       <h1 class="text-3xl font-bold mb-4">Algo deu errado!</h1>
-      <p class="italic">{page?.error?.message}</p>
+      <p class="italic">{page?.status} - {page?.error?.message}</p>
       <a href={resolve('/')} class="mt-4 text-teal-400 underline">Voltar para a página inicial</a>
     </div>
     <MainFooter />
