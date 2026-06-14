@@ -1,7 +1,10 @@
 <script lang="ts">
   import type { Attachment } from "svelte/attachments";
 
-  let selectedButton = $state('Abr2026');
+  import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
+  import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
+
+  let selectedButton = $state('Mar2026');
   let slider: HTMLElement;
 
   const months = [
@@ -21,7 +24,7 @@
     } else {
       target.scrollBy({ left: -100, behavior: 'smooth' });
     };
-  }
+  };
 
   function handleMonthClick(month: string, year: number) {
     // TODO: fetch the month and year in the api
@@ -35,9 +38,9 @@
   <title>Extrato | LemkeBank</title>
 </svelte:head>
 
-<h1 class="font-['Stack_Sans_Headline'] text-3xl ml-3 mb-3">Extrato</h1>
+<h1 class="font-[Stack_Sans_Headline] text-3xl ml-3 mb-3">Extrato</h1>
 <div class="flex w-full gap-2">
-  <button type="button" onclick={() => { scrollHorizontal(slider, 'l') }} class="bg-stone-700 rounded-tl-xl rounded-bl-xl p-3 cursor-pointer hover:bg-stone-600 transition">◀</button>
+  <button type="button" onclick={() => { scrollHorizontal(slider, 'l') }} class="bg-stone-700 rounded-l-xl p-3 cursor-pointer hover:bg-stone-600 transition">◀</button>
   <div {@attach scrollToBottom} class="flex flex-1 bg-stone-700 overflow-x-auto p-2 scrollbar-thumb-stone-300 scrollbar-none gap-2" bind:this={slider}>
       <div class="flex-[0_0_calc(50%-36px)]"></div>
       
@@ -56,5 +59,42 @@
 
       <div class="flex-[0_0_calc(50%-36px)]"></div>
   </div>
-  <button type="button" onclick={() => { scrollHorizontal(slider, 'r') }} class="bg-stone-700 rounded-tr-xl rounded-br-xl p-3 cursor-pointer hover:bg-stone-600 transition">▶</button>
+  <button type="button" onclick={() => { scrollHorizontal(slider, 'r') }} class="bg-stone-700 rounded-r-xl p-3 cursor-pointer hover:bg-stone-600 transition">▶</button>
+</div>
+
+<div>
+  <ol class="mt-3 flex flex-col gap-1">
+    <li class="bg-stone-800 p-2 text-lg font-bold">25/03</li>
+    <ul>
+      <li class="bg-stone-700 flex gap-2 px-2 py-3">
+        <div class="flex flex-col gap-2 justify-evenly">
+          <figure class="h-7 w-7 p-1 green-filter">
+            <img src={arrowinIcon} alt="Entrada" />
+          </figure>
+          <div class="flex-1 bg-stone-400 min-w-0.5 mx-auto rounded-xl"></div>
+        </div>
+        <div class="flex flex-col gap-1 ml-1">
+          <span class="text-xl m-0">ANA PAULA LEMKE</span>
+          <span class="italic text-md text-stone-300">Atividade de números binários</span>
+          <span class="text-lg font-bold">BL$ 10</span>
+        </div>
+      </li>
+    </ul>
+    <li class="bg-stone-800 p-2 text-lg font-bold">24/03</li>
+    <ul>
+      <li class="bg-stone-700 flex gap-2 px-2 py-3">
+        <div class="flex flex-col gap-2 justify-evenly">
+          <figure class="h-7 w-7 p-1 red-filter">
+            <img src={arrowoutIcon} alt="Saída" />
+          </figure>
+          <div class="flex-1 bg-stone-400 min-w-0.5 mx-auto rounded-xl"></div>
+        </div>
+        <div class="flex flex-col gap-1 ml-1">
+          <span class="text-xl m-0">TÚLIO LIMA BASÉGIO</span>
+          <span class="italic text-md text-stone-300"></span>
+          <span class="text-lg font-bold">-BL$ 6</span>
+        </div>
+      </li>
+    </ul>
+  </ol>
 </div>
