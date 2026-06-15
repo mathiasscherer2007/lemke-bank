@@ -10,7 +10,11 @@
 }
 
 .orange-filter {
-    filter: brightness(0) saturate(100%) invert(55%) sepia(25%) saturate(2723%) hue-rotate(357deg) brightness(103%) contrast(102%);
+    filter: brightness(0) saturate(100%) invert(45%) sepia(96%) saturate(2025%) hue-rotate(359deg) brightness(99%) contrast(110%);
+
+    @variant dark {
+        filter: brightness(0) saturate(100%) invert(55%) sepia(25%) saturate(2723%) hue-rotate(357deg) brightness(103%) contrast(102%);
+    }
 }
 
 .red-filter {
