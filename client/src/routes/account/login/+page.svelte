@@ -29,7 +29,7 @@
 	<title>Iniciar Sessão | LemkeBank</title>
 </svelte:head>
 
-<div class="flex sm:flex-col h-screen w-screen items-start pt-30 lg:pt-0 lg:items-center justify-center bg-[#e0e9e780] dark:bg-[rgb(46,46,45)] relative">
+<div class="flex lg:flex-row h-screen w-screen items-start pt-30 lg:pt-0 lg:items-center justify-center bg-[#e0e9e780] dark:bg-[rgb(45,46,45)] relative">
 	<h2 class="absolute left-5 top-5 text-teal-500 dark:text-teal-400 font-[Stack_Sans_Notch] text-3xl lg:text-4xl">Lemke<b>Bank</b></h2>
 	<form
 		use:enhance={() => {
@@ -86,7 +86,7 @@
 					class="absolute right-0 h-full cursor-pointer p-2"
 					aria-label={showPassword ? 'Hide password' : 'Show password'}
 				>
-					<img src={showPassword ? crossedEyeIcon : eyeIcon} alt="show" class="h-full" />
+					<img src={showPassword ? crossedEyeIcon : eyeIcon} alt="show" class="h-full white-filter" />
 				</button>
 			</div>
 		</div>
@@ -98,7 +98,7 @@
 			>
 			<span class="flex w-full flex-col items-center pt-5">
 				<p>
-					Não tem uma conta? <a href={resolve('/account/signup')} class="underline text-teal-500 dark:text-teal-400">Criar conta</a
+					Não tem uma conta? <a href={resolve('/account/signup')} class="underline text-teal-500 dark:text-teal-400 font-semibold">Criar conta</a
 					>
 				</p>
 			</span>
