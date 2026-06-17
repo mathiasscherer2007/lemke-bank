@@ -5,7 +5,7 @@
   import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
     import { slide } from "svelte/transition";
 
-  let selectedButton = $state('Mar2026');
+  let selectedButton = $state('Jun2026');
   let slider: HTMLElement;
 
   const months = [
@@ -13,6 +13,8 @@
     { label: "Fev", year: 2026 },
     { label: "Mar", year: 2026 },
     { label: "Abr", year: 2026 },
+    { label: "Mai", year: 2026 },
+    { label: "Jun", year: 2026 },
   ];
 
   const scrollToBottom: Attachment = (element) => {
@@ -29,7 +31,6 @@
 
   function handleMonthClick(month: string, year: number) {
     // TODO: fetch the month and year in the api
-    console.log(month, year);
     selectedButton = month + year.toString();
   };
 
@@ -39,18 +40,18 @@
   <title>Extrato | LemkeBank</title>
 </svelte:head>
 
-<h1 class="font-[Stack_Sans_Headline] text-3xl ml-3 mb-3">Extrato</h1>
+<h1 class="font-[Stack_Sans_Headline] text-3xl lg:ml-3 mb-3">Extrato</h1>
 <div class="flex w-full gap-2">
-  <button type="button" onclick={() => { scrollHorizontal(slider, 'l') }} class="bg-stone-200 dark:bg-stone-700 rounded-l-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition">◀</button>
-  <div {@attach scrollToBottom} class="flex flex-1 bg-stone-200 dark:bg-stone-700 overflow-x-auto p-2 scrollbar-none gap-2" bind:this={slider}>
+  <button type="button" onclick={() => { scrollHorizontal(slider, 'l') }} class="bg-stone-200 dark:bg-stone-700 rounded-l-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition hidden lg:inline">◀</button>
+  <div {@attach scrollToBottom} class="flex flex-1 bg-stone-200 dark:bg-stone-700 overflow-x-auto p-2 scrollbar-none gap-2 rounded-xl lg:rounded-none" bind:this={slider}>
       <div class="flex-[0_0_calc(50%-36px)]"></div>
       
       {#each months as { label, year } ((label + year.toString()))}
         <button
           type="button" 
           aria-label={label + year.toString()} 
-          onclick={(event) => {event.currentTarget.scrollIntoView({behavior: "smooth", inline: "center", block: "nearest"}); handleMonthClick(label, year);}} 
-          class="flex-[0_0_80px] flex flex-col aspect-square items-center justify-center text-center {selectedButton === label + year.toString() ? 'text-teal-500 dark:text-teal-400 bg-[#ced1cf] dark:bg-[#515251] font-bold transform-[scale(1.1)] rounded mx-1' : 'bg-stone-300 dark:bg-stone-600 cursor-pointer rounded-xl hover:bg-[#bfbcba] dark:hover:bg-[#5d5d5d]'} transition-all transition-discrete"
+          onclick={(event) => {handleMonthClick(label, year); event.currentTarget.scrollIntoView({behavior: "smooth", inline: "center", block: "nearest"});}} 
+          class="flex-[0_0_80px] flex flex-col aspect-square items-center justify-center text-center {selectedButton === label + year.toString() ? 'text-teal-600 dark:text-teal-400 bg-[#ced1cf] dark:bg-[#515251] font-bold transform-[scale(1.1)] rounded mx-1 scroll-mx-1' : 'bg-stone-300 dark:bg-[#555555] cursor-pointer rounded-xl hover:bg-[#c8c5c3] dark:hover:bg-[#5d5d5d]'} transition-all transition-discrete"
           disabled={selectedButton === label + year.toString()}
         >
           <span class="text-lg">{label}.</span>
@@ -60,7 +61,7 @@
 
       <div class="flex-[0_0_calc(50%-36px)]"></div>
   </div>
-  <button type="button" onclick={() => { scrollHorizontal(slider, 'r') }} class="bg-stone-200 dark:bg-stone-700 rounded-r-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition">▶</button>
+  <button type="button" onclick={() => { scrollHorizontal(slider, 'r') }} class="bg-stone-200 dark:bg-stone-700 rounded-r-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition  hidden lg:inline">▶</button>
 </div>
 
 <div>
