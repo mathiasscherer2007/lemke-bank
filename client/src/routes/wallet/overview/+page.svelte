@@ -9,7 +9,7 @@
 
   const links = [
     {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
-    {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/statement'}
+    {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/actions/checkstatement'}
   ] as const;
 </script>
 

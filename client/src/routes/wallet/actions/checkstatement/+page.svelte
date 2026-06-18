@@ -42,7 +42,7 @@
 
 <h1 class="font-[Stack_Sans_Headline] text-3xl lg:ml-3 mb-3">Extrato</h1>
 <div class="flex w-full gap-2">
-  <button type="button" onclick={() => { scrollHorizontal(slider, 'l') }} class="bg-stone-200 dark:bg-stone-700 rounded-l-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition hidden lg:inline">◀</button>
+  <button type="button" onclick={() => { scrollHorizontal(slider, 'l') }} class="bg-stone-200 dark:bg-stone-700 rounded-l-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition hidden lg:inline">&lt;</button>
   <div {@attach scrollToBottom} class="flex flex-1 bg-stone-200 dark:bg-stone-700 overflow-x-auto p-2 scrollbar-none gap-2 rounded-xl lg:rounded-none" bind:this={slider}>
       <div class="flex-[0_0_calc(50%-36px)]"></div>
       
@@ -61,7 +61,7 @@
 
       <div class="flex-[0_0_calc(50%-36px)]"></div>
   </div>
-  <button type="button" onclick={() => { scrollHorizontal(slider, 'r') }} class="bg-stone-200 dark:bg-stone-700 rounded-r-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition  hidden lg:inline">▶</button>
+  <button type="button" onclick={() => { scrollHorizontal(slider, 'r') }} class="bg-stone-200 dark:bg-stone-700 rounded-r-xl p-3 cursor-pointer hover:bg-stone-300 dark:hover:bg-stone-600 transition  hidden lg:inline">&gt;</button>
 </div>
 
 <div>

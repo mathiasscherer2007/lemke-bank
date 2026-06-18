@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&family=Stack+Sans+Notch:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
-.green-filter {
+@theme {
+  --font-roboto: "Roboto", sans-serif;
+}
+
+@utility green-filter {
     filter: brightness(0) saturate(100%) invert(50%) sepia(31%) saturate(2955%) hue-rotate(111deg) brightness(98%) contrast(110%);
 
     @variant dark {
@@ -9,7 +14,7 @@
     }
 }
 
-.orange-filter {
+@utility orange-filter {
     filter: brightness(0) saturate(100%) invert(45%) sepia(96%) saturate(2025%) hue-rotate(359deg) brightness(99%) contrast(110%);
 
     @variant dark {
@@ -17,7 +22,7 @@
     }
 }
 
-.red-filter {
+@utility red-filter {
     filter: brightness(0) saturate(100%) invert(31%) sepia(61%) saturate(2596%) hue-rotate(336deg) brightness(91%) contrast(117%);
 
     @variant dark {
@@ -25,8 +30,16 @@
     }
 }
 
-.white-filter {
+@utility white-filter {
     @variant dark {
         filter: brightness(0) saturate(100%) invert(99%) sepia(98%) saturate(11%) hue-rotate(243deg) brightness(104%) contrast(100%);
+    }
+}
+
+@utility teal-filter {
+    filter: brightness(0) saturate(100%) invert(59%) sepia(76%) saturate(3731%) hue-rotate(138deg) brightness(97%) contrast(101%);
+
+    @variant dark {
+        filter: brightness(0) saturate(100%) invert(79%) sepia(55%) saturate(4676%) hue-rotate(126deg) brightness(96%) contrast(101%);
     }
 }
