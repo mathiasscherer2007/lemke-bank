@@ -1,18 +1,27 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
 
+  import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
+  import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
   import copyIcon from '$lib/assets/icons/copy.svg';
   import payIcon from '$lib/assets/icons/pay.svg';
   import statementIcon from '$lib/assets/icons/statement.svg';
-  import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
-  import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
+
+  const links = [
+    {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
+    {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/statement'}
+  ] as const;
 </script>
+
+<svelte:head>
+  <title>Carteira | LemkeBank</title>
+</svelte:head>
 
 <div>
   <div class="flex w-full justify-between">
     <p class="text-xl">Saldo atual</p>
     <span class="flex items-center gap-2">
-      <p class="text-lg dark:text-gray-300">ID da carteira: 123456</p>
+      <span class="text-lg dark:text-gray-300">ID<span class="hidden ml-[6px] lg:inline">da carteira</span>: 123456</span>
       <button type="button">
         <img
           src={copyIcon}
@@ -23,46 +32,34 @@
       </button>
     </span>
   </div>
-  <p class="pl-2 text-3xl font-bold">BL$ 30</p>
+  <p class="lg:pl-2 text-2xl lg:text-3xl font-bold">BL$ 30</p>
 </div>
-<div class="mt-2 flex h-40">
-  <a
-    href={resolve('/wallet/actions/pay')}
-    class="m-3 flex aspect-square flex-col items-center justify-center rounded-xl border border-black p-2 text-center shadow-md transition hover:border-teal-500 dark:border-white dark:bg-[rgb(35,35,35)] dark:hover:border-teal-400"
-  >
-    <figure class="w-7/11 p-3">
-      <img
-        src={payIcon}
-        alt="Realizar Pagamento"
-        class="dark:filter-[brightness(0)_saturate(100%)_invert(100%)_sepia(0%)_saturate(7475%)_hue-rotate(105deg)_brightness(119%)_contrast(100%)]"
-      />
-    </figure>
-    <p class="mb-auto">Realizar Pagamento</p>
-  </a>
-  <a
-    href={resolve('/wallet/statement')}
-    class="m-3 flex aspect-square flex-col items-center justify-center rounded-xl border border-black p-2 text-center shadow-md transition hover:border-teal-500 dark:border-white dark:bg-[rgb(35,35,35)] dark:hover:border-teal-400"
-  >
-    <figure class="w-7/11 p-3">
-      <img
-        src={statementIcon}
-        alt="Extrato"
-        class="dark:filter-[brightness(0)_saturate(100%)_invert(100%)_sepia(0%)_saturate(7475%)_hue-rotate(105deg)_brightness(119%)_contrast(100%)]"
-      />
-    </figure>
-    <p class="mb-auto">Verificar Extrato</p>
-  </a>
+<div class="mt-2 flex h-30 lg:h-40 overflow-x-auto overflow-y-hidden">
+  {#each links as { title, icon, link } (link)}
+    <a
+      href={resolve(link)}
+      class="m-1 lg:m-3 flex aspect-square flex-col items-center justify-center rounded-xl border border-black p-2 text-center shadow-md transition hover:border-teal-500 dark:border-white dark:bg-[#282828] dark:hover:border-teal-400"
+    >
+      <figure class="w-7/11 p-2 lg:p-3 white-filter">
+        <img
+          src={icon}
+          alt={title}
+        />
+      </figure>
+      <p class="mb-auto">{title}</p>
+    </a>
+  {/each}
 </div>
-<hr class="my-6 border-stone-500" />
+<hr class="my-4 lg:my-6 border-stone-500" />
 <div class="flex flex-col">
-  <p class="mb-3 text-2xl">Transações recentes</p>
-  <ul class="flex-1 px-2">
+  <p class="mb-3 text-xl lg:text-2xl">Transações recentes</p>
+  <ul class="flex-1 lg:px-2">
     <li class="flex justify-between border-y border-stone-500 py-2 text-lg">
       <span class="flex items-center gap-2">
         <figure class="green-filter h-7 w-7 p-1">
           <img src={arrowinIcon} alt="Entrada" />
         </figure>
-        <p>Ana P. Lemke</p>
+        <p>Ana Lemke</p>
         <p class="text-stone-500 dark:text-stone-400">| 25/03/26</p>
       </span>
       <p class="text-green-500 dark:text-green-400">BL$ 10</p>
@@ -74,7 +71,7 @@
         >
           <img src={arrowoutIcon} alt="Saída" />
         </figure>
-        <p>Túlio L. Baségio</p>
+        <p>Túlio Baségio</p>
         <p class="text-stone-500 dark:text-stone-400">| 24/03/26</p>
       </span>
       <p class="text-red-500 dark:text-red-400">-BL$ 6</p>

@@ -10,7 +10,11 @@
 }
 
 .orange-filter {
-    filter: brightness(0) saturate(100%) invert(55%) sepia(25%) saturate(2723%) hue-rotate(357deg) brightness(103%) contrast(102%);
+    filter: brightness(0) saturate(100%) invert(45%) sepia(96%) saturate(2025%) hue-rotate(359deg) brightness(99%) contrast(110%);
+
+    @variant dark {
+        filter: brightness(0) saturate(100%) invert(55%) sepia(25%) saturate(2723%) hue-rotate(357deg) brightness(103%) contrast(102%);
+    }
 }
 
 .red-filter {
@@ -18,5 +22,11 @@
 
     @variant dark {
         filter: brightness(0) saturate(100%) invert(57%) sepia(47%) saturate(3492%) hue-rotate(320deg) brightness(102%) contrast(107%);
+    }
+}
+
+.white-filter {
+    @variant dark {
+        filter: brightness(0) saturate(100%) invert(99%) sepia(98%) saturate(11%) hue-rotate(243deg) brightness(104%) contrast(100%);
     }
 }
