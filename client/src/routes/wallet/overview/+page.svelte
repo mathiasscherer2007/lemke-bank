@@ -46,7 +46,7 @@
           alt={title}
         />
       </figure>
-      <p class="mb-auto">{title}</p>
+      <p class="mb-auto mx-1">{title}</p>
     </a>
   {/each}
 </div>
