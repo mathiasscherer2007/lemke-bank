@@ -9,7 +9,7 @@
 
   const links = [
     {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
-    {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/statement'}
+    {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/actions/checkstatement'}
   ] as const;
 </script>
 
@@ -46,7 +46,7 @@
           alt={title}
         />
       </figure>
-      <p class="mb-auto">{title}</p>
+      <p class="mb-auto mx-1">{title}</p>
     </a>
   {/each}
 </div>
