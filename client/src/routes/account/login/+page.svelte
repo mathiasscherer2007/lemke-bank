@@ -93,7 +93,7 @@
 		<div class="my-2 flex w-full flex-col pt-6">
 			<button
 				disabled={submitting}
-				class="cursor-pointer rounded-xl p-3 font-bold transition bg-teal-400 dark:text-black disabled:cursor-default disabled:bg-transparent border border-teal-400 disabled:text-teal-400 dark:hover:bg-teal-500"
+				class="cursor-pointer rounded-xl p-3 font-bold transition bg-teal-400 dark:text-black disabled:cursor-default disabled:bg-transparent border border-teal-400 disabled:text-teal-400 enabled:hover:bg-teal-500 dark:enabled:hover:bg-teal-500"
 				>{submitting ? '...' : 'Entrar'}</button
 			>
 			<span class="flex w-full flex-col items-center pt-5">
