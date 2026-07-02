@@ -6,12 +6,10 @@ export const users = mysqlTable('users', {
   email: varchar('email', { length: 320 }).notNull(),
   passwordHash: varchar('password_hash', { length: 255 }).notNull(),
   fullName: varchar('full_name', { length: 128 }),
-  status: mysqlEnum('status', ['active', 'disabled', 'closed']).notNull().default('active'),
+  status: mysqlEnum('status', ['active', 'disabled']).notNull().default('active'),
   role: mysqlEnum('role', ['user', 'admin']).notNull().default('user'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  lastLoginAt: timestamp('last_login_at'),
-  emailVerifiedAt: timestamp('email_verified_at'),
 },
 // Indexes
  table => [
