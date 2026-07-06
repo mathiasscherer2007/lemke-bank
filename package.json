@@ -4,5 +4,10 @@
   "workspaces": [
     "client",
     "server"
-  ]
+  ],
+  "scripts": {
+        "test": "npx tsx --test server/Test/**/*.test.ts",
+        "test:integration": "npx tsx --test server/Test/Integration/*.test.ts",
+        "test:unit": "npx tsx --test server/Test/Unit/*.test.ts"
+  }
 }
