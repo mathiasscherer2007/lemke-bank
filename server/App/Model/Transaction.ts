@@ -6,15 +6,15 @@ export class Transaction
     private amount?: number;
     private fromWalletId?: string;
     private toWalletId?: string;
-    private chargeId: string | null;
-    private description: string | null;
+    private chargeId?: string;
+    private description?: string;
     private createdAt?: Date;
     private readonly entries: LedgerEntry[];
 
     constructor(
         ledgerEntries: LedgerEntry[],
-        description: string | null = null,
-        chargeId: string | null = null
+        description?: string | undefined,
+        chargeId?: string
     ){
         this.entries = ledgerEntries;
         this.description = description;
