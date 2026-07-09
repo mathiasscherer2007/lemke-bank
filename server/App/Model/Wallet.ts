@@ -1,15 +1,16 @@
 export class Wallet 
 {
+    private createdAt: Date | undefined;
+    private updatedAt: Date | undefined;
+    private status: 'active' | 'disabled' = 'active';
+
     constructor(
         private id: string,
         private userId: string,
         private balance: number,
-        private status: 'active' | 'disabled',
-        private createdAt: Date,
-        private updatedAt: Date
     ){}
 
-    public haveEnoughBalance(amount: number): boolean {
+    public hasEnoughBalance(amount: number): boolean {
         return this.balance >= amount;
     }
 }

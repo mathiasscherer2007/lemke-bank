@@ -6,8 +6,8 @@ import { LedgerEntry } from '../../App/Model/LedgerEntry';
 describe('Transaction model', () => {
     test('creates a balanced transaction and generates transaction metadata', () => {
         const entries = [
-            new LedgerEntry('debit', 120, 'wallet-debit'),
-            new LedgerEntry('credit', 120, 'wallet-credit')
+            new LedgerEntry('wallet-debit-uuid', 'debit', 100, 200),
+            new LedgerEntry('wallet-credit-uuid', 'credit', 100, 100)
         ];
 
         const transaction = new Transaction(entries, 'Test payment', 'charge-123');
@@ -23,8 +23,8 @@ describe('Transaction model', () => {
     });
 
     test('throws when a transaction is missing either credit or debit entry', () => {
-        const onlyDebit = [new LedgerEntry('debit', 100, 'wallet-debit')];
-        const onlyCredit = [new LedgerEntry('credit', 100, 'wallet-credit')];
+        const onlyDebit = [new LedgerEntry('wallet-debit-uuid', 'debit', 100, 200)];
+        const onlyCredit = [new LedgerEntry('wallet-credit-uuid', 'credit', 100, 100)];
 
         assert.throws(
             () => new Transaction(onlyDebit),
@@ -41,8 +41,8 @@ describe('Transaction model', () => {
 
     test('throws when debit and credit totals are unbalanced', () => {
         const entries = [
-            new LedgerEntry('debit', 150, 'wallet-debit'),
-            new LedgerEntry('credit', 100, 'wallet-credit')
+            new LedgerEntry('wallet-debit-uuid', 'debit', 100, 200),
+            new LedgerEntry('wallet-credit-uuid', 'credit', 100, 100)
         ];
 
         assert.throws(
