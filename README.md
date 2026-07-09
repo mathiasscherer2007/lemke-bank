@@ -3,6 +3,19 @@
 
 O LemkeBank é um projeto de internet-banking que opera com a moeda fictícia Bills (BL$). O professor consegue distribuir bills para os alunos, que podem realizar transações (tanto para o professor, como para outros alunos) utilizando os bills na sua carteira.
 
+## Linguagens e Frameworks
+
+Este projeto utiliza principalmente a linguagem TypeScript, tanto no backend como para ações de servidor no frontend.
+
+As frameworks utilizadas incluem:
+- SvelteKit (frontend)
+- Fastify (backend)
+- Tailwind (CSS)
+
+## Features do projeto final
+
+Planejamos entregar as features descritas no [MVP](https://github.com/mathiasscherer2007/lemke-bank/milestone/1).
+
 ## Executando o projeto
 
 Para executar o projeto, siga os seguintes passos:
