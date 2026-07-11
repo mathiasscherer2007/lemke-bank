@@ -3,22 +3,35 @@ import { LedgerEntryType } from './Enum/LedgerEntryType';
 
 export class LedgerEntry
 {
-    private readonly id: string;
+    private readonly type: LedgerEntryType;
     private transactionId?: string;
-    private balanceAfter?: number;
-    private readonly createdAt: Date;
+    private readonly amount: number;
+    private readonly balanceBefore: number;
+    private readonly balanceAfter?: number;
+    private readonly id?: string;
+    private readonly walletId: string;
+    private readonly counterpartyWalletId: string;
+    private readonly createdAt?: Date;
 
     constructor(
-        private walletId: string,
-        private type: LedgerEntryType,
-        private readonly counterpartyWalletId: string,
-        private amount: number,
-        private balanceBefore: number,
+        walletId: string,
+        counterpartyWalletId: string,
+        type: LedgerEntryType,
+        amount: number,
+        balanceBefore: number,
+        id?: string,
+        createdAt?: Date
     )
     {
-        this.id = crypto.randomUUID();
+        this.id = id;
+        this.walletId = walletId;
+        this.type = type;
+        this.counterpartyWalletId = counterpartyWalletId;
+        this.amount = amount;
+        this.balanceBefore = balanceBefore;
         this.balanceAfter = this.balanceBefore + (this.type === LedgerEntryType.CREDIT ? this.amount : -this.amount);
-        this.createdAt = new Date();
+        this.createdAt = createdAt;
+        this.transactionId = this.transactionId;
     }
 
     public getWalletId(): string {

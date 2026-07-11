@@ -5,7 +5,7 @@ import { WalletStatus } from '../../App/Model/Enum/WalletStatus';
 
 describe('Wallet model', () => {
     test('hasEnoughBalance returns true when balance is sufficient', () => {
-        const wallet = new Wallet('wallet-123', 'user-456', 250, WalletStatus.ACTIVE, new Date(), new Date());
+        const wallet = new Wallet('user-456', WalletStatus.ACTIVE, 250, 'wallet-123', new Date(), new Date());
 
         const result = wallet.hasEnoughBalance(200);
 
@@ -13,7 +13,7 @@ describe('Wallet model', () => {
     });
 
     test('hasEnoughBalance returns false when balance is insufficient', () => {
-        const wallet = new Wallet('wallet-123', 'user-456', 150, WalletStatus.ACTIVE, new Date(), new Date());
+        const wallet = new Wallet('user-456', WalletStatus.ACTIVE, 150, 'wallet-123', new Date(), new Date());
 
         const result = wallet.hasEnoughBalance(200);
 
