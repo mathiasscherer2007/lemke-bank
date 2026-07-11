@@ -4,27 +4,37 @@ import { LedgerEntry } from "./LedgerEntry";
 
 export class Transaction
 {
-    private id?: string;
-    private amount?: number;
-    private fromWalletId?: string;
-    private toWalletId?: string;
-    private chargeId?: string;
-    private description?: string;
-    private createdAt?: Date;
+    private readonly id?: string;
+    private readonly amount?: number;
+    private readonly fromWalletId?: string;
+    private readonly toWalletId?: string;
+    private readonly chargeId?: string;
+    private readonly description?: string;
+    private readonly createdAt?: Date;
     private readonly entries: LedgerEntry[];
 
     constructor(
         ledgerEntries: LedgerEntry[],
-        description?: string | undefined,
-        chargeId?: string
+        id?: string,
+        description?: string,
+        chargeId?: string,
+        createdAt?: Date
     ){
         this.entries = ledgerEntries;
         this.description = description;
         this.chargeId = chargeId;
-        this.validate();
+        
+        const { debitEntry, creditEntry, total } = this.validate();
+
+        this.id = id;
+        this.amount = total;
+        this.fromWalletId = debitEntry.getWalletId();
+        this.toWalletId = creditEntry.getWalletId();
+        this.createdAt = createdAt;
     }
 
-    private validate(): void {
+    private validate(): { debitEntry: LedgerEntry, creditEntry: LedgerEntry, total: number } 
+    {
         const creditEntries = this.entries.filter(entry => entry.getType() === LedgerEntryType.CREDIT);
         const debitEntries = this.entries.filter(entry => entry.getType() === LedgerEntryType.DEBIT);
 
@@ -41,18 +51,18 @@ export class Transaction
             throw new UnbalancedTransactionException();
         }
 
-        this.generateTransactionData(debitEntries[0], creditEntries[0], totalCredit);
+        return { debitEntry: debitEntries[0], creditEntry: creditEntries[0], total: totalCredit };
     }
 
-    private generateTransactionData(debitEntry: LedgerEntry, creditEntry: LedgerEntry, amount: number): void {
-        this.id = crypto.randomUUID();
-        this.amount = amount;
-        this.fromWalletId = debitEntry.getWalletId();
-        this.toWalletId = creditEntry.getWalletId();
-        this.createdAt = new Date();
+    public setEntriesTransactionId(): void
+    {
+        for(const entry of this.entries){
+            entry.setTransactionId(this.id!);
+        }
     }
 
-    public getData(): Record<string, unknown> {
+    public getData(): Record<string, unknown> 
+    {
         return {
             id: this.id,
             amount: this.amount,
