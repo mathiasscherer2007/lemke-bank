@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { LedgerEntryType } from './Enum/LedgerEntryType';
 
 export class LedgerEntry
 {
@@ -9,14 +10,14 @@ export class LedgerEntry
 
     constructor(
         private walletId: string,
-        private type: 'debit' | 'credit',
+        private type: LedgerEntryType,
         private readonly counterpartyWalletId: string,
         private amount: number,
         private balanceBefore: number,
     )
     {
         this.id = crypto.randomUUID();
-        this.balanceAfter = this.balanceBefore + (this.type === 'credit' ? this.amount : -this.amount);
+        this.balanceAfter = this.balanceBefore + (this.type === LedgerEntryType.CREDIT ? this.amount : -this.amount);
         this.createdAt = new Date();
     }
 
@@ -28,7 +29,7 @@ export class LedgerEntry
         return this.amount;
     }
 
-    public getType(): 'debit' | 'credit' {
+    public getType(): LedgerEntryType {
         return this.type;
     }
 
