@@ -1,13 +1,15 @@
+import { WalletStatus } from "./Enum/WalletStatus";
+
 export class Wallet 
 {
     private readonly createdAt?: Date;
     private readonly updatedAt?: Date;
-    private status: 'active' | 'disabled' = 'active';
 
     constructor(
         private id: string,
         private userId: string,
         private balance: number,
+        private status: WalletStatus = WalletStatus.ACTIVE,
         createdAt?: Date,
         updatedAt?: Date
     ){

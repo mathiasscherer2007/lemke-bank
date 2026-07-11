@@ -1,6 +1,9 @@
 import { mysqlTable, varchar, int, timestamp, mysqlEnum } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
 import { users } from './users';
+import { WalletStatus } from '../../../App/Model/Enum/WalletStatus';
+
+const walletStatusEnum = mysqlEnum('wallet_status', Object.values(WalletStatus) as [string, ...string[]]);
 
 export const wallets = mysqlTable('wallets', {
   id: varchar('id', { length: 36 }).primaryKey().default(sql`(UUID())`),

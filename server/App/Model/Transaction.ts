@@ -1,3 +1,5 @@
+import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from "../Exception/DomainException";
+import { LedgerEntryType } from "./Enum/LedgerEntryType";
 import { LedgerEntry } from "./LedgerEntry";
 
 export class Transaction
@@ -23,19 +25,20 @@ export class Transaction
     }
 
     private validate(): void {
-        const creditEntries = this.entries.filter(entry => entry.getType() === 'credit');
-        const debitEntries = this.entries.filter(entry => entry.getType() === 'debit');
+        const creditEntries = this.entries.filter(entry => entry.getType() === LedgerEntryType.CREDIT);
+        const debitEntries = this.entries.filter(entry => entry.getType() === LedgerEntryType.DEBIT);
 
-        if(creditEntries.length === 0 || debitEntries.length === 0) {
-            throw new Error('Transaction must have at least one credit and one debit entry.');   
+        if(creditEntries.length === 0) {
+            throw new MissingTransactionLedgerEntryTypeException(LedgerEntryType.CREDIT);
+        } else if (debitEntries.length === 0) {
+            throw new MissingTransactionLedgerEntryTypeException(LedgerEntryType.DEBIT);
         }
 
         const totalCredit = creditEntries.reduce((sum, entry) => sum + entry.getAmount(), 0);
         const totalDebit = debitEntries.reduce((sum, entry) => sum + entry.getAmount(), 0);
         
         if (totalCredit !== totalDebit) {
-            // TODO: Change generic error for a speciific domain error.
-            throw new Error('Transaction is not balanced: total credit does not equal total debit.');
+            throw new UnbalancedTransactionException();
         }
 
         this.generateTransactionData(debitEntries[0], creditEntries[0], totalCredit);
@@ -47,5 +50,19 @@ export class Transaction
         this.fromWalletId = debitEntry.getWalletId();
         this.toWalletId = creditEntry.getWalletId();
         this.createdAt = new Date();
+    }
+
+    public getData(): Record<string, unknown> {
+        return {
+            id: this.id,
+            amount: this.amount,
+            fromWalletId: this.fromWalletId,
+            toWalletId: this.toWalletId,
+            chargeId: this.chargeId,
+            description: this.description,
+            createdAt: this.createdAt,
+            entries: this.entries
+
+        };
     }
 }
