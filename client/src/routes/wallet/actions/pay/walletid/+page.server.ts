@@ -18,10 +18,12 @@ export const actions: Actions = {
       });
     }
 
+    // TEMPORARY
+    // When backend is implemented, this will check if the request returned OK or not
     if (true === true) {
       throw redirect(308, resolve('/wallet/actions/pay/confirmations/success'));
     } else {
-        throw redirect(308, resolve('/wallet/actions/pay/confirmations/failure'));
+      throw redirect(308, resolve('/wallet/actions/pay/confirmations/failure'));
     }
   }
 };
