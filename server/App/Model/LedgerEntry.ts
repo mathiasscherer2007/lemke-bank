@@ -23,7 +23,7 @@ export class LedgerEntry
         createdAt?: Date
     )
     {
-        this.id = id;
+        this.id = id ?? crypto.randomUUID();
         this.walletId = walletId;
         this.type = type;
         this.counterpartyWalletId = counterpartyWalletId;
