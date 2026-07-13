@@ -6,8 +6,17 @@
     "server"
   ],
   "scripts": {
-        "test": "npx tsx --test server/Test/**/*.test.ts",
-        "test:integration": "npx tsx --test server/Test/Integration/*.test.ts",
-        "test:unit": "npx tsx --test server/Test/Unit/*.test.ts"
+    "test": "npx tsx --test server/Test/**/*.test.ts",
+    "test:integration": "npx tsx --test server/Test/Integration/*.test.ts",
+    "test:unit": "npx tsx --test server/Test/Unit/*.test.ts",
+    "database:generate": "drizzle-kit generate",
+    "database:up": "drizzle-kit up",
+    "database:migrate": "drizzle-kit migrate",
+    "database:push": "drizzle-kit push",
+    "database:pull": "drizzle-kit pull",
+    "database:studio": "drizzle-kit studio"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10"
   }
 }

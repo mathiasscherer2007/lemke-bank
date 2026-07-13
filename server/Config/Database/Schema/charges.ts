@@ -4,7 +4,7 @@ import { wallets } from './wallets';
 
 export const charges = mysqlTable('charges', {
   id: varchar('id', { length: 36 }).primaryKey().default(sql`(UUID())`),
-  issuerWalletId: varchar('issuer_wallet_id').notNull().references(() => wallets.id, { onDelete: 'restrict' }),
+  issuerWalletId: varchar('issuer_wallet_id', { length: 36 }).notNull().references(() => wallets.id, { onDelete: 'restrict' }),
   amount: int('amount').notNull(),
   description: text('description'),
   status: mysqlEnum('status', ['open', 'paid', 'expired']).notNull().default('open'),
