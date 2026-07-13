@@ -4,7 +4,7 @@ import { LedgerEntry } from "./LedgerEntry";
 
 export class Transaction
 {
-    private readonly id?: string;
+    private id?: string;
     private readonly amount?: number;
     private readonly fromWalletId?: string;
     private readonly toWalletId?: string;
@@ -26,11 +26,15 @@ export class Transaction
         
         const { debitEntry, creditEntry, total } = this.validate();
 
-        this.id = id;
+        this.id = id ?? crypto.randomUUID();
         this.amount = total;
         this.fromWalletId = debitEntry.getWalletId();
         this.toWalletId = creditEntry.getWalletId();
         this.createdAt = createdAt;
+
+        for(const entry of this.entries){
+            entry.setTransactionId(this.id!);
+        }
     }
 
     private validate(): { debitEntry: LedgerEntry, creditEntry: LedgerEntry, total: number } 
@@ -54,11 +58,9 @@ export class Transaction
         return { debitEntry: debitEntries[0], creditEntry: creditEntries[0], total: totalCredit };
     }
 
-    public setEntriesTransactionId(): void
+    public getEntries(): LedgerEntry[]
     {
-        for(const entry of this.entries){
-            entry.setTransactionId(this.id!);
-        }
+        return this.entries;
     }
 
     public getData(): Record<string, unknown> 

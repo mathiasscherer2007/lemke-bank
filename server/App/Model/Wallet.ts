@@ -17,7 +17,7 @@ export class Wallet
         createdAt?: Date,
         updatedAt?: Date
     ){
-        this.id = id;
+        this.id = id ?? crypto.randomUUID();
         this.userId = userId;
         this.balance = balance;
         this.status = status
