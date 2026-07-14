@@ -17,11 +17,21 @@ export class UnbalancedTransactionException extends DomainException
 
 export class MissingTransactionLedgerEntryTypeException extends DomainException
 {
-    private missingType: 'credit' | 'debit';
+    private readonly missingType: 'credit' | 'debit';
 
     constructor(missingType: 'credit' | 'debit') {
         super('Transaction must have at least one credit and one debit entry.', 422);
         this.missingType = missingType;
         this.message = `Transaction is missing a ${this.missingType} entry.`;
+    }
+}
+
+export class TransactionNotFoundException extends DomainException
+{
+    private readonly missingId: string;
+
+    constructor(missingId: string){
+        super('Transaction not found.', 404);
+        this.missingId = missingId;
     }
 }
