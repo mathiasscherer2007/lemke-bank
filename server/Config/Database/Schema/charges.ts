@@ -1,6 +1,6 @@
 import { mysqlTable, varchar, int, timestamp, text, mysqlEnum, uniqueIndex } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
-import { wallets } from './wallets';
+import { wallets } from './wallets.js';
 
 export const charges = mysqlTable('charges', {
   id: varchar('id', { length: 36 }).primaryKey().default(sql`(UUID())`),

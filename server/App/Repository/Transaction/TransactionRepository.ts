@@ -1,4 +1,4 @@
-import { Transaction } from "../../Model/Transaction";
+import { Transaction } from "../../Model/Transaction.js";
 
 export interface TransactionRepository {
     create(transaction: Transaction): Promise<void>;

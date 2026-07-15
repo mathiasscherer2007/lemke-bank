@@ -1,12 +1,12 @@
 import { eq } from "drizzle-orm";
-import { db } from "../../../Config/Database/connection";
-import { ledgerEntries } from "../../../Config/Database/Schema/ledgerEntries";
-import { transactions } from "../../../Config/Database/Schema/transactions";
-import { Transaction } from "../../Model/Transaction";
-import { TransactionRepository } from "./TransactionRepository";
-import { TransactionNotFoundException } from "../../Exception/DomainException";
-import { LedgerEntry } from "../../Model/LedgerEntry";
-import { LedgerEntryType } from "../../Model/Enum/LedgerEntryType";
+import { db } from "../../../Config/Database/connection.js";
+import { ledgerEntries } from "../../../Config/Database/Schema/ledgerEntries.js";
+import { transactions } from "../../../Config/Database/Schema/transactions.js";
+import { Transaction } from "../../Model/Transaction.js";
+import { TransactionRepository } from "./TransactionRepository.js";
+import { TransactionNotFoundException } from "../../Exception/DomainException.js";
+import { LedgerEntry } from "../../Model/LedgerEntry.js";
+import { LedgerEntryType } from "../../Model/Enum/LedgerEntryType.js";
 
 export class DrizzleTransactionRepository implements TransactionRepository {
 

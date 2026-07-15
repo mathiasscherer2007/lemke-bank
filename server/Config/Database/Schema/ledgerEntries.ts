@@ -1,8 +1,8 @@
 import { mysqlTable, varchar, int, timestamp, mysqlEnum, index } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
-import { transactions } from './transactions';
-import { wallets } from './wallets';
-import { LedgerEntryType } from '../../../App/Model/Enum/LedgerEntryType';
+import { transactions } from './transactions.js';
+import { wallets } from './wallets.js';
+import { LedgerEntryType } from '../../../App/Model/Enum/LedgerEntryType.js';
 
 const entryTypeEnum = mysqlEnum('entry_type', Object.values(LedgerEntryType) as [string, ...string[]]);
 

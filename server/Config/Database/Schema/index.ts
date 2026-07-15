@@ -1,8 +1,8 @@
-import { wallets } from './wallets';
-import { transactions } from './transactions';
-import { ledgerEntries } from './ledgerEntries';
-import { charges } from './charges';
-import { users } from './users';
+import { wallets } from './wallets.js';
+import { transactions } from './transactions.js';
+import { ledgerEntries } from './ledgerEntries.js';
+import { charges } from './charges.js';
+import { users } from './users.js';
 
 export const schema = {
   wallets,

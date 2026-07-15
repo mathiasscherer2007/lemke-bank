@@ -1,4 +1,4 @@
-import { WalletStatus } from "./Enum/WalletStatus";
+import { WalletStatus } from "./Enum/WalletStatus.js";
 
 export class Wallet 
 {

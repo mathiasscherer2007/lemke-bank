@@ -1,11 +1,13 @@
 {
   "name": "lenke-bank",
   "private": true,
+  "type": "module",
   "workspaces": [
     "client",
     "server"
   ],
   "scripts": {
+    "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
     "test": "npx tsx --test server/Test/**/*.test.ts",
     "test:integration": "npx tsx --test server/Test/Integration/*.test.ts",
     "test:unit": "npx tsx --test server/Test/Unit/*.test.ts",
@@ -17,6 +19,6 @@
     "database:studio": "drizzle-kit studio"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.10"
+    "concurrently": "^10.0.3"
   }
 }
