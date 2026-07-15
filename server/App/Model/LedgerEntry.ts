@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { LedgerEntryType } from './Enum/LedgerEntryType';
+import { LedgerEntryType } from './Enum/LedgerEntryType.js';
 
 export class LedgerEntry
 {

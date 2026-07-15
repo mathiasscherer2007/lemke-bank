@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { drizzle } from 'drizzle-orm/mysql2';
-import { env } from '../Environment/env'
+import { env } from '../Environment/env.js';
 
 const pool = mysql.createPool({
   host: env.DB_HOST,

@@ -1,7 +1,7 @@
 import { mysqlTable, varchar, int, timestamp, mysqlEnum } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
-import { users } from './users';
-import { WalletStatus } from '../../../App/Model/Enum/WalletStatus';
+import { users } from './users.js';
+import { WalletStatus } from '../../../App/Model/Enum/WalletStatus.js';
 
 const walletStatusEnum = mysqlEnum('wallet_status', Object.values(WalletStatus) as [string, ...string[]]);
 

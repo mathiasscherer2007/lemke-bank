@@ -1,6 +1,7 @@
-import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from "../Exception/DomainException";
-import { LedgerEntryType } from "./Enum/LedgerEntryType";
-import { LedgerEntry } from "./LedgerEntry";
+import { UUID } from "node:crypto";
+import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from "../Exception/DomainException.js";
+import { LedgerEntryType } from "./Enum/LedgerEntryType.js";
+import { LedgerEntry } from "./LedgerEntry.js";
 
 export class Transaction
 {
@@ -8,16 +9,16 @@ export class Transaction
     private readonly amount?: number;
     private readonly fromWalletId?: string;
     private readonly toWalletId?: string;
-    private readonly chargeId?: string;
-    private readonly description?: string;
+    private readonly chargeId?: string | null;
+    private readonly description?: string | null;
     private readonly createdAt?: Date;
     private readonly entries: LedgerEntry[];
 
     constructor(
         ledgerEntries: LedgerEntry[],
         id?: string,
-        description?: string,
-        chargeId?: string,
+        description?: string | null,
+        chargeId?: string | null,
         createdAt?: Date
     ){
         this.entries = ledgerEntries;
@@ -61,6 +62,11 @@ export class Transaction
     public getEntries(): LedgerEntry[]
     {
         return this.entries;
+    }
+
+    public getId(): string
+    {
+        return this.id!;
     }
 
     public getData(): Record<string, unknown> 

@@ -6,8 +6,8 @@ import {
   text,
 } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
-import { wallets } from './wallets';
-import { charges } from './charges';
+import { wallets } from './wallets.js';
+import { charges } from './charges.js';
 
 export const transactions = mysqlTable('transactions', {
   id: varchar('id', { length: 36 }).primaryKey().default(sql`(UUID())`),

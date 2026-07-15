@@ -6,7 +6,8 @@ const envSchema = z.object({
   DB_PORT: z.coerce.number().positive().default(3306),
   DB_USER: z.string().nonempty().default('lemke-bank'),
   DB_NAME: z.string().nonempty().default('lemke-bank'),
-  DB_PASSWORD: z.coerce.string().nonempty()
+  DB_PASSWORD: z.coerce.string().nonempty(),
+  API_PORT: z.coerce.number().default(3000)
 });
 
 export const env = envSchema.parse(process.env);

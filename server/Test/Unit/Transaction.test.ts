@@ -1,9 +1,9 @@
 import { strict as assert } from 'node:assert';
 import { describe, test } from 'node:test';
-import { Transaction } from '../../App/Model/Transaction';
-import { LedgerEntry } from '../../App/Model/LedgerEntry';
-import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from '../../App/Exception/DomainException';
-import { LedgerEntryType } from '../../App/Model/Enum/LedgerEntryType';
+import { Transaction } from '../../App/Model/Transaction.js';
+import { LedgerEntry } from '../../App/Model/LedgerEntry.js';
+import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from '../../App/Exception/DomainException.js';
+import { LedgerEntryType } from '../../App/Model/Enum/LedgerEntryType.js';
 
 describe('Transaction model', () => {
     test('creates a balanced transaction and generates transaction metadata', () => {

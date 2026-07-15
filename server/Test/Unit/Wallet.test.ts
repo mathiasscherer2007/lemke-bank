@@ -1,7 +1,7 @@
 import { strict as assert } from 'node:assert';
 import { describe, test } from 'node:test';
-import { Wallet } from '../../App/Model/Wallet';
-import { WalletStatus } from '../../App/Model/Enum/WalletStatus';
+import { Wallet } from '../../App/Model/Wallet.js';
+import { WalletStatus } from '../../App/Model/Enum/WalletStatus.js';
 
 describe('Wallet model', () => {
     test('hasEnoughBalance returns true when balance is sufficient', () => {
