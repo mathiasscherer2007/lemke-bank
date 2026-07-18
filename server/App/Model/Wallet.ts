@@ -28,4 +28,12 @@ export class Wallet
     public hasEnoughBalance(amount: number): boolean {
         return this.balance >= amount;
     }
+
+    public getBalance(): number {
+        return this.balance;
+    }
+
+    public getId(): string {
+        return this.id!;
+    }
 }

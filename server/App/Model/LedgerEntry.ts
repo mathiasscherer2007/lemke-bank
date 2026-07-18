@@ -6,7 +6,7 @@ export class LedgerEntry
     private readonly type: LedgerEntryType;
     private transactionId?: string;
     private readonly amount: number;
-    private readonly balanceBefore: number;
+    private readonly balanceBefore?: number;
     private readonly balanceAfter?: number;
     private readonly id?: string;
     private readonly walletId: string;
@@ -18,7 +18,8 @@ export class LedgerEntry
         counterpartyWalletId: string,
         type: LedgerEntryType,
         amount: number,
-        balanceBefore: number,
+        balanceBefore?: number,
+        balanceAfter?: number,
         id?: string,
         createdAt?: Date
     )
@@ -29,7 +30,7 @@ export class LedgerEntry
         this.counterpartyWalletId = counterpartyWalletId;
         this.amount = amount;
         this.balanceBefore = balanceBefore;
-        this.balanceAfter = this.balanceBefore + (this.type === LedgerEntryType.CREDIT ? this.amount : -this.amount);
+        this.balanceAfter = balanceAfter;
         this.createdAt = createdAt;
         this.transactionId = this.transactionId;
     }

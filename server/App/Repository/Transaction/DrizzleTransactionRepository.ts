@@ -14,6 +14,8 @@ export class DrizzleTransactionRepository implements TransactionRepository {
         await db.transaction(async (tx) => {
             await tx.insert(transactions).values(transaction as any);
             await tx.insert(ledgerEntries).values(transaction.getEntries() as any);
+
+            // TODO: Update wallet balances
         });
     }
 
@@ -33,12 +35,13 @@ export class DrizzleTransactionRepository implements TransactionRepository {
                 r.ledger_entries.entryType as LedgerEntryType,
                 r.ledger_entries.amount,
                 r.ledger_entries.balanceBefore!,
+                r.ledger_entries.balanceAfter!,
                 r.ledger_entries.id,
                 r.ledger_entries.createdAt
             )),
-            rows[0].transactions.id,
             rows[0].transactions.description,
             rows[0].transactions.chargeId,
+            rows[0].transactions.id,
             rows[0].transactions.createdAt
         )
         

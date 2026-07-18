@@ -25,4 +25,18 @@ export class DrizzleWalletRepository implements WalletRepository
             row.updatedAt
         );
     }
+
+    public async findByUserId(userId: string): Promise<Wallet>
+    {
+        const [ row ] = await db.select().from(wallets).where(eq(wallets.userId, userId)).limit(1);
+
+        return new Wallet(
+            row.userId, 
+            row.status as WalletStatus, 
+            row.balance, 
+            row.id, 
+            row.createdAt, 
+            row.updatedAt
+        );
+    }
 }

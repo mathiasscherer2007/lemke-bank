@@ -12,13 +12,13 @@ describe('Transaction model', () => {
             new LedgerEntry('wallet-credit-uuid', 'wallet-debit-uuid', LedgerEntryType.CREDIT, 100, 100)
         ];
 
-        const transaction = new Transaction(entries, 'test-uuid', 'Test payment', 'charge-123');
+        const transaction = new Transaction(entries, 'Test payment', 'charge-123', 'test-uuid');
         const data = transaction.getData();
 
         assert.strictEqual(data.amount, 100, 'Transaction amount should match the balanced total');
         assert.strictEqual(data.fromWalletId, 'wallet-debit-uuid', 'Transaction should set the debit wallet as the fromWalletId');
         assert.strictEqual(data.toWalletId, 'wallet-credit-uuid', 'Transaction should set the credit wallet as the toWalletId');
-        assert.strictEqual(data.id, 'test-uuid', 'Transaction id should be undefined when not provided');
+        assert.strictEqual(data.id, 'test-uuid', 'Transaction id should match the provided id');
         assert.strictEqual(data.createdAt, undefined, 'Transaction createdAt should be undefined when not provided');
         assert.strictEqual(data.description, 'Test payment', 'Transaction should keep the provided description');
         assert.strictEqual(data.chargeId, 'charge-123', 'Transaction should keep the provided chargeId');

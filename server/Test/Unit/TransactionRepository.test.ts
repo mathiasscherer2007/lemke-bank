@@ -11,7 +11,7 @@ const createTransaction = () => {
         new LedgerEntry("wallet-credit-uuid", "wallet-debit-uuid", LedgerEntryType.CREDIT, 100, 100)
     ];
 
-    return new Transaction(entries, "test-uuid", "Test payment", "charge-123");
+    return new Transaction(entries, "Test payment", "charge-123", "test-uuid");
 };
 
 describe("MockTransactionRepository", () => {

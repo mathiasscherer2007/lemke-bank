@@ -35,3 +35,10 @@ export class TransactionNotFoundException extends DomainException
         this.missingId = missingId;
     }
 }
+
+export class InsufficientFundsException extends DomainException
+{
+    constructor(){
+        super('Insufficient funds to complete this transaction.', 422);
+    }
+}

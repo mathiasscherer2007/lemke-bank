@@ -16,9 +16,9 @@ export class Transaction
 
     constructor(
         ledgerEntries: LedgerEntry[],
-        id?: string,
         description?: string | null,
         chargeId?: string | null,
+        id?: string,
         createdAt?: Date
     ){
         this.entries = ledgerEntries;
