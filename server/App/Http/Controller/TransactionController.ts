@@ -11,16 +11,13 @@ export class TransactionController
     public async transactionByWalletId(request: FastifyRequest<{ Body: PaymentByWalletIdDTO }>, reply: FastifyReply)
     {
         const payload = request.body;
-        const userId = request.user.id; 
-        // TODO: Create request.user interface.
+        const userId = request.user!.id; 
         
         const transaction = this.service.processByWalletId(payload, userId);
         return reply.status(201).send({
             status: "succesfull",
             message: "Transaction succesfull created",
-            data: {
-                transaction: transaction
-            }
+            data: transaction
         });
     }
 }
