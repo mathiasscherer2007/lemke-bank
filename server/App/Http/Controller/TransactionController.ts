@@ -6,7 +6,9 @@ export class TransactionController
 {
     constructor(
         private readonly service: TransactionProcessorService
-    ){}
+    ){
+        this.transactionByWalletId = this.transactionByWalletId.bind(this);
+    }
 
     public async transactionByWalletId(request: FastifyRequest<{ Body: PaymentByWalletIdDTO }>, reply: FastifyReply)
     {
