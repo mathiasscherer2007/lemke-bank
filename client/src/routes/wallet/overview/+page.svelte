@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { resolve } from '$app/paths';
-
   import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
   import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
   import copyIcon from '$lib/assets/icons/copy.svg';
   import payIcon from '$lib/assets/icons/pay.svg';
   import statementIcon from '$lib/assets/icons/statement.svg';
+  
+  import SquareLink from '$lib/components/SquareLink.svelte';
 
   const links = [
     {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
@@ -36,18 +36,7 @@
 </div>
 <div class="mt-2 flex h-30 lg:h-40 overflow-x-auto overflow-y-hidden">
   {#each links as { title, icon, link } (link)}
-    <a
-      href={resolve(link)}
-      class="m-1 lg:m-3 flex aspect-square flex-col items-center justify-center rounded-xl border border-black p-2 text-center transition hover:border-teal-500 dark:border-white dark:bg-[#282828] dark:hover:border-teal-400"
-    >
-      <figure class="w-7/11 p-2 lg:p-3 white-filter">
-        <img
-          src={icon}
-          alt={title}
-        />
-      </figure>
-      <p class="mb-auto mx-1">{title}</p>
-    </a>
+    <SquareLink title={title} icon={icon} link={link} />
   {/each}
 </div>
 <hr class="my-4 lg:my-6 border-stone-500" />

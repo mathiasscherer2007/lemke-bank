@@ -8,11 +8,11 @@
   let submitting = $state(false);
   let formStage = $state(0);
   let userData = $state({
-    reciever: '',
+    receiver: '',
     amount: 0,
     description: ''
   });
-  let reciever = $state('');
+  let receiver = $state('');
 
   function moveToNextStep(valueToCheck: string | number) {
     if (!valueToCheck) {
@@ -22,7 +22,7 @@
     formStage++;
 
     if (formStage === 1) {
-      fetchReciever();
+      fetchreceiver();
     }
   }
 
@@ -30,7 +30,7 @@
     if (userData.amount < 0 || !userData.amount) {
       return false;
     }
-    if (!userData.reciever) {
+    if (!userData.receiver) {
       return false;
     }
 
@@ -41,10 +41,10 @@
     formStage--;
   }
 
-  async function fetchReciever() {
+  async function fetchreceiver() {
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    reciever = 'Sr. Dinheiros';
+    receiver = 'Sr. Dinheiros';
   }
 </script>
 
@@ -66,12 +66,12 @@
     }
 
     submitting = true;
-    formData.append('reciever', userData.reciever);
+    formData.append('receiver', userData.receiver);
 
     return async ({ update }) => {
       submitting = false;
       userData = {
-        reciever: '',
+        receiver: '',
         amount: 0,
         description: ''
       };
@@ -94,11 +94,11 @@
           <span class="m-3 ml-0 flex lg:block">
             <input
               type="text"
-              name="reciever"
-              id="reciever"
+              name="receiver"
+              id="receiver"
               placeholder="ID da carteira"
               required
-              bind:value={userData.reciever}
+              bind:value={userData.receiver}
               class="flex-1 border-b border-b-teal-500 p-1 text-2xl lg:flex-none dark:border-b-teal-400"
             />
           </span>
@@ -111,9 +111,9 @@
           >
           <button
             type="button"
-            disabled={userData.reciever ? false : true}
+            disabled={userData.receiver ? false : true}
             onclick={() => {
-              moveToNextStep(userData.reciever);
+              moveToNextStep(userData.receiver);
             }}
             class="cursor-pointer rounded-xl border border-teal-500 bg-teal-400 p-3 text-xl font-bold transition enabled:hover:bg-teal-500/80 disabled:cursor-default disabled:bg-transparent disabled:text-teal-500 lg:w-1/4 lg:text-lg dark:border-teal-400 dark:text-black dark:enabled:hover:bg-teal-500 dark:disabled:text-teal-400"
             >Continuar</button
@@ -131,13 +131,14 @@
             Digite o valor que será transferido
           </h1>
           <div class="mt-5 mb-3 flex flex-col gap-2 text-xl">
-            <b>Recebedor: {reciever ? reciever : '...'}</b>
+            <b>Recebedor: {receiver ? receiver : '...'}</b>
             <p>Data da transferência: {new Date().toLocaleDateString('pt-BR')}</p>
           </div>
           <span class="p-3 pl-0">
             <label for="amount" class="text-xl lg:text-2xl">BL$</label>
             <input
               type="number"
+              step="1"
               min="0"
               name="amount"
               id="amount"
@@ -173,7 +174,7 @@
           </span>
           <button
             type="submit"
-            disabled={userData.amount && userData.amount > 0 && userData.reciever ? false : true}
+            disabled={userData.amount && userData.amount > 0 && userData.receiver ? false : true}
             class="flex-1 cursor-pointer rounded-xl border border-teal-500 bg-teal-400 p-3 text-xl font-bold transition enabled:hover:bg-teal-500/80 disabled:cursor-default disabled:bg-transparent disabled:text-teal-500 lg:w-1/4 lg:flex-none lg:text-lg dark:border-teal-400 dark:text-black dark:enabled:hover:bg-teal-500 dark:disabled:text-teal-400"
             >Enviar Pagamento</button
           >
@@ -184,3 +185,18 @@
     <div>Esperando resposta do servidor...</div>
   {/if}
 </form>
+
+<style>
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+</style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+    // TODO: campo de bills no estilo do sicredi X
     import { resolve } from "$app/paths";
 
     import qrcodeIcon from "$lib/assets/icons/qrcode.svg";
