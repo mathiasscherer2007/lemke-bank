@@ -3,7 +3,7 @@
 </script>
 
 <header
-  class="z-10 border-b border-teal-400 bg-stone-950/95 p-4 text-teal-400 shadow-xl shadow-teal-400/5"
+  class="z-10 border-b border-teal-400 bg-stone-950/95 p-4 text-teal-400"
 >
   <a
     href={resolve('/admin')}

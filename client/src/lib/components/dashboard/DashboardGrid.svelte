@@ -1,9 +1,24 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
+  import type { Snippet } from 'svelte';
 
-	let { columns, gap, children }: { columns?: number, gap?: string, children?: Snippet} = $props()
+  let { columns, children }: { columns?: number; children?: Snippet } = $props();
 </script>
 
-<div class="grid" style="grid-template-columns: repeat({columns}, minmax(0, 1fr)); gap: {gap}">
-	{@render children?.()}
+<div class="dynamic-grid" style="--columns: {columns}">
+  {@render children?.()}
 </div>
+
+<style>
+  .dynamic-grid {
+    display: grid;
+    /* Default: 1 column on mobile screens */
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  /* Tablet screens (768px and up) */
+  @media (min-width: 768px) {
+    .dynamic-grid {
+      grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    }
+  }
+</style>
