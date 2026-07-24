@@ -8,8 +8,6 @@
   import DashboardWidget from '$lib/components/dashboard/DashboardWidget.svelte';
   import NavLink from '$lib/components/NavLink.svelte';
   import NavLinkContainer from '$lib/components/NavLinkContainer.svelte';
-  import NavLink from '$lib/components/NavLink.svelte';
-  import NavLinkContainer from '$lib/components/NavLinkContainer.svelte';
 
   const links = [
     { title: 'Enviar BL$', icon: payIcon, link: '/admin/transfer' },
@@ -33,7 +31,6 @@
     <NavLink title={title} icon={icon} link={link} />
     <NavLink title={title} icon={icon} link={link} />
   {/each}
-</NavLinkContainer>
 </NavLinkContainer>
 
 <hr class="border-stone-500 my-6 lg:my-10 mx-2 lg:mx-0" />
