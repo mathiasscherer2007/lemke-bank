@@ -1,5 +1,9 @@
+import "reflect-metadata";
+import './di.js';
 import fastify from "fastify";
+import { container } from 'tsyringe';
 import { ZodTypeProvider, validatorCompiler, serializerCompiler, jsonSchemaTransform } from "fastify-type-provider-zod";
+import { Router } from "./route.js";
 
 export async function buildApp(options: object = {})
 {
@@ -13,6 +17,8 @@ export async function buildApp(options: object = {})
             message: "Hello World"
         });
     })
+
+    container.resolve(Router).registerAll(app);
 
     return app;
 }

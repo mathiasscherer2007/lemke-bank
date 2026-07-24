@@ -2,13 +2,15 @@
     "name": "server",
     "type": "module",
     "scripts": {
-        "dev": "npx tsx --env-file=./../.env Config/server.ts"
+        "dev": "npx tsx watch --env-file=./../.env Config/server.ts"
     },
     "dependencies": {
         "drizzle-orm": "^0.45.2",
         "fastify": "^5.8.5",
         "fastify-type-provider-zod": "^7.0.0",
         "mysql2": "^3.2.0",
+        "reflect-metadata": "^0.2.2",
+        "tsyringe": "^4.10.0",
         "zod": "^4.4.3"
     },
     "devDependencies": {
