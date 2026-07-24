@@ -22,4 +22,5 @@ export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
     app.addHook('onRequest', authMiddleware.authenticate);
     app.get('/wallets/:id', walletController.getWallet);
     app.post('/transactions', transactionController.transactionByWalletId);
+    
 }

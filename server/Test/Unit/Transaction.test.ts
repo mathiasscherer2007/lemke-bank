@@ -13,7 +13,7 @@ describe('Transaction model', () => {
         ];
 
         const transaction = new Transaction(entries, 'Test payment', 'charge-123', 'test-uuid');
-        const data = transaction.getData();
+        const data = transaction.toPrimitives();
 
         assert.strictEqual(data.amount, 100, 'Transaction amount should match the balanced total');
         assert.strictEqual(data.fromWalletId, 'wallet-debit-uuid', 'Transaction should set the debit wallet as the fromWalletId');

@@ -69,18 +69,10 @@ export class Transaction
         return this.id!;
     }
 
-    public getData(): Record<string, unknown> 
+    public toPrimitives(): Record<string, unknown> 
     {
         return {
-            id: this.id,
-            amount: this.amount,
-            fromWalletId: this.fromWalletId,
-            toWalletId: this.toWalletId,
-            chargeId: this.chargeId,
-            description: this.description,
-            createdAt: this.createdAt,
-            entries: this.entries
-
+            ...this as Record<string, unknown>
         };
     }
 }

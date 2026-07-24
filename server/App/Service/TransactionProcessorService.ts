@@ -1,20 +1,27 @@
 import { PaymentByWalletIdDTO } from "../Dto/Request.js";
-import { InsufficientFundsException } from "../Exception/DomainException.js";
+import { InsufficientFundsException, NotABusinessDayException, WalletNotFoundException } from "../Exception/DomainException.js";
 import { LedgerEntryType } from "../Model/Enum/LedgerEntryType.js";
 import { LedgerEntry } from "../Model/LedgerEntry.js";
 import { Transaction } from "../Model/Transaction.js";
 import { TransactionRepository } from "../Repository/Transaction/TransactionRepository.js";
 import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
+import { BusinessDayService } from "./WebService/BusinessDayService.js";
 
 export class TransactionProcessorService
 {
     constructor(
         private readonly transactionRepository: TransactionRepository,
-        private readonly walletRepository: WalletRepository
+        private readonly walletRepository: WalletRepository,
+        private readonly businessDayService: BusinessDayService
     ){}
 
-    public async processByWalletId(paymentPayload: PaymentByWalletIdDTO, userId: string): Promise<Transaction>
+    public async process(paymentPayload: PaymentByWalletIdDTO, userId: string): Promise<Transaction>
     {
+        const today = new Date();
+        if(!await this.businessDayService.isBusinessDay(today)){
+            throw new NotABusinessDayException();
+        }
+
         const { toWalletId, amount, description } = paymentPayload;
         const entries = await this.generateEntries(toWalletId, amount, userId);
 
@@ -30,6 +37,9 @@ export class TransactionProcessorService
     {
         const fromWallet = await this.walletRepository.findByUserId(userId);
         const toWallet = await this.walletRepository.findById(toWalletId);
+
+        if(!fromWallet) throw new WalletNotFoundException(undefined, userId);
+        if(!toWallet) throw new WalletNotFoundException(toWalletId);
 
         if(!fromWallet.hasEnoughBalance(amount)){
             throw new InsufficientFundsException();

@@ -36,4 +36,11 @@ export class Wallet
     public getId(): string {
         return this.id!;
     }
+
+    public toPrimitives(): Record<string, unknown>
+    {
+        return {
+            ...this as Record<string, unknown>
+        }
+    }
 }

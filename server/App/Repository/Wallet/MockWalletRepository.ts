@@ -10,19 +10,15 @@ export class MockWalletRepository implements WalletRepository {
         this.walletsById.set(wallet.getId(), wallet);
     }
 
-    async findById(id: string): Promise<Wallet> {
+    async findById(id: string): Promise<Wallet | null> {
         const wallet = this.walletsById.get(id);
-        if (!wallet) {
-            throw new Error(`Wallet with id ${id} not found`);
-        }
+        if (!wallet) return null;
         return wallet;
     }
 
-    async findByUserId(userId: string): Promise<Wallet> {
+    async findByUserId(userId: string): Promise<Wallet | null> {
         const wallet = this.walletsByUserId.get(userId);
-        if (!wallet) {
-            throw new Error(`Wallet for user ${userId} not found`);
-        }
+        if (!wallet) return null;
         return wallet;
     }
 

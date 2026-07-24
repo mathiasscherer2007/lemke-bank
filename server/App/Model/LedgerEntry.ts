@@ -50,4 +50,11 @@ export class LedgerEntry
     public setTransactionId(transactionId: string): void {
         this.transactionId = transactionId;
     }
+
+    public toPrimitives(): Record<string, unknown>
+    {
+        return {
+            ...this as Record<string, unknown>
+        }
+    }
 }

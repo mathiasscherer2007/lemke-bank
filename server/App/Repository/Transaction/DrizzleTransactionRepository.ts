@@ -4,13 +4,12 @@ import { ledgerEntries } from "../../../Config/Database/Schema/ledgerEntries.js"
 import { transactions } from "../../../Config/Database/Schema/transactions.js";
 import { Transaction } from "../../Model/Transaction.js";
 import { TransactionRepository } from "./TransactionRepository.js";
-import { TransactionNotFoundException } from "../../Exception/DomainException.js";
 import { LedgerEntry } from "../../Model/LedgerEntry.js";
 import { LedgerEntryType } from "../../Model/Enum/LedgerEntryType.js";
 import { wallets } from "../../../Config/Database/Schema/wallets.js";
 
-export class DrizzleTransactionRepository implements TransactionRepository {
-
+export class DrizzleTransactionRepository implements TransactionRepository 
+{
     public async create(transaction: Transaction): Promise<void> {
         await db.transaction(async (tx) => {
             const entries = transaction.getEntries();
@@ -30,9 +29,11 @@ export class DrizzleTransactionRepository implements TransactionRepository {
                     balance + (entry.getType() === LedgerEntryType.CREDIT ? entry.getAmount() : -entry.getAmount())
                 );
             }
-
-            await tx.insert(transactions).values(transaction as any);
-            await tx.insert(ledgerEntries).values(entries as any);
+            
+            let primitives = transaction.toPrimitives() as any;
+            primitives = delete primitives.entries;
+            await tx.insert(transactions).values(primitives);
+            await tx.insert(ledgerEntries).values(entries.map(entry => entry.toPrimitives()) as any);
 
             await Promise.all([...balances].map(([walletId, balance]) =>
                 tx.update(wallets)
@@ -51,7 +52,7 @@ export class DrizzleTransactionRepository implements TransactionRepository {
             .innerJoin(ledgerEntries, eq(ledgerEntries.transactionId, transactions.id))
             .where(eq(transactions.id, id));
 
-        if(rows.length <= 0) throw new TransactionNotFoundException(id);
+        if(rows.length <= 0) return null;
 
         return new Transaction(
             rows.map(r => new LedgerEntry(

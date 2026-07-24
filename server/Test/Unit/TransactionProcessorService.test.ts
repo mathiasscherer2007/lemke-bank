@@ -6,8 +6,9 @@ import { MockWalletRepository } from "../../App/Repository/Wallet/MockWalletRepo
 import { Wallet } from "../../App/Model/Wallet.js";
 import { WalletStatus } from "../../App/Model/Enum/WalletStatus.js";
 import { LedgerEntryType } from "../../App/Model/Enum/LedgerEntryType.js";
-import { InsufficientFundsException } from "../../App/Exception/DomainException.js";
+import { InsufficientFundsException, NotABusinessDayException } from "../../App/Exception/DomainException.js";
 import { PaymentByWalletIdDTO } from "../../App/Dto/Request.js";
+import { BusinessDayService } from "../../App/Service/WebService/BusinessDayService.js";
 
 const createTestWallet = (userId: string, balance: number, id?: string) => {
     return new Wallet(userId, WalletStatus.ACTIVE, balance, id);
@@ -22,6 +23,18 @@ const createPaymentDTO = (overrides?: Partial<PaymentByWalletIdDTO>): PaymentByW
     };
 };
 
+class MockBusinessDayService implements BusinessDayService {
+    private isBusinessDayValue: boolean = true;
+
+    setIsBusinessDay(value: boolean): void {
+        this.isBusinessDayValue = value;
+    }
+
+    async isBusinessDay(date: Date): Promise<boolean> {
+        return this.isBusinessDayValue;
+    }
+}
+
 describe("TransactionProcessorService", () => {
     test("successfully processes payment with sufficient balance", async () => {
         // Setup
@@ -33,8 +46,9 @@ describe("TransactionProcessorService", () => {
         await walletRepository.create(toWallet, "user-456");
 
         const transactionRepository = new MockTransactionRepository();
+        const businessDayService = new MockBusinessDayService();
 
-        const service = new TransactionProcessorService(transactionRepository, walletRepository);
+        const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository, businessDayService);
 
         const paymentDTO = createPaymentDTO({
             toWalletId: toWallet.getId(),
@@ -43,7 +57,7 @@ describe("TransactionProcessorService", () => {
         });
 
         // Execute
-        const transaction = await service.processByWalletId(paymentDTO, "user-123");
+        const transaction = await transactionProcessorService.process(paymentDTO, "user-123");
 
         // Verify
         assert.ok(transaction, "Should return a transaction object");
@@ -79,7 +93,8 @@ describe("TransactionProcessorService", () => {
         await walletRepository.create(toWallet, "user-456");
 
         const transactionRepository = new MockTransactionRepository();
-        const service = new TransactionProcessorService(transactionRepository, walletRepository);
+        const businessDayService = new MockBusinessDayService();
+        const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository, businessDayService);
 
         const paymentDTO = createPaymentDTO({
             toWalletId: toWallet.getId(),
@@ -88,7 +103,7 @@ describe("TransactionProcessorService", () => {
 
         // Execute & Verify
         assert.rejects(
-            () => service.processByWalletId(paymentDTO, "user-123"),
+            () => transactionProcessorService.process(paymentDTO, "user-123"),
             InsufficientFundsException,
             "Should throw InsufficientFundsException when balance is insufficient"
         );
@@ -108,7 +123,8 @@ describe("TransactionProcessorService", () => {
         await walletRepository.create(toWallet, "user-456");
 
         const transactionRepository = new MockTransactionRepository();
-        const service = new TransactionProcessorService(transactionRepository, walletRepository);
+        const businessDayService = new MockBusinessDayService();
+        const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository, businessDayService);
 
         const customDescription = "Payment for services rendered";
         const paymentDTO = createPaymentDTO({
@@ -118,10 +134,10 @@ describe("TransactionProcessorService", () => {
         });
 
         // Execute
-        const transaction = await service.processByWalletId(paymentDTO, "user-123");
+        const transaction = await transactionProcessorService.process(paymentDTO, "user-123");
 
         // Verify
-        const data = transaction.getData();
+        const data = transaction.toPrimitives();
         assert.strictEqual(data.description, customDescription, "Transaction should include the provided description");
     });
 
@@ -135,7 +151,8 @@ describe("TransactionProcessorService", () => {
         await walletRepository.create(toWallet, "user-456");
 
         const transactionRepository = new MockTransactionRepository();
-        const service = new TransactionProcessorService(transactionRepository, walletRepository);
+        const businessDayService = new MockBusinessDayService();
+        const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository, businessDayService);
 
         // Execute - First payment
         const payment1 = createPaymentDTO({
@@ -143,7 +160,7 @@ describe("TransactionProcessorService", () => {
             amount: 100,
             description: "Payment 1"
         });
-        const transaction1 = await service.processByWalletId(payment1, "user-123");
+        const transaction1 = await transactionProcessorService.process(payment1, "user-123");
 
         // Execute - Second payment
         const payment2 = createPaymentDTO({
@@ -151,7 +168,7 @@ describe("TransactionProcessorService", () => {
             amount: 200,
             description: "Payment 2"
         });
-        const transaction2 = await service.processByWalletId(payment2, "user-123");
+        const transaction2 = await transactionProcessorService.process(payment2, "user-123");
 
         // Verify
         assert.notStrictEqual(transaction1.getId(), transaction2.getId(), "Each payment should create a unique transaction");
@@ -161,5 +178,32 @@ describe("TransactionProcessorService", () => {
 
         assert.ok(stored1, "First transaction should be stored");
         assert.ok(stored2, "Second transaction should be stored");
+    });
+
+    test("throws NotABusinessDayException when date is not a business day", async () => {
+        // Setup
+        const fromWallet = createTestWallet("user-123", 500, "wallet-from-uuid");
+        const toWallet = createTestWallet("user-456", 0, "wallet-to-uuid");
+
+        const walletRepository = new MockWalletRepository();
+        await walletRepository.create(fromWallet, "user-123");
+        await walletRepository.create(toWallet, "user-456");
+
+        const transactionRepository = new MockTransactionRepository();
+        const businessDayService = new MockBusinessDayService();
+        businessDayService.setIsBusinessDay(false);
+        const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository, businessDayService);
+
+        const paymentDTO = createPaymentDTO({
+            toWalletId: toWallet.getId(),
+            amount: 100
+        });
+
+        // Execute & Verify
+        assert.rejects(
+            () => transactionProcessorService.process(paymentDTO, "user-123"),
+            NotABusinessDayException,
+            "Should throw NotABusinessDayException when date is not a business day"
+        );
     });
 });

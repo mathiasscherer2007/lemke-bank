@@ -5,7 +5,7 @@ import { PaymentByWalletIdDTO } from "../../Dto/Request.js";
 export class TransactionController 
 {
     constructor(
-        private readonly service: TransactionProcessorService
+        private readonly transactionProcessorService: TransactionProcessorService
     ){
         this.transactionByWalletId = this.transactionByWalletId.bind(this);
     }
@@ -15,7 +15,7 @@ export class TransactionController
         const payload = request.body;
         const userId = request.user!.id; 
         
-        const transaction = this.service.processByWalletId(payload, userId);
+        const transaction = this.transactionProcessorService.process(payload, userId);
         return reply.status(201).send({
             status: "succesfull",
             message: "Transaction succesfull created",

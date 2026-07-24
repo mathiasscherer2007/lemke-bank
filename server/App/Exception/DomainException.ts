@@ -42,3 +42,22 @@ export class InsufficientFundsException extends DomainException
         super('Insufficient funds to complete this transaction.', 422);
     }
 }
+
+export class WalletNotFoundException extends DomainException
+{
+    private readonly missingWalletId?: string;
+    private readonly missingUserId?: string;
+
+    constructor(missingWalletId?: string, missingUserId?: string){
+        super('Wallet not found', 404)
+        this.missingWalletId = missingWalletId;
+        this.missingUserId = missingUserId
+    }
+}
+
+export class NotABusinessDayException extends DomainException
+{
+    constructor(){
+        super('Sorry! You just can make transactions on business days.', 422)
+    }
+}
