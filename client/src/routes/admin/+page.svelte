@@ -23,12 +23,9 @@
   ];
 </script>
 
-
-<!-- what -->
 <h1 class="text-2xl lg:text-3xl font-bold pl-2">Ações de Administrador</h1>
 <NavLinkContainer columns="4">
   {#each links as { title, icon, link } (link)}
-    <NavLink title={title} icon={icon} link={link} />
     <NavLink title={title} icon={icon} link={link} />
   {/each}
 </NavLinkContainer>
@@ -62,39 +59,6 @@
       </ol>
     {/snippet}
   </DashboardWidget>
-<DashboardGrid columns={4}>
-  <DashboardWidget title="BL$ em circulação">
-    {#snippet content()}
-      <p class="my-auto py-5 text-3xl font-bold">BL$ 1</p>
-    {/snippet}
-  </DashboardWidget>
-  
-  <DashboardWidget title="Maiores magnatas" span={2}>
-    {#snippet content()}
-      {#snippet person(name: string, networth: number, prefix: number)}
-        <li
-          class="text-md flex items-center justify-between px-2 py-1 {prefix % 2 == 0 ? '' : 'bg-stone-800/35'}"
-        >
-          <span class="flex gap-1 font-semibold">
-            {prefix}. <p>{name}</p>
-          </span>
-          <p>BL$ {networth}</p>
-        </li>
-      {/snippet}
-      <ol class="my-2 w-full rounded">
-        {#each magnates as { username, balance }, index (username)}
-          {@render person(username, balance, index + 1)}
-        {/each}
-      </ol>
-    {/snippet}
-  </DashboardWidget>
-
-  <DashboardWidget title="Total de usuários">
-    {#snippet content()}
-      <p class="my-auto py-5 text-3xl font-bold">5</p>
-    {/snippet}
-  </DashboardWidget>
-</DashboardGrid>
   <DashboardWidget title="Total de usuários">
     {#snippet content()}
       <p class="my-auto py-5 text-3xl font-bold">5</p>
