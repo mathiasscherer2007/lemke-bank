@@ -1,7 +1,7 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
   import successIcon from '$lib/assets/icons/check-circle.svg';
-  import Progressbar from '$lib/components/Progressbar.svelte';
+  import Progressbar from '$lib/components/elements/Progressbar.svelte';
 </script>
 
 <figure class="aspect-square h-30 green-filter">
