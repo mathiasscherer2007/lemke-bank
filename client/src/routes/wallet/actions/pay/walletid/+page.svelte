@@ -22,7 +22,7 @@
     formStage++;
 
     if (formStage === 1) {
-      fetchreceiver();
+      fetchReceiver();
     }
   }
 
@@ -41,7 +41,7 @@
     formStage--;
   }
 
-  async function fetchreceiver() {
+  async function fetchReceiver() {
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     receiver = 'Sr. Dinheiros';
@@ -58,7 +58,7 @@
 <form
   action="?/pay"
   method="post"
-  class="grid flex-1 place-items-center lg:px-10 lg:pb-15"
+  class="grid flex-1 place-items-center lg:px-10"
   autocomplete="off"
   use:enhance={({ cancel, formData }) => {
     if (!checkValues) {
@@ -85,13 +85,13 @@
       <div
         in:fly={{ delay: 500 }}
         out:fly
-        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto"
+        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto lg:max-w-1/2 lg:bg-[#00000020] lg:p-5 lg:rounded-lg shadow"
       >
         <div class="my-auto">
-          <h1 class="mb-3 font-[Stack_Sans_Headline] text-3xl">
+          <h1 class="mb-6 font-[Stack_Sans_Headline] text-3xl">
             Digite ou cole o ID da carteira do recebedor
           </h1>
-          <span class="m-3 ml-0 flex lg:block">
+          <span class="m-5 ml-0 flex lg:block">
             <input
               type="text"
               name="receiver"
@@ -103,10 +103,10 @@
             />
           </span>
         </div>
-        <span class="mb-5 flex w-full flex-col justify-between gap-2 lg:mt-5 lg:flex-row">
+        <span class="mb-5 lg:mb-0 flex w-full flex-col justify-end gap-2 lg:flex-row">
           <a
             href={resolve('/wallet/actions/pay')}
-            class="hidden cursor-pointer rounded-xl border border-red-500 bg-transparent p-3 text-center text-xl font-bold text-red-500 transition hover:bg-[rgba(0,0,0,0.03)] lg:inline lg:w-1/6 lg:text-lg dark:border-red-400 dark:text-red-400 dark:hover:bg-[rgba(255,255,255,0.05)]"
+            class="hidden cursor-pointer rounded-lg border border-red-500 bg-transparent p-3 text-center text-xl font-bold text-red-500 transition hover:bg-[rgba(0,0,0,0.03)] lg:inline lg:w-1/6 lg:text-lg dark:border-red-400 dark:text-red-400 dark:hover:bg-[rgba(255,255,255,0.05)]"
             >Cancelar</a
           >
           <button
@@ -115,7 +115,7 @@
             onclick={() => {
               moveToNextStep(userData.receiver);
             }}
-            class="cursor-pointer rounded-xl border border-teal-500 bg-teal-400 p-3 text-xl font-bold transition enabled:hover:bg-teal-500/80 disabled:cursor-default disabled:bg-transparent disabled:text-teal-500 lg:w-1/4 lg:text-lg dark:border-teal-400 dark:text-black dark:enabled:hover:bg-teal-500 dark:disabled:text-teal-400"
+            class="text-lg font-semibold p-3 w-1/4 rounded-lg border enabled:bg-teal-500 enabled:border-teal-500 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
             >Continuar</button
           >
         </span>
@@ -124,7 +124,7 @@
       <div
         in:fly={{ delay: 500 }}
         out:fly
-        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto"
+        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto lg:max-w-1/2 lg:bg-[#00000020] lg:p-5 lg:rounded-lg shadow"
       >
         <div class="my-auto">
           <h1 class="mb-3 font-[Stack_Sans_Headline] text-3xl">
@@ -158,24 +158,24 @@
             />
           </span>
         </div>
-        <span class="flex w-full flex-col justify-between gap-2 pb-5 lg:flex-row">
+        <span class="flex w-full flex-col justify-between gap-2 lg:flex-row">
           <span class="flex flex-1 gap-2">
             <button
               type="button"
               onclick={returnStep}
-              class="flex-1 cursor-pointer rounded-xl border border-teal-500 bg-teal-400 p-3 text-xl font-bold transition hover:bg-teal-500/80 lg:w-1/4 lg:flex-none lg:text-lg dark:border-teal-400 dark:text-black dark:hover:bg-teal-500"
+              class="text-lg font-semibold p-3 w-1/4 rounded-lg border border-teal-500 dark:border-teal-400 text-teal-500 dark:text-teal-400 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
               >Voltar</button
             >
             <a
               href={resolve('/wallet/actions/pay')}
-              class="hidden w-1/6 cursor-pointer rounded-xl border border-red-500 bg-transparent p-3 text-center font-bold text-red-500 transition hover:bg-[rgba(0,0,0,0.03)] lg:inline dark:border-red-400 dark:text-red-400 dark:hover:bg-[rgba(255,255,255,0.05)]"
+              class="hidden w-1/6 cursor-pointer rounded-lg border border-red-500 bg-transparent p-3 text-center font-bold text-red-500 transition hover:bg-[rgba(0,0,0,0.03)] lg:inline dark:border-red-400 dark:text-red-400 dark:hover:bg-[rgba(255,255,255,0.05)]"
               >Cancelar</a
             >
           </span>
           <button
             type="submit"
             disabled={userData.amount && userData.amount > 0 && userData.receiver ? false : true}
-            class="flex-1 cursor-pointer rounded-xl border border-teal-500 bg-teal-400 p-3 text-xl font-bold transition enabled:hover:bg-teal-500/80 disabled:cursor-default disabled:bg-transparent disabled:text-teal-500 lg:w-1/4 lg:flex-none lg:text-lg dark:border-teal-400 dark:text-black dark:enabled:hover:bg-teal-500 dark:disabled:text-teal-400"
+            class="text-lg font-semibold p-3 w-1/4 rounded-lg border enabled:bg-teal-500 enabled:border-teal-500 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
             >Enviar Pagamento</button
           >
         </span>
