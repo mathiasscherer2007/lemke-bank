@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import { ZodTypeProvider, validatorCompiler, serializerCompiler, jsonSchemaTransform } from "fastify-type-provider-zod";
+import { protectedRoutes } from "./Routes/protected.js";
 
 export async function buildApp(options: object = {})
 {
@@ -9,11 +10,8 @@ export async function buildApp(options: object = {})
     app.setSerializerCompiler(serializerCompiler);
 
     app.decorateRequest("user", null);
-    app.get('/', async (request, reply) => {
-        return reply.send({
-            message: "Hello World"
-        });
-    })
+    
+    app.register(protectedRoutes);
 
     return app;
 }

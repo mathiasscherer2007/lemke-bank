@@ -6,13 +6,16 @@ import { TransactionController } from "../../App/Http/Controller/TransactionCont
 import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware.js";
 import { WalletManagementService } from "../../App/Service/WalletManagementService.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
+import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BrasilApiBusinessDayService.js";
+import { env } from "../Environment/env.js";
 
 const walletRepository = new DrizzleWalletRepository();
 const walletManagementService = new WalletManagementService(walletRepository);
 const walletController = new WalletController(walletManagementService);
 
 const transactionRepository = new DrizzleTransactionRepository();
-const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository);
+const businessDayService = new BrasilApiBusinessDayService(env.HOLIDAYS_API_URL);
+const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository, businessDayService);
 const transactionController = new TransactionController(transactionProcessorService);
 
 const authMiddleware = new AuthMockMiddleware(); // Mock to test feature.
