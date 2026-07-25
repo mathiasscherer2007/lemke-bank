@@ -58,7 +58,7 @@
 <form
   action="?/pay"
   method="post"
-  class="grid flex-1 place-items-center lg:px-10"
+  class="grid flex-1 place-items-center mb-10 lg:mb-0 lg:px-10"
   autocomplete="off"
   use:enhance={({ cancel, formData }) => {
     if (!checkValues) {
@@ -85,7 +85,7 @@
       <div
         in:fly={{ delay: 500 }}
         out:fly
-        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto lg:max-w-1/2 lg:bg-[#00000020] lg:p-5 lg:rounded-lg shadow"
+        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto lg:max-w-1/2 lg:bg-[#00000020] lg:p-5 lg:rounded-lg lg:shadow"
       >
         <div class="my-auto">
           <h1 class="mb-6 font-[Stack_Sans_Headline] text-3xl">
@@ -115,7 +115,7 @@
             onclick={() => {
               moveToNextStep(userData.receiver);
             }}
-            class="text-lg font-semibold p-3 w-1/4 rounded-lg border enabled:bg-teal-500 enabled:border-teal-500 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
+            class="text-lg font-semibold p-3 lg:w-1/4 rounded-lg border enabled:bg-teal-500 enabled:border-teal-500 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
             >Continuar</button
           >
         </span>
@@ -124,14 +124,14 @@
       <div
         in:fly={{ delay: 500 }}
         out:fly
-        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto lg:max-w-1/2 lg:bg-[#00000020] lg:p-5 lg:rounded-lg shadow"
+        class="col-start-1 row-start-1 flex h-full w-full flex-col justify-end overflow-x-hidden lg:h-auto lg:max-w-1/2 lg:bg-[#00000020] lg:p-5 lg:rounded-lg lg:shadow"
       >
         <div class="my-auto">
           <h1 class="mb-3 font-[Stack_Sans_Headline] text-3xl">
             Digite o valor que será transferido
           </h1>
-          <div class="mt-5 mb-3 flex flex-col gap-2 text-xl">
-            <b>Recebedor: {receiver ? receiver : '...'}</b>
+          <div class="my-5 p-1 lg:p-0 flex flex-col gap-2 text-xl">
+            <p>Recebedor: {receiver ? receiver : '...'}</p>
             <p>Data da transferência: {new Date().toLocaleDateString('pt-BR')}</p>
           </div>
           <span class="p-3 pl-0">
@@ -154,7 +154,7 @@
               id="description"
               placeholder="Descrição (opcional)"
               bind:value={userData.description}
-              class="flex-1 border-b border-b-teal-500 p-1 text-lg lg:text-2xl dark:border-b-teal-400"
+              class="flex-1 border-b border-b-teal-500 p-1 text-xl lg:text-2xl dark:border-b-teal-400"
             />
           </span>
         </div>
@@ -163,7 +163,7 @@
             <button
               type="button"
               onclick={returnStep}
-              class="text-lg font-semibold p-3 w-1/4 rounded-lg border border-teal-500 dark:border-teal-400 text-teal-500 dark:text-teal-400 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
+              class="text-lg font-semibold p-3 w-full lg:w-1/4 rounded-lg border border-teal-500 dark:border-teal-400 text-teal-500 dark:text-teal-400 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
               >Voltar</button
             >
             <a
@@ -175,7 +175,7 @@
           <button
             type="submit"
             disabled={userData.amount && userData.amount > 0 && userData.receiver ? false : true}
-            class="text-lg font-semibold p-3 w-1/4 rounded-lg border enabled:bg-teal-500 enabled:border-teal-500 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
+            class="text-lg font-semibold p-3 lg:w-1/4 rounded-lg border enabled:bg-teal-500 enabled:border-teal-500 enabled:cursor-pointer enabled:hover:bg-teal-500/80 transition"
             >Enviar Pagamento</button
           >
         </span>
