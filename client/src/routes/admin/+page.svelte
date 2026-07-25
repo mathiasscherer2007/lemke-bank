@@ -6,14 +6,14 @@
 
   import DashboardGrid from '$lib/components/dashboard/DashboardGrid.svelte';
   import DashboardWidget from '$lib/components/dashboard/DashboardWidget.svelte';
-  import NavLink from '$lib/components/NavLink.svelte';
-  import NavLinkContainer from '$lib/components/NavLinkContainer.svelte';
+  import NavLink from '$lib/components/elements/NavLink.svelte';
+  import NavLinkContainer from '$lib/components/elements/NavLinkContainer.svelte';
 
   const links = [
-    { title: 'Enviar BL$', icon: payIcon, link: '/admin/transfer' },
-    { title: 'Histórico de Envios', icon: statementIcon, link: '/admin/transferhistory' },
-    { title: 'Gerenciar Usuários', icon: userManage, link: '/admin/usermanage' },
-    { title: 'Criar Pagamento', icon: createPayment, link: '/admin/createpayment' }
+    { title: 'Enviar BL$', icon: payIcon, link: '/admin/actions/transfer' },
+    { title: 'Histórico de Envios', icon: statementIcon, link: '/admin/actions/checktransferhistory' },
+    { title: 'Gerenciar Usuários', icon: userManage, link: '/admin/actions/usermanage' },
+    { title: 'Criar Pagamento', icon: createPayment, link: '/admin/actions/createpayment' }
   ] as const;
 
   let magnates = [

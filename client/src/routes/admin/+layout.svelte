@@ -7,8 +7,8 @@
 
 <div class="flex min-h-screen flex-col">
   <AdminHeader />
-  <main class="flex flex-1 flex-col bg-[#f1f1f1] px-2 lg:px-5 dark:bg-[rgb(46,46,45)]">
-    <div class="flex h-full flex-1 flex-col bg-[#f1f1f1] py-5 text-stone-900 lg:px-15 lg:py-10 dark:bg-[rgb(46,46,45)] dark:text-white">
+  <main class="flex flex-1 flex-col bg-[#f1f1f1] px-2 lg:px-5 dark:bg-[rgb(43,43,42)]">
+    <div class="flex h-full flex-1 flex-col bg-transparent py-5 text-stone-900 lg:px-15 lg:py-10 dark:text-white">
       {@render children()}
     </div>
     <MainFooter />

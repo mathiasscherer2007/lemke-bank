@@ -4,8 +4,8 @@
   import copyIcon from '$lib/assets/icons/copy.svg';
   import payIcon from '$lib/assets/icons/pay.svg';
   import statementIcon from '$lib/assets/icons/statement.svg';
-  import NavLink from '$lib/components/NavLink.svelte';
-  import NavLinkContainer from '$lib/components/NavLinkContainer.svelte';
+  import NavLink from '$lib/components/elements/NavLink.svelte';
+  import NavLinkContainer from '$lib/components/elements/NavLinkContainer.svelte';
 
   const links = [
     {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
