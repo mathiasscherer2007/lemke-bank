@@ -22,6 +22,6 @@
   };
 </script>
 
-<div class="w-90 my-5 bg-stone-500/40 p-1 rounded-xl">
-  <div {@attach progressAttachment} id="myProgressBar" class="w-0 h-5 {color === "green" ? "bg-green-500 dark:bg-green-400" : "bg-red-500 dark:bg-red-400"} rounded-xl transition-all"></div>
+<div class="w-90 max-w-9/10 my-5 bg-stone-500/40 rounded-xl">
+  <div {@attach progressAttachment} id="myProgressBar" class="w-0 h-3 {color === "green" ? "bg-green-500 dark:bg-green-400" : "bg-red-500 dark:bg-red-400"} rounded-xl transition-all"></div>
 </div>

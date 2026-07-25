@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { resolve } from '$app/paths';
-
   import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
   import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
   import copyIcon from '$lib/assets/icons/copy.svg';
   import payIcon from '$lib/assets/icons/pay.svg';
   import statementIcon from '$lib/assets/icons/statement.svg';
+  import NavLink from '$lib/components/elements/NavLink.svelte';
+  import NavLinkContainer from '$lib/components/elements/NavLinkContainer.svelte';
 
   const links = [
     {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
@@ -21,7 +21,7 @@
   <div class="flex w-full justify-between">
     <p class="text-xl">Saldo atual</p>
     <span class="flex items-center gap-2">
-      <span class="text-lg dark:text-gray-300">ID<span class="hidden ml-[6px] lg:inline">da carteira</span>: 123456</span>
+      <span class="text-lg dark:text-gray-300">ID<span class="hidden ml-1.5 lg:inline">da carteira</span>: 123456</span>
       <button type="button">
         <img
           src={copyIcon}
@@ -34,22 +34,11 @@
   </div>
   <p class="lg:pl-2 text-2xl lg:text-3xl font-bold">BL$ 30</p>
 </div>
-<div class="mt-2 flex h-30 lg:h-40 overflow-x-auto overflow-y-hidden">
+<NavLinkContainer columns="2">
   {#each links as { title, icon, link } (link)}
-    <a
-      href={resolve(link)}
-      class="m-1 lg:m-3 flex aspect-square flex-col items-center justify-center rounded-xl border border-black p-2 text-center transition hover:border-teal-500 dark:border-white dark:bg-[#282828] dark:hover:border-teal-400"
-    >
-      <figure class="w-7/11 p-2 lg:p-3 white-filter">
-        <img
-          src={icon}
-          alt={title}
-        />
-      </figure>
-      <p class="mb-auto mx-1">{title}</p>
-    </a>
+    <NavLink title={title} icon={icon} link={link} />
   {/each}
-</div>
+</NavLinkContainer>
 <hr class="my-4 lg:my-6 border-stone-500" />
 <div class="flex flex-col">
   <p class="mb-3 text-xl lg:text-2xl">Transações recentes</p>

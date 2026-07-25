@@ -43,3 +43,7 @@
         filter: brightness(0) saturate(100%) invert(79%) sepia(55%) saturate(4676%) hue-rotate(126deg) brightness(96%) contrast(101%);
     }
 }
+
+@utility stone-500-filter {
+    filter: brightness(0) saturate(100%) invert(49%) sepia(12%) saturate(282%) hue-rotate(343deg) brightness(87%) contrast(88%);
+}

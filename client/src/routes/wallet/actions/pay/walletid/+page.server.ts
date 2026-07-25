@@ -12,7 +12,7 @@ export const actions: Actions = {
         error: { message: 'Há campos faltantes no pagamento enviado.' }
       });
     }
-    if (!data.get('reciever')) {
+    if (!data.get('receiver')) {
       return fail(422, {
         error: { message: 'Há campos faltantes no pagamento enviado.' }
       });
