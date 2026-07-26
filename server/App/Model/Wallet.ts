@@ -28,4 +28,19 @@ export class Wallet
     public hasEnoughBalance(amount: number): boolean {
         return this.balance >= amount;
     }
+
+    public getBalance(): number {
+        return this.balance;
+    }
+
+    public getId(): string {
+        return this.id!;
+    }
+
+    public toPrimitives(): Record<string, unknown>
+    {
+        return {
+            ...this as Record<string, unknown>
+        }
+    }
 }

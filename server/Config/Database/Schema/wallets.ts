@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, int, timestamp, mysqlEnum } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, int, timestamp, mysqlEnum, index } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
 import { users } from './users.js';
 import { WalletStatus } from '../../../App/Model/Enum/WalletStatus.js';
@@ -12,4 +12,8 @@ export const wallets = mysqlTable('wallets', {
   status: mysqlEnum('status', ['active', 'disabled']).notNull().default('active'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
+},
+table => [
+  index('user_idx').on(table.userId)
+]
+);

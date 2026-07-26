@@ -1,5 +1,9 @@
 {
     "$schema": "https://json.schemastore.org/tsconfig",
+    "include": [
+        "**/*.ts",
+        "Config/Types/*.d.ts"
+    ],
     "compilerOptions": {
         "lib": ["ES2023"],
         "module": "nodenext",
@@ -7,7 +11,6 @@
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "moduleResolution": "node16",
-        "types": ["node"]
+        "moduleResolution": "node16"
     }
 }
