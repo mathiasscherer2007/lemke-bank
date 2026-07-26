@@ -14,7 +14,7 @@ export class AppContainer
      * @param factory - Method which will be responsable for instantiate this service.
      * @param isSingleton - Tell the AppContainer that the service will be a singleton.
      */
-    public register<T>(token: any, factory: Factory<T>, isSingleton: boolean): void
+    public register<T>(token: any, factory: Factory<T>, isSingleton?: boolean): void
     {
         this.factories.set(token, factory);
         if(isSingleton) this.singletons.set(token, factory);
@@ -31,7 +31,12 @@ export class AppContainer
             throw new ServiceProviderTokenNotFound(token);
         }
 
-        // TODO: Finish get function
-    }
+        const service = factory(this);
+        
+        if(this.singletons.has(token)){
+            this.instances.set(token, service);
+        }
 
+        return service;
+    }
 }
