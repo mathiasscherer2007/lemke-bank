@@ -6,13 +6,15 @@ export const actions: Actions = {
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await request.formData();
+    let fullData;
 
-    if (!data.get('amount')) {
-      return fail(422, {
-        error: { message: 'Há campos faltantes no pagamento enviado.' }
-      });
+    if (typeof data.get('fullData') === 'string') {
+      fullData = JSON.parse(data.get('fullData') as string ?? '');
     }
-    if (!data.get('receiver')) {
+
+    console.log(fullData)
+
+    if (!fullData.receiver || !fullData.amount) {
       return fail(422, {
         error: { message: 'Há campos faltantes no pagamento enviado.' }
       });
