@@ -8,9 +8,10 @@
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev -w client\" \"npm run dev -w server\"",
-    "test": "npx tsx --test server/Test/**/*.test.ts",
-    "test:integration": "npx tsx --test server/Test/Integration/*.test.ts",
+    "test": "npx tsx --env-file=.env --test server/Test/**/*.test.ts",
+    "test:integration": "npx tsx --env-file=.env --test server/Test/Integration/*.test.ts",
     "test:unit": "npx tsx --test server/Test/Unit/*.test.ts",
+    "test:smoke": "npx tsx --env-file=.env --test server/Test/Smoke/*.test.ts",
     "database:generate": "drizzle-kit generate",
     "database:up": "drizzle-kit up",
     "database:migrate": "drizzle-kit migrate",
