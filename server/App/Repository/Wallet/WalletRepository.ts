@@ -6,3 +6,8 @@ export interface WalletRepository
     findById(id: string): Promise<Wallet | null>;
     findByUserId(userId: string): Promise<Wallet | null>;
 }
+
+
+
+// Token for service provider declaration.
+export const WalletRepository = 'WalletRepository';

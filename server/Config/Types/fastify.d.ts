@@ -1,4 +1,5 @@
 import type { RouteGenericInterface } from "fastify";
+import { AppContainer } from "../Provider/AppContainer.ts";
 
 declare module "fastify" {
     interface FastifyRequest<
@@ -10,5 +11,9 @@ declare module "fastify" {
             email: string;
             name: string;
         } | null;
+    }
+    interface FastifyInstance 
+    {
+        container: AppContainer
     }
 }

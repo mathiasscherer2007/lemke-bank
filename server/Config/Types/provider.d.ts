@@ -1,0 +1,1 @@
+export type Factory<T> = (container: AppContainer) => T;
