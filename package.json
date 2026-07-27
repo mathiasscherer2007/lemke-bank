@@ -13,7 +13,6 @@
     "test:integration": "npx tsx --env-file=.env --test server/Test/Integration/*.test.ts",
     "test:unit": "npx tsx --test server/Test/Unit/*.test.ts",
     "test:smoke": "npx tsx --env-file=.env --test server/Test/Smoke/*.test.ts",
-    "test:smoke": "npx tsx --env-file=.env --test server/Test/Smoke/*.test.ts",
     "database:generate": "drizzle-kit generate",
     "database:up": "drizzle-kit up",
     "database:migrate": "drizzle-kit migrate",
