@@ -15,17 +15,15 @@ export const actions: Actions = {
     console.log(fullData)
 
     if (!fullData.receiver || !fullData.amount) {
-      return fail(422, {
-        error: { message: 'Há campos faltantes no pagamento enviado.' }
-      });
+      throw redirect(303, resolve('/wallet/actions/pay/confirmations/failure'));
     }
 
     // TEMPORARY
     // When backend is implemented, this will check if the request returned OK or not
     if (true === true) {
-      throw redirect(308, resolve('/wallet/actions/pay/confirmations/success'));
+      throw redirect(303, resolve('/wallet/actions/pay/confirmations/success'));
     } else {
-      throw redirect(308, resolve('/wallet/actions/pay/confirmations/failure'));
+      throw redirect(303, resolve('/wallet/actions/pay/confirmations/failure'));
     }
   }
 };

@@ -19,6 +19,7 @@
     "database:studio": "drizzle-kit studio"
   },
   "devDependencies": {
+    "@sveltejs/adapter-node": "^5.5.7",
     "concurrently": "^10.0.3"
   }
 }

@@ -1,6 +1,9 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
   import MultiPartForm from '$lib/components/elements/MultiPartForm/MultiPartForm.svelte';
   import { SvelteMap } from 'svelte/reactivity';
+
+  import arrowIcon from '$lib/assets/icons/arrow-right.svg';
 
   let fullData: {'receiver': string | null, 'amount': number | null, 'description': string | null} = $state({
     'receiver': null,
@@ -79,8 +82,13 @@
   <div>Esperando resposta do servidor...</div>
 {/snippet}
 
+<a href={resolve('/admin')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
+  <img src={arrowIcon} alt="cancelar" class="aspect-square h-full rotate-180 white-filter" />
+  cancelar
+</a>
+
 <div class="flex-1 flex justify-center items-center">
-  <div class="flex-1 max-w-1/2 grid">
+  <div class="flex-1 lg:max-w-1/2 grid">
     <MultiPartForm 
       returnLink='/wallet/actions/pay' 
       formAction='?/pay' 
