@@ -1,9 +1,10 @@
 <script lang="ts">
   import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
   import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
-  import copyIcon from '$lib/assets/icons/copy.svg';
   import payIcon from '$lib/assets/icons/pay.svg';
   import statementIcon from '$lib/assets/icons/statement.svg';
+
+  import CopyButton from '$lib/components/elements/CopyButton.svelte';
   import NavLink from '$lib/components/elements/NavLink.svelte';
   import NavLinkContainer from '$lib/components/elements/NavLinkContainer.svelte';
 
@@ -11,6 +12,8 @@
     {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
     {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/actions/checkstatement'}
   ] as const;
+
+  let idElement: HTMLElement | undefined = $state();
 </script>
 
 <svelte:head>
@@ -21,15 +24,10 @@
   <div class="flex w-full justify-between">
     <p class="text-xl">Saldo atual</p>
     <span class="flex items-center gap-2">
-      <span class="text-lg dark:text-gray-300">ID<span class="hidden ml-1.5 lg:inline">da carteira</span>: 123456</span>
-      <button type="button">
-        <img
-          src={copyIcon}
-          alt="Copiar ID"
-          class="h-4 w-4 hover:cursor-pointer dark:invert"
-          aria-label="Copiar ID"
-        />
-      </button>
+      <span class="text-lg">ID: <span bind:this={idElement}>123456</span></span>
+      <span class="h-5 aspect-square my-auto">
+        <CopyButton elementToCopy={idElement} tooltipPosition='bottom' tooltipText='Copiar ID' />
+      </span>
     </span>
   </div>
   <p class="lg:pl-2 text-2xl lg:text-3xl font-bold">BL$ 30</p>

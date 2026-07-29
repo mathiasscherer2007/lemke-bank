@@ -1,5 +1,5 @@
 import { resolve } from '$app/paths';
-import { fail, redirect, type Actions } from '@sveltejs/kit';
+import { redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
   pay: async ({ request }) => {
