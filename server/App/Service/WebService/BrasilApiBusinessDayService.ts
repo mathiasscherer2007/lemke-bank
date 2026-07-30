@@ -1,3 +1,4 @@
+import { ExternalBusinessDayServiceException } from "../../Exception/ExternalServiceException.js";
 import { BusinessDayService } from "./BusinessDayService.js";
 
 export class BrasilApiBusinessDayService implements BusinessDayService
@@ -28,7 +29,7 @@ export class BrasilApiBusinessDayService implements BusinessDayService
         );
 
         if(!response.ok){
-            
+            throw new ExternalBusinessDayServiceException();
         }
 
         const data = await response.json();
