@@ -47,7 +47,7 @@ export class DrizzleWalletRepository implements WalletRepository
         );
     }
 
-    public async findEntries(id: string, date: Date): Promise<LedgerEntry[]>
+    public async findEntries(id: string, month: number, year: number): Promise<LedgerEntry[]>
     {
         const rows = await db.select()
             .from(ledgerEntries)
@@ -57,8 +57,8 @@ export class DrizzleWalletRepository implements WalletRepository
                         eq(ledgerEntries.walletId, id), 
                         eq(ledgerEntries.counterpartyWalletId, id)
                     ), 
-                    eq(sql<number>`EXTRACT(MONTH FROM ${ledgerEntries.createdAt})`, date.getMonth()),
-                    eq(sql<number>`EXTRACT(YEAR FROM ${ledgerEntries.createdAt})`, date.getFullYear())
+                    eq(sql<number>`EXTRACT(MONTH FROM ${ledgerEntries.createdAt})`, month),
+                    eq(sql<number>`EXTRACT(YEAR FROM ${ledgerEntries.createdAt})`, year)
                 )
             )
 

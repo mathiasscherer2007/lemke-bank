@@ -7,6 +7,7 @@ const envSchema = z.object({
   DB_USER: z.string().nonempty().default('lemke-bank'),
   DB_NAME: z.string().nonempty().default('lemke-bank'),
   DB_PASSWORD: z.coerce.string().nonempty(),
+  API_HOST: z.coerce.string().default('Lemke-Bank-API'),
   API_PORT: z.coerce.number().default(3000),
   HOLIDAYS_API_URL: z.string().nonempty()
 });
