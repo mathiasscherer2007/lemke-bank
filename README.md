@@ -21,6 +21,7 @@ Planejamos entregar as features descritas no [MVP](https://github.com/mathiassch
 Para executar o projeto, siga os seguintes passos:
   1. Clone o repositório.
   2. Acesse a pasta lemke-bank no seu terminal.
-  3. Digite o comando `npm install`.
-  4. Para executar o cliente, entre na pasta `client`, e execute o comando `npm run dev`.
-  5. Para executar o servidor, entre na pasta `server`, e execute o comando `npm run dev`.
+  3. Digite o comando `npm i` para instalar as dependências e bibliotecas.
+  4. Configure um arquivo `.env` com base no `.env.example`.
+  5. Execute o comando `docker compose up -d` para executar o docker.
+  6. Execute o comando `npm run dev` e acesse o URL localhost:5173.
