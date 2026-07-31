@@ -48,3 +48,18 @@
 @utility stone-500-filter {
     filter: brightness(0) saturate(100%) invert(49%) sepia(12%) saturate(282%) hue-rotate(343deg) brightness(87%) contrast(88%);
 }
+
+.text-link {
+    font-weight: bold;
+    text-decoration: underline;
+    transition: opacity 0.1s linear;
+
+    color: var(--color-teal-500);
+    @media (prefers-color-scheme: dark) {
+        color: var(--color-teal-400);
+    }
+}
+
+.text-link:hover {
+    opacity: 85%;
+}
