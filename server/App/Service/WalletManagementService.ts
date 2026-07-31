@@ -1,3 +1,4 @@
+import { WalletNotFoundException } from "../Exception/DomainException.js";
 import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
 
 export class WalletManagementService
@@ -12,12 +13,15 @@ export class WalletManagementService
         return wallet;
     }
 
-    public async getStatement(id: string, date: Date)
+    public async getStatement(userId: string, month: number, year: number)
     {
-        const month = date.getMonth();
-        const year = date.getFullYear();
+        const wallet = await this.repository.findByUserId(userId);
+
+        if(!wallet){
+            throw new WalletNotFoundException(undefined, userId);
+        }
         
-        const entries = this.repository.findEntries(id, month, year);
+        const entries = await this.repository.findEntries(wallet.getId(), month, year);
         return entries;
     }
 }

@@ -5,7 +5,7 @@ import { Wallet } from "../../Model/Wallet.js"
 import { WalletStatus } from "../../Model/Enum/WalletStatus.js";
 import { WalletRepository } from "./WalletRepository.js";
 import { LedgerEntry } from "../../Model/LedgerEntry.js";
-import { ledgerEntries } from "../../Database/Schema/ledgerEntries.js";
+import { ledgerEntries } from "../../../Config/Database/Schema/ledgerEntries.js";
 import { LedgerEntryType } from "../../Model/Enum/LedgerEntryType.js";
 
 export class DrizzleWalletRepository implements WalletRepository

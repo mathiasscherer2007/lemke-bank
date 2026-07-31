@@ -1,13 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { WalletManagementService } from "../../Service/WalletManagementService.js";
 import { GetWalletParams } from "../../Dto/Request.js";
+import { Controller } from "./Controller.js";
 
-export class WalletController 
+export class WalletController extends Controller
 {
     constructor(
-        private readonly service: WalletManagementService,
-        private readonly API_ADDRESS: string
+        private readonly service: WalletManagementService
     ){
+        super();
         this.getWallet = this.getWallet.bind(this);
         this.getStatement = this.getStatement.bind(this);
     }
@@ -21,23 +22,34 @@ export class WalletController
 
     public async getStatement(request: FastifyRequest, reply: FastifyReply)
     {
-
+        const userId = request.user!.id;
+        const { month, year } = request.params
+        const entries = this.service.getStatement(userId, month, year);
+        // TODO: Implement zod schema to this route params
     }
 
-    private async generateStatementLinks(walletCreatedDate: Date)
+    public generateStatementLinks(walletCreatedDate: Date)
     {
         const currentDate = new Date();
-        let month = currentDate.getMonth();
-        let year = currentDate.getFullYear();
+        console.log(currentDate.getMonth())
 
-        const monthsAccountAge = (year - walletCreatedDate.getFullYear()) * 12 + (month - walletCreatedDate.getMonth());
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
+        console.log(walletCreatedDate.getFullYear());
+
         const links = [];
 
-        while(month >= walletCreatedDate.getMonth() || year >= walletCreatedDate.getFullYear()){
-            links.push(`${ this.API_ADDRESS }?month=${ month }&year=${ year }`);
+        while((month >= walletCreatedDate.getMonth() + 1 && year === walletCreatedDate.getFullYear()) || year > walletCreatedDate.getFullYear()){
+            links.push(`${ this.API_HOST }:${ this.API_PORT }?month=${ month }&year=${ year }`);
+            
+            if(month === 1){
+                year--;
+                month = 12;
+                continue;
+            }
+            month--
         }
 
-        // TODO: Base controller class with static API_HOST + API_PORT property
-        
+        return links;
     }
 }
