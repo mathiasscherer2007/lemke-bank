@@ -44,7 +44,7 @@ describe('WalletManagementService', () => {
             new LedgerEntry(wallet.getId(), 'counterparty-1', LedgerEntryType.CREDIT, 100, undefined, undefined, 'e1', new Date('2026-01-11')),
             new LedgerEntry(wallet.getId(), 'counterparty-2', LedgerEntryType.DEBIT, 50, undefined, undefined, 'e2', new Date('2026-01-12'))
         ];
-
+n
         // Register entries on the mock repository
         repo.addEntries(wallet.getId(), entriesMock);
 
