@@ -9,13 +9,16 @@ export const paymentByWalletIdDTO = z.object({
 export type PaymentByWalletIdDTO = z.infer<typeof paymentByWalletIdDTO>;
 
 
-export const getStatementParams = z.object({
-    // TODO: Statement route parameters zod validation schema
+export const statementQueryStringSchema = z.object({
+    month: z.coerce.number().nonnegative(),
+    year: z.coerce.number().nonnegative()
 })
 
+export type StatementQueryStringSchema = z.infer<typeof statementQueryStringSchema>
 
-export const getWalletParams = z.object({
+
+export const getWalletParamsSchema = z.object({
     id: z.coerce.string().nonempty().nonoptional()
 });
 
-export type GetWalletParams = z.infer<typeof getWalletParams>;
+export type GetWalletParamsSchema = z.infer<typeof getWalletParamsSchema>;

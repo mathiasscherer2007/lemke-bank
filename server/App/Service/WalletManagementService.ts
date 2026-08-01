@@ -22,6 +22,6 @@ export class WalletManagementService
         }
         
         const entries = await this.repository.findEntries(wallet.getId(), month, year);
-        return entries;
+        return { entries: entries, walletCreationDate: wallet.getCreationDate() };
     }
 }

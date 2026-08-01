@@ -1,7 +1,8 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { WalletManagementService } from "../../Service/WalletManagementService.js";
-import { GetWalletParams } from "../../Dto/Request.js";
+import { GetWalletParamsSchema, StatementQueryStringSchema } from "../../Dto/Request.js";
 import { Controller } from "./Controller.js";
+import { LedgerEntry } from "../../Model/LedgerEntry.js";
 
 export class WalletController extends Controller
 {
@@ -13,19 +14,34 @@ export class WalletController extends Controller
         this.getStatement = this.getStatement.bind(this);
     }
 
-    public async getWallet(request: FastifyRequest<{ Params: GetWalletParams }>, reply: FastifyReply)
+    public async getWallet(request: FastifyRequest<{ Params: GetWalletParamsSchema }>, reply: FastifyReply)
     {
         const id = request.params.id;
         const wallet = this.service.getWalletData(id);
         return reply.status(200).send(wallet);
     }
 
-    public async getStatement(request: FastifyRequest, reply: FastifyReply)
+    public async getStatement(request: FastifyRequest<{ Querystring: StatementQueryStringSchema }>, reply: FastifyReply)
     {
         const userId = request.user!.id;
-        const { month, year } = request.params
-        const entries = this.service.getStatement(userId, month, year);
-        // TODO: Implement zod schema to this route params
+        let { month, year } = request.query;
+
+        let entries: LedgerEntry[];
+        let walletCreationDate: Date;
+
+        if(month && year){
+            ({ entries, walletCreationDate } = await this.service.getStatement(userId, month, year));
+        } else {
+            const today = new Date();
+            ({entries, walletCreationDate } = await this.service.getStatement(userId, today.getMonth() + 1, today.getFullYear()));
+        }
+
+        const links = this.generateStatementLinks(walletCreationDate);
+        
+        return reply.status(200).send({
+            data: entries,
+            links: links
+        });
     }
 
     public generateStatementLinks(walletCreatedDate: Date)

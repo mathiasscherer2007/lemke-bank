@@ -37,6 +37,11 @@ export class Wallet
         return this.id!;
     }
 
+    public getCreationDate(): Date
+    {
+        return this.createdAt!;
+    }
+
     public toPrimitives(): Record<string, unknown>
     {
         return {
