@@ -44,7 +44,7 @@
     {#snippet content()}
       {#snippet person(name: string, networth: number, prefix: number)}
         <li
-          class="text-md flex items-center justify-between px-2 py-1 {prefix % 2 == 0 ? '' : 'bg-stone-800/35'}"
+          class="text-md flex items-center justify-between px-2 py-1 {prefix % 2 == 0 ? '' : 'bg-zinc-300/70 dark:bg-stone-800/35'}"
         >
           <span class="flex gap-1 font-semibold">
             {prefix}. <p>{name}</p>

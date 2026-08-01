@@ -1,12 +1,14 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
+  import type { RouteId } from '$app/types';
   import arrowRight from '$lib/assets/icons/arrow-right.svg';
 
-  let { link, icon, title }: { link: string; icon: string; title: string } = $props();
+  let { link, icon, title }: { link: RouteId; icon: string; title: string } = $props();
 </script>
 
 <a
-  href={link}
-  class="group flex h-full lg:h-auto rounded-xl border border-black p-2 lg:p-3 transition hover:border-teal-500 dark:border-white dark:bg-[#282828] dark:hover:border-teal-400"
+  href={resolve(link)}
+  class="group flex h-full lg:h-auto rounded-xl border border-zinc-900 p-2 lg:p-3 transition hover:border-teal-500 dark:border-white dark:bg-[#282828] dark:hover:border-teal-400"
 >
 	<span class="flex-1 flex flex-col lg:flex-row items-center gap-2 lg:gap-3 aspect-square lg:aspect-auto">
 		<img src={icon} alt={title} class="aspect-square w-12 lg:w-1/5 max-w-20 white-filter lg:p-3" />
