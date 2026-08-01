@@ -47,15 +47,16 @@ export class WalletController extends Controller
     public generateStatementLinks(walletCreatedDate: Date)
     {
         const currentDate = new Date();
-        console.log(currentDate.getMonth())
 
         let month = currentDate.getMonth() + 1;
         let year = currentDate.getFullYear();
-        console.log(walletCreatedDate.getFullYear());
+
+        const walletMonth = walletCreatedDate.getMonth() + 1;
+        const walletYear = walletCreatedDate.getFullYear();
 
         const links = [];
 
-        while((month >= walletCreatedDate.getMonth() + 1 && year === walletCreatedDate.getFullYear()) || year > walletCreatedDate.getFullYear()){
+        while((month >= walletMonth && year === walletYear) || year > walletYear){
             links.push(`${ this.API_HOST }:${ this.API_PORT }?month=${ month }&year=${ year }`);
             
             if(month === 1){
