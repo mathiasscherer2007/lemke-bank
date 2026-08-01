@@ -1,4 +1,3 @@
-import { UUID } from "node:crypto";
 import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from "../Exception/DomainException.js";
 import { LedgerEntryType } from "./Enum/LedgerEntryType.js";
 import { LedgerEntry } from "./LedgerEntry.js";

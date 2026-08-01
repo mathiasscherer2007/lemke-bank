@@ -1,12 +1,14 @@
-import { and, eq, or, sql } from "drizzle-orm"
+import { and, eq, inArray, or, sql } from "drizzle-orm"
 import { db } from "../../../Config/Database/connection.js"
 import { wallets } from "../../../Config/Database/Schema/wallets.js"
 import { Wallet } from "../../Model/Wallet.js"
 import { WalletStatus } from "../../Model/Enum/WalletStatus.js";
 import { WalletRepository } from "./WalletRepository.js";
 import { LedgerEntry } from "../../Model/LedgerEntry.js";
-import { ledgerEntries } from "../../../Config/Database/Schema/ledgerEntries.js";
 import { LedgerEntryType } from "../../Model/Enum/LedgerEntryType.js";
+import { transactions } from "../../../Config/Database/Schema/transactions.js";
+import { Transaction } from "../../Model/Transaction.js";
+import { ledgerEntries } from "../../../Config/Database/Schema/ledgerEntries.js";
 
 export class DrizzleWalletRepository implements WalletRepository
 {
@@ -47,34 +49,57 @@ export class DrizzleWalletRepository implements WalletRepository
         );
     }
 
-    public async findEntries(id: string, month: number, year: number): Promise<LedgerEntry[]>
+    public async findEntries(id: string, month: number, year: number): Promise<Transaction[]>
     {
-        const rows = await db.select()
-            .from(ledgerEntries)
+        const transactionsRows = await db
+            .select()
+            .from(transactions)
             .where(
                 and(
                     or(
-                        eq(ledgerEntries.walletId, id), 
-                        eq(ledgerEntries.counterpartyWalletId, id)
+                        eq(transactions.fromWalletId, id), 
+                        eq(transactions.toWalletId, id)
                     ), 
-                    eq(sql<number>`EXTRACT(MONTH FROM ${ledgerEntries.createdAt})`, month),
-                    eq(sql<number>`EXTRACT(YEAR FROM ${ledgerEntries.createdAt})`, year)
+                    eq(sql<number>`EXTRACT(MONTH FROM ${transactions.createdAt})`, month),
+                    eq(sql<number>`EXTRACT(YEAR FROM ${transactions.createdAt})`, year)
                 )
             )
 
-        const entries = [];
+        const transactionsIds = transactionsRows.map(row => row.id);
 
-        for (const row of rows){
-            entries.push(new LedgerEntry(
-                row.walletId,
-                row.counterpartyWalletId!,
-                row.entryType as LedgerEntryType,
-                row.amount,
-                row.balanceBefore!,
-                row.balanceAfter!,
-                row.id!,
+        const entriesRows = await db
+            .select()
+            .from(ledgerEntries)
+            .where(inArray(ledgerEntries.transactionId, transactionsIds));
+
+        const entriesByTransaction = new Map<string, LedgerEntry[]>();
+        for (const entry of entriesRows) {
+            if (!entriesByTransaction.has(entry.transactionId)) {
+                entriesByTransaction.set(entry.transactionId, []);
+            }
+
+            entriesByTransaction.get(entry.transactionId)!.push(new LedgerEntry(
+                entry.walletId,
+                entry.counterpartyWalletId!,
+                entry.entryType as LedgerEntryType,
+                entry.amount,
+                entry.balanceBefore!,
+                entry.balanceAfter!,
+                entry.id,
+                entry.createdAt
+            ));
+        }
+
+        const entries: Transaction[] = [];
+
+        for (const row of transactionsRows) {
+            entries.push(new Transaction(
+                entriesByTransaction.get(row.id) || [],
+                row.description,
+                row.chargeId,
+                row.id,
                 row.createdAt
-            ))
+            ));
         }
 
         return entries;

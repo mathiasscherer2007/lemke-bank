@@ -47,6 +47,10 @@ export class LedgerEntry
         return this.type;
     }
 
+    public getCounterpartyWalletId(): string {
+        return this.counterpartyWalletId;
+    }
+
     public setTransactionId(transactionId: string): void {
         this.transactionId = transactionId;
     }

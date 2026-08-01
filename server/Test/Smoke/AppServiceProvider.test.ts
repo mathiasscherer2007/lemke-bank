@@ -1,5 +1,5 @@
 import { strict as assert } from "node:assert";
-import { describe, test } from "node:test";
+import { beforeEach, describe, test } from "node:test";
 import { AppContainer } from "../../Config/Provider/AppContainer.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
 import { TransactionController } from "../../App/Http/Controller/TransactionController.js";
@@ -10,10 +10,14 @@ import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware
 import { AppServiceProvider } from "../../Config/Provider/AppServiceProvider.js";
 
 describe("AppServiceProvider", () => {
-    test("boot registers the required providers and resolves WalletController with injected WalletManagementService", async () => {
-        const container = new AppContainer();
-        AppServiceProvider.boot(container);
+    let container: AppContainer;
 
+    beforeEach(() => {
+        container = new AppContainer();
+        AppServiceProvider.boot(container);
+    })
+
+    test("boot registers the required providers and resolves WalletController with injected WalletManagementService", async () => {
         const walletController = container.get(WalletController);
         assert.ok(walletController instanceof WalletController);
 
@@ -25,9 +29,6 @@ describe("AppServiceProvider", () => {
     });
 
     test("boot registers the required providers and resolves TransactionController with injected TransactionProcessorService", async () => {
-        const container = new AppContainer();
-        AppServiceProvider.boot(container);
-
         const transactionController = container.get(TransactionController);
         assert.ok(transactionController instanceof TransactionController);
 
@@ -44,9 +45,6 @@ describe("AppServiceProvider", () => {
     });
 
     test("boot reuses singleton services across dependent controller resolutions", async () => {
-        const container = new AppContainer();
-        AppServiceProvider.boot(container);
-
         const firstController = container.get<WalletController>(WalletController);
         const secondController = container.get<WalletController>(WalletController);
 
@@ -55,9 +53,6 @@ describe("AppServiceProvider", () => {
     });
 
     test("boot resolves AuthMockMiddleware successfully", async () => {
-        const container = new AppContainer();
-        AppServiceProvider.boot(container);
-
         const middleware = container.get(AuthMockMiddleware);
         assert.ok(middleware instanceof AuthMockMiddleware);
     });
