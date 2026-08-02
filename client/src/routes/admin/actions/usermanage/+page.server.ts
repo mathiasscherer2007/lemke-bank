@@ -39,11 +39,11 @@ export const load: PageServerLoad = async () => {
         balance: '30'
       },
       {
-        username: 'Lassem',
-        email: 'csd@asd.com',
-        walletid: '123455134678',
+        username: 'Lassemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm',
+        email: 'csaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad@asd.com',
+        walletid: '123455134678888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888',
         active: false,
-        balance: '30'
+        balance: '3000000000000000000000000000000000000000000000000000000000'
       },
       {
         username: 'Paulo',
