@@ -1,78 +1,96 @@
 <script lang="ts">
-    import CopyButton from "$lib/components/elements/CopyButton.svelte";
-    import type { PageProps } from "./$types";
+  import type { PageProps } from './$types';
+  import trashIcon from '$lib/assets/icons/trash.svg';
+  import editIcon from '$lib/assets/icons/user-pen.svg';
+  import type { Attachment } from 'svelte/attachments';
+  import tippy from 'tippy.js';
 
-	let { data }: PageProps = $props();
+  let { data }: PageProps = $props();
+
+  function tooltip(content: string): Attachment {
+	return (element) => {
+	  const tooltip = tippy(element, { content, animation:'fade' });
+	  return tooltip.destroy;
+	}
+  }
 </script>
 
 <svelte:head>
-	<title>Usuários | LemkeBank</title>
+  <title>Usuários | LemkeBank</title>
 </svelte:head>
 
-<div class="flex justify-between items-center mb-3">
-	<h1 class="text-2xl lg:text-3xl font-bold">Lista de Usuários</h1>
-	<button type="button" class="bg-teal-500 hover:bg-teal-500/90 p-2 rounded font-semibold hover:cursor-pointer transition">+ Criar Usuário</button>
+<div class="mb-3 flex items-center justify-between">
+  <h1 class="text-2xl font-bold lg:text-3xl">Lista de Usuários</h1>
+  <button
+    type="button"
+    class="rounded bg-teal-500 p-2 font-semibold transition hover:cursor-pointer hover:bg-teal-500/90"
+    >+ Criar Usuário</button
+  >
 </div>
 
 {#snippet userAdminActions()}
-	<button type="button" class="text-blue-500 border rounded py-1 px-2 bg-blue-500/10">Editar</button>
-	<button type="button" class="text-yellow-500 border rounded py-1 px-2 bg-yellow-500/10">Mudar Status</button>
+  <button {@attach tooltip('Editar')} class="white-filter w-10 p-2 border rounded hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition">
+	<img src={editIcon} alt="editar usuário">
+  </button>
+  <button {@attach tooltip('Deletar')} class="white-filter w-10 p-2 border rounded hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition">
+	<img src={trashIcon} alt="deletar usuário">
+  </button>
 {/snippet}
 <table class="flex-1">
-	<thead>
-		<tr>
-			<th>Nome de Usuário</th>
-			<th>Email</th>
-			<th>WalletID</th>
-			<th>Status da Conta</th>
-			<th>Saldo (BL$)</th>
-			<th>Ações</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each data.users as {username, email, walletid, active, balance} (walletid)}
-			<tr>
-				<td>{username}</td>
-				<td>{email}</td>
-				<td>{walletid}</td>
-				<td class="p-1">
-					<div class="active-{active} py-1 px-2 rounded text-center w-fit justify-self-center">
-						{active ? 'Ativa' : 'Inativa'}
-					</div>
-				</td>
-				<td>{balance}</td>
-				<td>
-					<div class="flex h-full items-center justify-center gap-2">
-						{@render userAdminActions()}
-					</div>
-				</td>
-			</tr>
-		{/each}
-	</tbody>
+  <thead>
+    <tr>
+      <th>Nome de Usuário</th>
+      <th>Email</th>
+      <th>WalletID</th>
+      <th>Status da Conta</th>
+      <th>Saldo (BL$)</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {#each data.users as { username, email, walletid, active, balance } (walletid)}
+      <tr>
+        <td>{username}</td>
+        <td>{email}</td>
+        <td>{walletid}</td>
+        <td class="p-1">
+          <div class="active-{active} w-fit justify-self-center rounded px-2 py-1 text-center">
+            {active ? 'Ativa' : 'Inativa'}
+          </div>
+        </td>
+        <td>{balance}</td>
+        <td>
+          <div class="flex h-full items-center justify-center gap-2">
+            {@render userAdminActions()}
+          </div>
+        </td>
+      </tr>
+    {/each}
+  </tbody>
 </table>
 
 <style lang="postcss">
-	.active-true {
-		color: var(--color-green-500);
-		background-color: color-mix(in oklab, var(--color-green-500) 10%, transparent);
-		border: 1px solid var(--color-green-500);
+  .active-true {
+    color: var(--color-green-500);
+    background-color: color-mix(in oklab, var(--color-green-500) 10%, transparent);
+    border: 1px solid var(--color-green-500);
 
-		@variant dark {
-			color: var(--color-green-400);
-			background-color: color-mix(in oklab, var(--color-green-400) 10%, transparent);
-			border: 1px solid var(--color-green-400);
-		}
-	}
+    @variant dark {
+      color: var(--color-green-400);
+      background-color: color-mix(in oklab, var(--color-green-400) 10%, transparent);
+      border: 1px solid var(--color-green-400);
+    }
+  }
 
-	.active-false {
-		color: var(--color-red-500);
-		background-color: color-mix(in oklab, var(--color-red-500) 10%, transparent);
-		border: 1px solid var(--color-red-500);
+  .active-false {
+    color: var(--color-red-500);
+    background-color: color-mix(in oklab, var(--color-red-500) 10%, transparent);
+    border: 1px solid var(--color-red-500);
 
-		@variant dark {
-			color: var(--color-red-400);
-			background-color: color-mix(in oklab, var(--color-red-400) 10%, transparent);
-			border: 1px solid var(--color-red-400);
-		}
-	}
+    @variant dark {
+      color: var(--color-red-400);
+      background-color: color-mix(in oklab, var(--color-red-400) 10%, transparent);
+      border: 1px solid var(--color-red-400);
+    }
+  }
 </style>
