@@ -23,7 +23,7 @@
       await navigator.clipboard.writeText(elementToCopy.innerText);
     };
 
-    setTimeout(() => showCheck = false, 2000);
+    setTimeout(() => showCheck = false, 1000);
   }
 
   const copiedTooltip: Attachment = (element) => {

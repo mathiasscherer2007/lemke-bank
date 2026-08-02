@@ -39,15 +39,15 @@
 		<div class="w-full">
 			<canvas {@attach generateQrCode} class="qrcode rounded-lg"></canvas>
 		</div>
-		<p class="text-lg lg:text-md italic text-stone-500 dark:text-stone-400">ou, copie o link</p>
+		<p class="text-lg lg:text-md italic text-neutral-500 dark:text-neutral-400">ou, copie o link</p>
 		<div class="flex gap-3 w-full max-w-80">
-			<textarea bind:this={linkElement} name="link" readonly rows="1" spellcheck="false" class="bg-stone-400/10 flex-1 text-lg border border-stone-500 rounded p-1 resize-none overflow-y-hidden overflow-x-scroll scrollbar-none text-nowrap">{link}</textarea>
+			<textarea bind:this={linkElement} name="link" readonly rows="1" spellcheck="false" class="bg-neutral-400/10 flex-1 text-lg border border-neutral-500 rounded p-1 resize-none overflow-y-hidden overflow-x-scroll scrollbar-none text-nowrap">{link}</textarea>
 			<span class="h-6 aspect-square my-auto">
 				<CopyButton elementToCopy={linkElement} tooltipPosition='right' />
 			</span>
 		</div>
 	</span>
-	<div class="bg-stone-400 my-5 lg:my-2 h-0.5 lg:h-auto lg:w-0.5 rounded lg:mx-5"></div>
+	<div class="bg-neutral-400 my-5 lg:my-2 h-0.5 lg:h-auto lg:w-0.5 rounded lg:mx-5"></div>
 	<span class="lg:p-3 flex flex-col lg:justify-evenly">
 		<span class="flex flex-col">
 			<p class="font-semibold text-xl text-center">Tempo de vida estimado do link</p>

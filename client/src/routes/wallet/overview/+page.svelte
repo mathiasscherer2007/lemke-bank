@@ -37,21 +37,21 @@
     <NavLink title={title} icon={icon} link={link} />
   {/each}
 </NavLinkContainer>
-<hr class="my-4 lg:my-6 border-stone-500" />
+<hr class="my-4 lg:my-6 border-neutral-500" />
 <div class="flex flex-col">
   <p class="mb-3 text-xl lg:text-2xl">Transações recentes</p>
   <ul class="flex-1 lg:px-2">
-    <li class="flex justify-between border-y border-stone-500 py-2 text-lg">
+    <li class="flex justify-between border-y border-neutral-500 py-2 text-lg">
       <span class="flex items-center gap-2">
         <figure class="green-filter h-7 w-7 p-1">
           <img src={arrowinIcon} alt="Entrada" />
         </figure>
         <p>Ana Lemke</p>
-        <p class="text-stone-500 dark:text-stone-400">| 25/03/26</p>
+        <p class="text-neutral-500 dark:text-neutral-400">| 25/03/26</p>
       </span>
       <p class="text-green-500 dark:text-green-400">BL$ 10</p>
     </li>
-    <li class="-mt-px flex justify-between border-y border-stone-500 py-2 text-lg">
+    <li class="-mt-px flex justify-between border-y border-neutral-500 py-2 text-lg">
       <span class="flex items-center gap-2">
         <figure
           class="h-7 w-7 p-1 filter-[brightness(0)_saturate(100%)_invert(71%)_sepia(71%)_saturate(4987%)_hue-rotate(320deg)_brightness(101%)_contrast(106%)]"
@@ -59,7 +59,7 @@
           <img src={arrowoutIcon} alt="Saída" />
         </figure>
         <p>Túlio Baségio</p>
-        <p class="text-stone-500 dark:text-stone-400">| 24/03/26</p>
+        <p class="text-neutral-500 dark:text-neutral-400">| 24/03/26</p>
       </span>
       <p class="text-red-500 dark:text-red-400">-BL$ 6</p>
     </li>

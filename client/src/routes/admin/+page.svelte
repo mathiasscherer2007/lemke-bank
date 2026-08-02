@@ -30,7 +30,7 @@
   {/each}
 </NavLinkContainer>
 
-<hr class="border-stone-500 my-6 lg:my-10 mx-2 lg:mx-0" />
+<hr class="border-neutral-500 my-6 lg:my-10 mx-2 lg:mx-0" />
 
 <h2 class="mb-3 text-xl font-bold pl-2 lg:text-2xl">Visão Geral da Dashboard</h2>
 <DashboardGrid columns={4}>
@@ -44,7 +44,7 @@
     {#snippet content()}
       {#snippet person(name: string, networth: number, prefix: number)}
         <li
-          class="text-md flex items-center justify-between px-2 py-1 {prefix % 2 == 0 ? '' : 'bg-zinc-300/70 dark:bg-stone-800/35'}"
+          class="text-md flex items-center justify-between px-2 py-1 {prefix % 2 == 0 ? '' : 'bg-zinc-300/70 dark:bg-black/10'}"
         >
           <span class="flex gap-1 font-semibold">
             {prefix}. <p>{name}</p>

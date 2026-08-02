@@ -34,21 +34,21 @@
   amount: string,
   description?: string | Array<string>
 )}
-  <div class="flex gap-2 bg-[#dddddd50] px-2 py-3 dark:bg-stone-700">
+  <div class="flex gap-2 bg-[#dddddd50] px-2 py-3 dark:bg-neutral-700">
     <div class="flex flex-col justify-evenly gap-2">
       <figure class="h-7 w-7 p-1 {type == 'credit' ? 'green-filter' : 'red-filter'}">
         <img src={type == 'credit' ? arrowinIcon : arrowoutIcon} alt={type} />
       </figure>
-      <div class="mx-auto min-w-0.5 flex-1 rounded-xl bg-stone-400"></div>
+      <div class="mx-auto min-w-0.5 flex-1 rounded-xl bg-neutral-400"></div>
     </div>
     <div class="ml-1 flex flex-col gap-1">
       <span class="m-0 text-xl">{title.toUpperCase()}</span>
       {#if typeof description === 'string'}
-        <span class="text-md text-stone-600 italic dark:text-stone-300">{description ?? ''}</span>
+        <span class="text-md text-neutral-600 italic dark:text-neutral-300">{description ?? ''}</span>
       {:else}
         <details class="transition">
-          <summary class="text-md text-stone-600 italic dark:text-stone-300">{description?.length} recebedores</summary>
-		  <div class="grid grid-rows-5 auto-cols-fr grid-flow-col gap-1 pl-2 ml-1.25 py-1.25 border-l-2 border-stone-400 bg-[#00000020] rounded-r-lg">
+          <summary class="text-md text-neutral-600 italic dark:text-neutral-300">{description?.length} recebedores</summary>
+		  <div class="grid grid-rows-5 auto-cols-fr grid-flow-col gap-1 pl-2 ml-1.25 py-1.25 border-l-2 border-neutral-400 bg-[#00000020] rounded-r-lg">
           {#each description as name, index (index)}
             <p class="ml-3">{name}</p>
           {/each}
@@ -62,7 +62,7 @@
 
 <div>
   <ol in:slide class="mt-3 flex flex-col gap-1">
-    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-stone-800">25/03</li>
+    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">25/03</li>
     {@render transfer(
       'debit', 
       'atividade de números binários', 
@@ -74,7 +74,7 @@
         'Michael Jackson'
       ]
     )}
-    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-stone-800">24/03</li>
+    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">24/03</li>
     {@render transfer('credit', '2 questões da prova', '15', 'Mathias Scherer')}
   </ol>
 </div>
