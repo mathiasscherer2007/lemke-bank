@@ -1,5 +1,9 @@
 {
     "$schema": "https://json.schemastore.org/tsconfig",
+    "include": [
+        "**/*.ts",
+        "Config/Types/*.d.ts"
+    ],
     "compilerOptions": {
         "lib": ["ES2023"],
         "module": "nodenext",
@@ -8,6 +12,7 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "moduleResolution": "node16",
-        "types": ["node"]
+        "outDir": "./Build",
+        "rootDirs": ["./App", "./Config", "./Test"]
     }
 }
