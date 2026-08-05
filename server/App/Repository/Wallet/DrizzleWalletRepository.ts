@@ -4,11 +4,6 @@ import { wallets } from "../../../Config/Database/Schema/wallets.js"
 import { Wallet } from "../../Model/Wallet.js"
 import { WalletStatus } from "../../Model/Enum/WalletStatus.js";
 import { WalletRepository } from "./WalletRepository.js";
-import { LedgerEntry } from "../../Model/LedgerEntry.js";
-import { LedgerEntryType } from "../../Model/Enum/LedgerEntryType.js";
-import { transactions } from "../../../Config/Database/Schema/transactions.js";
-import { Transaction } from "../../Model/Transaction.js";
-import { ledgerEntries } from "../../../Config/Database/Schema/ledgerEntries.js";
 
 export class DrizzleWalletRepository implements WalletRepository
 {
@@ -47,61 +42,5 @@ export class DrizzleWalletRepository implements WalletRepository
             row.createdAt, 
             row.updatedAt
         );
-    }
-
-    public async findEntries(id: string, month: number, year: number): Promise<Transaction[]>
-    {
-        const transactionsRows = await db
-            .select()
-            .from(transactions)
-            .where(
-                and(
-                    or(
-                        eq(transactions.fromWalletId, id), 
-                        eq(transactions.toWalletId, id)
-                    ), 
-                    eq(sql<number>`EXTRACT(MONTH FROM ${transactions.createdAt})`, month),
-                    eq(sql<number>`EXTRACT(YEAR FROM ${transactions.createdAt})`, year)
-                )
-            )
-
-        const transactionsIds = transactionsRows.map(row => row.id);
-
-        const entriesRows = await db
-            .select()
-            .from(ledgerEntries)
-            .where(inArray(ledgerEntries.transactionId, transactionsIds));
-
-        const entriesByTransaction = new Map<string, LedgerEntry[]>();
-        for (const entry of entriesRows) {
-            if (!entriesByTransaction.has(entry.transactionId)) {
-                entriesByTransaction.set(entry.transactionId, []);
-            }
-
-            entriesByTransaction.get(entry.transactionId)!.push(new LedgerEntry(
-                entry.walletId,
-                entry.counterpartyWalletId!,
-                entry.entryType as LedgerEntryType,
-                entry.amount,
-                entry.balanceBefore!,
-                entry.balanceAfter!,
-                entry.id,
-                entry.createdAt
-            ));
-        }
-
-        const entries: Transaction[] = [];
-
-        for (const row of transactionsRows) {
-            entries.push(new Transaction(
-                entriesByTransaction.get(row.id) || [],
-                row.description,
-                row.chargeId,
-                row.id,
-                row.createdAt
-            ));
-        }
-
-        return entries;
     }
 }

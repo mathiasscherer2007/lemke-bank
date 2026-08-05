@@ -21,7 +21,9 @@ export class WalletManagementService
             throw new WalletNotFoundException(undefined, userId);
         }
         
-        const entries = await this.repository.findEntries(wallet.getId(), month, year);
+        const transactions = await this.repository.findEntries(wallet.getId(), month, year);
+        const users = 
+
         return { entries: entries, walletCreationDate: wallet.getCreationDate() };
     }
 }
