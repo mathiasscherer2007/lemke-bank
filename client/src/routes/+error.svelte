@@ -20,7 +20,7 @@
           Ocorreu um erro no servidor. Tente novamente mais tarde.
         {/if}
       </p>
-      <a href={resolve('/')} class="mt-4 text-teal-500 dark:text-teal-400 font-semibold underline">Voltar para a página inicial</a>
+      <a href={resolve('/')} class="text-link mt-5">Voltar para a página inicial</a>
     </div>
   </main>
 </div>

@@ -10,7 +10,9 @@
 	let { data }: PageProps = $props();
 	let totalSeconds = $state(0);
 
+	// svelte-ignore state_referenced_locally
 	if (data.timeRemaining) {
+		// svelte-ignore state_referenced_locally
 		totalSeconds = Math.max(0, Math.floor((Number(data.timeRemaining) - Date.now()) / 1000))
 	}
 	setInterval(() => {
@@ -34,7 +36,7 @@
 	let linkElement: HTMLValueElement | undefined = $state();
 </script>
 
-<div class="bg-zinc-200/70 lg:dark:bg-black/10 rounded-lg lg:w-1/2 px-3 lg:p-5 self-center my-auto grid grid-rows-[1fr_auto_auto] lg:grid-rows-none lg:grid-cols-[1fr_auto_1fr]">
+<div class="lg:bg-zinc-200/70 lg:dark:bg-black/10 rounded-lg lg:w-1/2 px-3 lg:p-5 self-center my-auto grid grid-rows-[1fr_auto_auto] lg:grid-rows-none lg:grid-cols-[1fr_auto_1fr]">
 	<span class="flex flex-col gap-3 items-center justify-center">
 		<div class="w-full">
 			<canvas {@attach generateQrCode} class="qrcode rounded-lg"></canvas>
