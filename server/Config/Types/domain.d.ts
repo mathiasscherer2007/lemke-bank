@@ -4,6 +4,7 @@ export type StatementEntry = {
     amount: number;
     type: LedgerEntryType;
     balanceBefore: number;
+    balanceAfter: number;
     createdAt: Date;
     relatedUser: {
         id: string;

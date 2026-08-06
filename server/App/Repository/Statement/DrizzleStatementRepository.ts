@@ -26,6 +26,7 @@ export class DrizzleStatementRepository implements StatementRepository
                             'amount', ${ledgerEntries.amount},
                             'type', ${ledgerEntries.entryType},
                             'balanceBefore', ${ledgerEntries.balanceBefore},
+                            'balanceAfter', ${ledgerEntries.balanceAfter},
                             'createdAt', ${ledgerEntries.createdAt},
                             'relatedUser', JSON_OBJECT(
                                 'id', ${users.id},

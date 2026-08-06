@@ -1,7 +1,7 @@
 import { DateStatementGroup } from "../Types/domain.js";
 import { StatementTransaction } from "./StatementTransaction.js";
 
-class Statement
+export class Statement
 {
     private readonly walletId: string;
     private readonly transactions: StatementTransaction[];
@@ -27,41 +27,6 @@ class Statement
         return firstEntry!.balanceBefore;
     }
 
-    public getDateClosingBalance(date: Date): number
-    {
-        const dateKey = date.toISOString().split('T')[0];
-        const transactionsOnDate = this.groupTransactionsByDate().get(dateKey);
-
-        if(!transactionsOnDate || transactionsOnDate.length === 0)
-        {
-            return this.getOpeningBalance();
-        }
-
-        const lastTransaction = transactionsOnDate[transactionsOnDate.length - 1];
-        const lastEntry = lastTransaction.getEntries()[lastTransaction.getEntries().length - 1];
-
-        return lastEntry.balanceBefore + lastEntry.amount;
-    }
-
-    private groupTransactionsByDate(transactions: StatementTransaction[]): Map<string, StatementTransaction[]>
-    {
-        const groupedTransactions = new Map<string, StatementTransaction[]>();
-
-        for(const transaction of transactions)
-        {
-            const dateKey = transaction.getEntries()[0].createdAt.toLocaleDateString("pt-br");
-
-            if(!groupedTransactions.has(dateKey))
-            {
-                groupedTransactions.set(dateKey, []);
-            }
-
-            groupedTransactions.get(dateKey)!.push(transaction);
-        }
-
-        return groupedTransactions;
-    }
-
     public groupByDate(transactions: StatementTransaction[]): DateStatementGroup[]
     {
         const groupedTransactions = new Map<string, DateStatementGroup>();
@@ -72,18 +37,19 @@ class Statement
 
             if(!groupedTransactions.has(dateKey))
             {
-                groupedTransactions.set(dateKey, { date: dateKey, closingBalance: 0, transactions: [] });
-    //         
+                groupedTransactions.set(dateKey, { date: dateKey, closingBalance: 0, transactions: [] });  
             }
 
-            groupedTransactions.get(dateKey)!.transactions.push(transaction);
+            const group = groupedTransactions.get(dateKey)!;
+            group.transactions.push(transaction);
+            
+            // Update closing balance as we add transactions
+            const lastEntry = transaction.getEntries().at(-1);
+            group.closingBalance = lastEntry!.balanceAfter
         }
 
-        return groupedTransactions;
-
-
-
-
-        return this.groupTransactionsByDate(this.transactions);
+        return Array.from(groupedTransactions.values());
     }
+
+
 }

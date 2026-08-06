@@ -12,18 +12,4 @@ export class WalletManagementService
         const wallet = this.repository.findById(id);
         return wallet;
     }
-
-    public async getStatement(userId: string, month: number, year: number)
-    {
-        const wallet = await this.repository.findByUserId(userId);
-
-        if(!wallet){
-            throw new WalletNotFoundException(undefined, userId);
-        }
-        
-        const transactions = await this.repository.findEntries(wallet.getId(), month, year);
-        const users = 
-
-        return { entries: entries, walletCreationDate: wallet.getCreationDate() };
-    }
 }
