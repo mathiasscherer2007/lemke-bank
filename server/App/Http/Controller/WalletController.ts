@@ -1,9 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { WalletManagementService } from "../../Service/WalletManagementService.js";
-import { GetWalletParamsSchema, StatementQueryStringSchema } from "../../Dto/Request.js";
+import { GetWalletParamsSchema } from "../../Dto/Request.js";
 import { Controller } from "./Controller.js";
-import { StatementGenerationService } from "../../Service/StatementGenerationService.js";
-import { DateStatementGroup } from "../../Types/domain.js";
 
 export class WalletController extends Controller
 {
