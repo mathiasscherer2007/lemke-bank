@@ -21,7 +21,7 @@ describe("AppServiceProvider", () => {
         const walletController = container.get(WalletController);
         assert.ok(walletController instanceof WalletController);
 
-        const walletService = walletController["service"];
+        const walletService = walletController["walletManagementService"];
         assert.ok(walletService instanceof WalletManagementService);
 
         const walletRepository = walletService["repository"];
@@ -49,7 +49,7 @@ describe("AppServiceProvider", () => {
         const secondController = container.get<WalletController>(WalletController);
 
         assert.notStrictEqual(firstController, secondController);
-        assert.strictEqual(firstController["service"], secondController["service"]);
+        assert.strictEqual(firstController["walletManagementService"], secondController["walletManagementService"]);
     });
 
     test("boot resolves AuthMockMiddleware successfully", async () => {

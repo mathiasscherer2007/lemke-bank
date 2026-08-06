@@ -21,23 +21,23 @@ export class Statement
             return 0;
         }
 
-        const firstTransaction = this.transactions[0];
-        const firstEntry = firstTransaction.getEntries().at(-1);
+        const firstTransaction = this.transactions.at(-1);
+        const firstEntry = firstTransaction!.getEntries().at(-1);
 
         return firstEntry!.balanceBefore;
     }
 
-    public groupByDate(transactions: StatementTransaction[]): DateStatementGroup[]
+    public groupByDate(): DateStatementGroup[]
     {
         const groupedTransactions = new Map<string, DateStatementGroup>();
 
-        for(const transaction of transactions)
+        for(const transaction of this.transactions)
         {
             const dateKey = transaction.getEntries()[0].createdAt.toLocaleDateString("pt-br");
 
             if(!groupedTransactions.has(dateKey))
             {
-                groupedTransactions.set(dateKey, { date: dateKey, closingBalance: 0, transactions: [] });  
+                groupedTransactions.set(dateKey, { date: dateKey, closingBalance: 0, transactions: [] });
             }
 
             const group = groupedTransactions.get(dateKey)!;
@@ -45,7 +45,7 @@ export class Statement
             
             // Update closing balance as we add transactions
             const lastEntry = transaction.getEntries().at(-1);
-            group.closingBalance = lastEntry!.balanceAfter
+            group.closingBalance = lastEntry!.balanceAfter;
         }
 
         return Array.from(groupedTransactions.values());

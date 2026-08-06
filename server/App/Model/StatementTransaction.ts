@@ -26,4 +26,15 @@ export class StatementTransaction
     {
         return this.entries;
     }
+
+    public toPrimitives(): Record<string, unknown>
+    {
+        return {
+            transactionId: this.transactionId,
+            totalAmount: this.totalAmount,
+            description: this.description,
+            entries: this.entries,
+            createdAt: this.createdAt
+        };
+    }
 }

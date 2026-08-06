@@ -21,15 +21,15 @@ export class StatementGenerationService
         const wallet = await this.walletRepository.findById(userId);
         if(!wallet) throw new WalletNotFoundException(undefined, userId);
 
-        const startDate = new Date('${year}-${month}-01');
-        const endDate = new Date('${year}-${month + 1}-01');
+        const startDate = new Date(`${year}-${month}-01`);
+        const endDate = new Date(`${year}-${month + 1}-01`);
 
         const entries = await this.statementRepository.findTransactions(wallet.getId(), startDate, endDate);
         const statement = new Statement(wallet.getId(), entries);
         
         return { 
             openingBalance: statement.getOpeningBalance(), 
-            entries: statement.groupByDate(entries),
+            entries: statement.groupByDate(),
             walletCreationDate: wallet.getCreationDate()
         };
     }

@@ -1,8 +1,6 @@
 import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from "../Exception/DomainException.js";
 import { LedgerEntryType } from "./Enum/LedgerEntryType.js";
 import { LedgerEntry } from "./LedgerEntry.js";
-import { User } from "./User.js";
-import { Wallet } from "./Wallet.js";
 
 export class Transaction
 {

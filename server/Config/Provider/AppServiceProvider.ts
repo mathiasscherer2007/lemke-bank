@@ -9,10 +9,10 @@ import { WalletManagementService } from "../../App/Service/WalletManagementServi
 import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BrasilApiBusinessDayService.js";
 import { BusinessDayService } from "../../App/Service/WebService/BusinessDayService.js";
 import { env } from "../Environment/env.js";
-import { StatementController } from "../Http/Controller/StatementController.js";
-import { DrizzleStatementRepository } from "../Repository/Statement/DrizzleStatementRepository.js";
-import { StatementRepository } from "../Repository/Statement/StatementRepository.js";
-import { StatementGenerationService } from "../Service/StatementGenerationService.js";
+import { StatementController } from "../../App/Http/Controller/StatementController.js";
+import { DrizzleStatementRepository } from "../../App/Repository/Statement/DrizzleStatementRepository.js";
+import { StatementRepository } from "../../App/Repository/Statement/StatementRepository.js";
+import { StatementGenerationService } from "../../App/Service/StatementGenerationService.js";
 import { WalletRepository } from "./../../App/Repository/Wallet/WalletRepository.js";
 import { AppContainer } from "./AppContainer.js";
 

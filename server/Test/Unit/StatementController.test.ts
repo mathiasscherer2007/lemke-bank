@@ -1,11 +1,11 @@
 import { strict as assert } from 'node:assert';
 import { describe, test, beforeEach, afterEach } from 'node:test';
-import { WalletController } from '../../App/Http/Controller/WalletController.js';
-import { WalletManagementService } from '../../App/Service/WalletManagementService.js';
+import { StatementController } from '../../App/Http/Controller/StatementController.js';
+import { StatementGenerationService } from '../../App/Service/StatementGenerationService.js';
 
-describe('WalletController generateStatementLinks', () => {
-    let service!: WalletManagementService;
-    let controller!: WalletController;
+describe('StatementController generateStatementLinks', () => {
+    let service!: StatementGenerationService;
+    let controller!: StatementController;
     let RealDate!: DateConstructor;
     let fixedDate!: Date;
 
@@ -27,8 +27,8 @@ describe('WalletController generateStatementLinks', () => {
         } as unknown as DateConstructor;
 
         // Mocked service and controller -> Just to test generateStatementLinks method
-        service = {} as WalletManagementService;
-        controller = new WalletController(service);
+        service = {} as StatementGenerationService;
+        controller = new StatementController(service);
 
         // override API host/port parsed at module load time
         // @ts-ignore
