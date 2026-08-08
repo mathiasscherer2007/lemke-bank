@@ -1,12 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { TransactionProcessorService } from "../../Service/TransactionProcessorService.js";
 import { PaymentByWalletIdDTO } from "../../Dto/Request.js";
+import { Controller } from "./Controller.js";
 
-export class TransactionController 
+export class TransactionController extends Controller
 {
     constructor(
         private readonly transactionProcessorService: TransactionProcessorService
     ){
+        super();
         this.transactionByWalletId = this.transactionByWalletId.bind(this);
     }
 

@@ -1,4 +1,3 @@
-import { UUID } from "node:crypto";
 import { MissingTransactionLedgerEntryTypeException, UnbalancedTransactionException } from "../Exception/DomainException.js";
 import { LedgerEntryType } from "./Enum/LedgerEntryType.js";
 import { LedgerEntry } from "./LedgerEntry.js";
@@ -7,8 +6,6 @@ export class Transaction
 {
     private id?: string;
     private readonly amount?: number;
-    private readonly fromWalletId?: string;
-    private readonly toWalletId?: string;
     private readonly chargeId?: string | null;
     private readonly description?: string | null;
     private readonly createdAt?: Date;
@@ -25,12 +22,10 @@ export class Transaction
         this.description = description;
         this.chargeId = chargeId;
         
-        const { debitEntry, creditEntry, total } = this.validate();
+        const total = this.validate();
 
         this.id = id ?? crypto.randomUUID();
         this.amount = total;
-        this.fromWalletId = debitEntry.getWalletId();
-        this.toWalletId = creditEntry.getWalletId();
         this.createdAt = createdAt;
 
         for(const entry of this.entries){
@@ -38,7 +33,7 @@ export class Transaction
         }
     }
 
-    private validate(): { debitEntry: LedgerEntry, creditEntry: LedgerEntry, total: number } 
+    private validate(): number
     {
         const creditEntries = this.entries.filter(entry => entry.getType() === LedgerEntryType.CREDIT);
         const debitEntries = this.entries.filter(entry => entry.getType() === LedgerEntryType.DEBIT);
@@ -56,7 +51,7 @@ export class Transaction
             throw new UnbalancedTransactionException();
         }
 
-        return { debitEntry: debitEntries[0], creditEntry: creditEntries[0], total: totalCredit };
+        return totalCredit;
     }
 
     public getEntries(): LedgerEntry[]

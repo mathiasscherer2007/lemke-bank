@@ -9,7 +9,11 @@ import { WalletManagementService } from "../../App/Service/WalletManagementServi
 import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BusinessDay/BrasilApiBusinessDayService.js";
 import { BusinessDayService } from "../../App/Service/WebService/BusinessDay/BusinessDayService.js";
 import { env } from "../Environment/env.js";
-import { WalletRepository } from "../../App/Repository/Wallet/WalletRepository.js";
+import { StatementController } from "../../App/Http/Controller/StatementController.js";
+import { DrizzleStatementRepository } from "../../App/Repository/Statement/DrizzleStatementRepository.js";
+import { StatementRepository } from "../../App/Repository/Statement/StatementRepository.js";
+import { StatementGenerationService } from "../../App/Service/StatementGenerationService.js";
+import { WalletRepository } from "./../../App/Repository/Wallet/WalletRepository.js";
 import { AppContainer } from "./AppContainer.js";
 
 export class AppServiceProvider
@@ -22,7 +26,16 @@ export class AppServiceProvider
         // Wallet Services
         container.register(WalletRepository, () => new DrizzleWalletRepository(), true);
         container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository)), true);
+
+        // Wallet Controller
         container.register(WalletController, c => new WalletController(c.get(WalletManagementService)));
+
+        // Statement Services
+        container.register(StatementRepository, () => new DrizzleStatementRepository(), true);
+        container.register(StatementGenerationService, c => new StatementGenerationService(c.get(WalletRepository), c.get(StatementRepository)), true);
+
+        // Statement Controller
+        container.register(StatementController, c => new StatementController(c.get(StatementGenerationService)));
 
         // Business Day Service
         container.register(BusinessDayService, () => new BrasilApiBusinessDayService(env.HOLIDAYS_API_URL));
@@ -38,6 +51,8 @@ export class AppServiceProvider
             ), 
             true
         );
+
+        // Transaction Controller
         container.register(TransactionController, c => new TransactionController(c.get(TransactionProcessorService)));
 
         // Middleware example

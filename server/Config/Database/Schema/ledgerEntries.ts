@@ -14,11 +14,12 @@ export const ledgerEntries = mysqlTable('ledger_entries', {
   amount: int('amount').notNull(),
   balanceBefore: int('balance_before'),
   balanceAfter: int('balance_after'),
-  counterpartyWalletId: varchar('counterparty_wallet_id', { length: 36 }).references(() => wallets.id, { onDelete: 'restrict' }),
+  counterpartyWalletId: varchar('counterparty_wallet_id', { length: 36 }).notNull().references(() => wallets.id, { onDelete: 'restrict' }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 }, 
 // Indexes
 table => [
   index('wallet_idx').on(table.walletId),
+  index('counterparty_wallet_idx').on(table.counterpartyWalletId),
   index('transaction_idx').on(table.transactionId)
 ]);
