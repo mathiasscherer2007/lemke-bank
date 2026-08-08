@@ -61,3 +61,23 @@ export class NotABusinessDayException extends DomainException
         super('Sorry! You just can make transactions on business days.', 422)
     }
 }
+
+export class ChargeNotFoundException extends DomainException
+{
+    private readonly missingChargeId: string;
+
+    constructor(missingChargeId: string){
+        super('Charge not found.', 404);
+        this.missingChargeId = missingChargeId;
+    }
+}
+
+export class ChargePaidOrExpiredException extends DomainException
+{
+    private readonly chargeId: string;
+
+    constructor(chargeId: string){
+        super('Charge has been paid or expired.', 422);
+        this.chargeId = chargeId;
+    }
+}

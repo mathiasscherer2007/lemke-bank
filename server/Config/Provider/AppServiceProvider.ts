@@ -6,10 +6,10 @@ import { TransactionRepository } from "../../App/Repository/Transaction/Transact
 import { DrizzleWalletRepository } from "../../App/Repository/Wallet/DrizzleWalletRepository.js";
 import { TransactionProcessorService } from "../../App/Service/TransactionProcessorService.js";
 import { WalletManagementService } from "../../App/Service/WalletManagementService.js";
-import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BrasilApiBusinessDayService.js";
-import { BusinessDayService } from "../../App/Service/WebService/BusinessDayService.js";
+import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BusinessDay/BrasilApiBusinessDayService.js";
+import { BusinessDayService } from "../../App/Service/WebService/BusinessDay/BusinessDayService.js";
 import { env } from "../Environment/env.js";
-import { WalletRepository } from "./../../App/Repository/Wallet/WalletRepository.js";
+import { WalletRepository } from "../../App/Repository/Wallet/WalletRepository.js";
 import { AppContainer } from "./AppContainer.js";
 
 export class AppServiceProvider

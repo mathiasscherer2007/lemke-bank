@@ -5,7 +5,7 @@ import { LedgerEntry } from "../Model/LedgerEntry.js";
 import { Transaction } from "../Model/Transaction.js";
 import { TransactionRepository } from "../Repository/Transaction/TransactionRepository.js";
 import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
-import { BusinessDayService } from "./WebService/BusinessDayService.js";
+import { BusinessDayService } from "./WebService/BusinessDay/BusinessDayService.js";
 
 export class TransactionProcessorService
 {
