@@ -38,7 +38,7 @@ export class AppServiceProvider
         container.register(StatementController, c => new StatementController(c.get(StatementGenerationService)));
 
         // Business Day Service
-        container.register(BusinessDayService, () => new BrasilApiBusinessDayService(env.HOLIDAYS_API_URL));
+        container.register(BusinessDayService, () => new BrasilApiBusinessDayService(env.HOLIDAYS_API_URL!));
 
         // Transaction Services
         container.register(TransactionRepository, () => new DrizzleTransactionRepository(), true);
