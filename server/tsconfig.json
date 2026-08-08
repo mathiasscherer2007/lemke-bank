@@ -4,6 +4,7 @@
         "**/*.ts",
         "Config/Types/*.d.ts"
     ],
+    "exclude": ["node_modules", "Build"],
     "compilerOptions": {
         "lib": ["ES2023"],
         "module": "nodenext",

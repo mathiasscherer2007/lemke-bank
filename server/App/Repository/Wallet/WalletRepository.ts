@@ -1,3 +1,4 @@
+import { Transaction } from "../../Model/Transaction.js";
 import { Wallet } from "../../Model/Wallet.js";
 
 export interface WalletRepository

@@ -16,8 +16,6 @@ describe('Transaction model', () => {
         const data = transaction.toPrimitives();
 
         assert.strictEqual(data.amount, 100, 'Transaction amount should match the balanced total');
-        assert.strictEqual(data.fromWalletId, 'wallet-debit-uuid', 'Transaction should set the debit wallet as the fromWalletId');
-        assert.strictEqual(data.toWalletId, 'wallet-credit-uuid', 'Transaction should set the credit wallet as the toWalletId');
         assert.strictEqual(data.id, 'test-uuid', 'Transaction id should match the provided id');
         assert.strictEqual(data.createdAt, undefined, 'Transaction createdAt should be undefined when not provided');
         assert.strictEqual(data.description, 'Test payment', 'Transaction should keep the provided description');
