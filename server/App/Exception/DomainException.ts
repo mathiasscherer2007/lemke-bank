@@ -81,3 +81,28 @@ export class ChargePaidOrExpiredException extends DomainException
         this.chargeId = chargeId;
     }
 }
+
+
+export class TransactionAttachedToNotPaidCharge extends DomainException
+{
+    private readonly chargeId: string;
+    private readonly transactionId;
+
+    constructor(chargeId: string, transactionId: string){
+        super("You can't attach a transaction to a not paid charge", 422);
+        this.chargeId = chargeId;
+        this.transactionId = transactionId;
+    }
+}
+
+export class ChargeAlreadyHasTransactionException extends DomainException
+{
+    private readonly chargeId: string;
+    private readonly transactionId;
+
+    constructor(chargeId: string, transactionId: string){
+        super("You can't attach a transaction to a charge that already has a transaction attached", 422);
+        this.chargeId = chargeId;
+        this.transactionId = transactionId;
+    }
+}

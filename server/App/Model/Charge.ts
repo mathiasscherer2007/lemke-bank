@@ -1,4 +1,4 @@
-import { ChargePaidOrExpiredException } from "../Exception/DomainException.js";
+import { ChargeAlreadyHasTransactionException, ChargePaidOrExpiredException, TransactionAttachedToNotPaidCharge } from "../Exception/DomainException.js";
 import { ChargeStatus } from "./Enum/ChargeStatus.js";
 
 export class Charge 
@@ -45,10 +45,11 @@ export class Charge
         }
     }
 
-    public pay(payerWalletId: string): void {
-        if (this.status !== ChargeStatus.PAID) {
+    public pay(payerWalletId: string): void 
+    {
+        if (this.status === ChargeStatus.PAID) {
             throw new ChargePaidOrExpiredException(this.id);
-        } else if (this.expiresAt < new Date()) {
+        } else if (this.status === ChargeStatus.EXPIRED || this.expiresAt < new Date()) {
             throw new ChargePaidOrExpiredException(this.id);
         }
 
@@ -57,13 +58,25 @@ export class Charge
         this.paidAt = new Date();
     }
 
-    public attachTransaction(payerWalletId: string, paymentTransactionId: string): void {
+    public attachTransaction(paymentTransactionId: string): void 
+    {
         if (this.status !== ChargeStatus.PAID) {
-            throw new ChargePaidOrExpiredException(this.id);
+            throw new TransactionAttachedToNotPaidCharge(this.id, paymentTransactionId);
+        } else if(this.paymentTransactionId) {
+            throw new ChargeAlreadyHasTransactionException(this.id, paymentTransactionId);
         }
 
-        this.payerWalletId = payerWalletId;
         this.paymentTransactionId = paymentTransactionId;
+    }
+
+    public isExpired(): boolean
+    {
+        if(this.expiresAt < new Date()){
+            this.status = ChargeStatus.EXPIRED;
+            return true;
+        }
+
+        return false;
     }
 
     public toPrimitives(): Record<string, unknown>
@@ -71,5 +84,15 @@ export class Charge
         return {
             ...this as Record<string, unknown>
         };
+    }
+
+    public getId(): string
+    {
+        return this.id;
+    }
+
+    public getIssuerWalletId(): string
+    {
+        return this.issuerWalletId;
     }
 }

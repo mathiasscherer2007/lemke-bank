@@ -21,7 +21,7 @@ export class TransactionController extends Controller
         return reply.status(201).send({
             status: "succesfull",
             message: "Transaction succesfull created",
-            data: transaction
+            transaction: transaction
         });
     }
 }
