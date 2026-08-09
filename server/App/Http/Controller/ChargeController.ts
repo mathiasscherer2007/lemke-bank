@@ -43,6 +43,12 @@ export class ChargeController extends Controller
         const chargeId = request.params.chargeId;
         const userId = request.user!.id;
 
-        this.chargePaymentService.makePaymentTransaction(chargeId, userId);
+        const transaction = this.chargePaymentService.makePaymentTransaction(chargeId, userId);
+
+        return reply.status(200).send({
+            status: 'successful',
+            message: 'Charge successfully paid.',
+            transaction: transaction
+        });
     }
 }

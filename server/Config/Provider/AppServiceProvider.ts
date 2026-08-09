@@ -15,11 +15,11 @@ import { StatementRepository } from "../../App/Repository/Statement/StatementRep
 import { StatementGenerationService } from "../../App/Service/StatementGenerationService.js";
 import { WalletRepository } from "./../../App/Repository/Wallet/WalletRepository.js";
 import { AppContainer } from "./AppContainer.js";
-import { DrizzleChargeRepository } from "../Repository/Charge/DrizzleChargeRepository.js";
-import { ChargeRepository } from "../Repository/Charge/ChargeRepository.js";
-import { ChargePaymentService } from "../Service/ChargePaymentService.js";
-import { ChargeCreationService } from "../Service/ChargeCreationService.js";
-import { ChargeController } from "../Http/Controller/ChargeController.js";
+import { DrizzleChargeRepository } from "../../App/Repository/Charge/DrizzleChargeRepository.js";
+import { ChargeRepository } from "../../App/Repository/Charge/ChargeRepository.js";
+import { ChargePaymentService } from "../../App/Service/ChargePaymentService.js";
+import { ChargeCreationService } from "../../App/Service/ChargeCreationService.js";
+import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
 
 export class AppServiceProvider
 {

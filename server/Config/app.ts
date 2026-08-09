@@ -3,6 +3,9 @@ import { ZodTypeProvider, validatorCompiler, serializerCompiler, jsonSchemaTrans
 import { protectedRoutes } from "./Routes/protected.js";
 import { AppContainer } from "./Provider/AppContainer.js";
 import { AppServiceProvider } from "./Provider/AppServiceProvider.js";
+import { publicRoutes } from "./Routes/public.js";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 
 export async function buildApp(options: object = {})
 {
@@ -17,6 +20,22 @@ export async function buildApp(options: object = {})
     AppServiceProvider.boot(container);
     app.decorate('container', container)
 
+    // Swagger routes
+    app.register(fastifySwagger, {
+        openapi: {
+            info: {
+                title: 'Lemke-Bank API',
+                version: '0.0.1'
+            }
+        },
+        transform: jsonSchemaTransform
+    });
+
+    app.register(fastifySwaggerUi, {
+        routePrefix: '/docs'
+    });
+
+    app.register(publicRoutes);
     app.register(protectedRoutes);
 
     return app;

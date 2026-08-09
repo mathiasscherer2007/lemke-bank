@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "../../Database/connection.js";
-import { charges } from "../../Database/Schema/charges.js";
+import { db } from "../../../Config/Database/connection.js";
+import { charges } from "../../../Config/Database/Schema/charges.js";
 import { Charge } from "../../Model/Charge.js";
 import { ChargeRepository } from "./ChargeRepository.js";
 import { ChargeStatus } from "../../Model/Enum/ChargeStatus.js";
