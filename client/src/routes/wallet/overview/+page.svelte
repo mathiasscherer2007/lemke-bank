@@ -3,6 +3,7 @@
   import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
   import payIcon from '$lib/assets/icons/pay.svg';
   import statementIcon from '$lib/assets/icons/statement.svg';
+  import createPayment from '$lib/assets/icons/create-payment.svg';
 
   import CopyButton from '$lib/components/elements/CopyButton.svelte';
   import NavLink from '$lib/components/elements/NavLink.svelte';
@@ -10,7 +11,8 @@
 
   const links = [
     {title: 'Realizar Pagamento', icon: payIcon, link: '/wallet/actions/pay'},
-    {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/actions/checkstatement'}
+    {title: 'Verificar Extrato', icon: statementIcon, link: '/wallet/actions/checkstatement'},
+    {title: 'Criar Pagamento', icon: createPayment, link: '/wallet/actions/createpayment'}
   ] as const;
 
   let idElement: HTMLElement | undefined = $state();
@@ -32,9 +34,9 @@
   </div>
   <p class="lg:pl-2 text-2xl lg:text-3xl font-bold">BL$ 30</p>
 </div>
-<NavLinkContainer columns="2">
+<NavLinkContainer columns="3">
   {#each links as { title, icon, link } (link)}
-    <NavLink title={title} icon={icon} link={link} />
+    <NavLink title={title} icon={icon} {link} />
   {/each}
 </NavLinkContainer>
 <hr class="my-4 lg:my-6 border-neutral-500" />
