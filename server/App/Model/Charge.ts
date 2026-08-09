@@ -6,28 +6,43 @@ export class Charge
     private readonly id: string;
     private readonly issuerWalletId: string;
     private readonly amount: number;
-    private readonly description?: string;
+    private readonly description?: string | null;
     private status: ChargeStatus;
     private readonly expiresAt: Date;
-    private payerWalletId?: string;
-    private paymentTransactionId?: string;
+    private payerWalletId?: string | null;
+    private paymentTransactionId?: string | null;
     private readonly createdAt: Date;
-    private paidAt?: Date;
+    private paidAt?: Date | null;
 
     constructor(
-        id: string,
         issuerWalletId: string,
         amount: number,
-        description?: string
+        description?: string | null,
+        id?: string,
+        status?: ChargeStatus,
+        createdAt?: Date,
+        expiresAt?: Date | null,
+        payerWalletId?: string | null,
+        paymentTransactionId?: string | null,
+        paidAt?: Date | null,
     ) {
-        this.id = id;
+        this.id = id ?? crypto.randomUUID();
         this.issuerWalletId = issuerWalletId;
         this.amount = amount;
         this.description = description;
-        this.status = ChargeStatus.OPEN;
-        this.createdAt = new Date();
-        this.expiresAt = new Date();
-        this.expiresAt.setMinutes(this.expiresAt.getMinutes() + 30); // Set expiration to 30 minutes from creation
+        this.status = status ?? ChargeStatus.OPEN;
+        this.createdAt = createdAt ?? new Date();
+
+        this.payerWalletId = payerWalletId;
+        this.paymentTransactionId = paymentTransactionId;
+        this.paidAt = paidAt;
+
+        if(expiresAt){
+            this.expiresAt = expiresAt;
+        } else {
+            this.expiresAt = new Date();
+            this.expiresAt.setMinutes(this.expiresAt.getMinutes() + 30); // Set expiration to 30 minutes from creation
+        }
     }
 
     public pay(payerWalletId: string): void {
@@ -42,12 +57,19 @@ export class Charge
         this.paidAt = new Date();
     }
 
-    attachTransaction(payerWalletId: string, paymentTransactionId: string): void {
+    public attachTransaction(payerWalletId: string, paymentTransactionId: string): void {
         if (this.status !== ChargeStatus.PAID) {
             throw new ChargePaidOrExpiredException(this.id);
         }
 
         this.payerWalletId = payerWalletId;
         this.paymentTransactionId = paymentTransactionId;
+    }
+
+    public toPrimitives(): Record<string, unknown>
+    {
+        return {
+            ...this as Record<string, unknown>
+        };
     }
 }
