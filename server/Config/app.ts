@@ -47,5 +47,7 @@ export async function buildApp(options: object = {})
 
     container.resolve(Router).registerAll(app);
 
+    container.resolve(Router).registerAll(app);
+
     return app;
 }
