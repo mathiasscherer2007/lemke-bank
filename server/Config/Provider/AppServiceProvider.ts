@@ -6,8 +6,8 @@ import { TransactionRepository } from "../../App/Repository/Transaction/Transact
 import { DrizzleWalletRepository } from "../../App/Repository/Wallet/DrizzleWalletRepository.js";
 import { TransactionProcessorService } from "../../App/Service/TransactionProcessorService.js";
 import { WalletManagementService } from "../../App/Service/WalletManagementService.js";
-import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BrasilApiBusinessDayService.js";
-import { BusinessDayService } from "../../App/Service/WebService/BusinessDayService.js";
+import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BusinessDay/BrasilApiBusinessDayService.js";
+import { BusinessDayService } from "../../App/Service/WebService/BusinessDay/BusinessDayService.js";
 import { env } from "../Environment/env.js";
 import { StatementController } from "../../App/Http/Controller/StatementController.js";
 import { DrizzleStatementRepository } from "../../App/Repository/Statement/DrizzleStatementRepository.js";
@@ -15,6 +15,11 @@ import { StatementRepository } from "../../App/Repository/Statement/StatementRep
 import { StatementGenerationService } from "../../App/Service/StatementGenerationService.js";
 import { WalletRepository } from "./../../App/Repository/Wallet/WalletRepository.js";
 import { AppContainer } from "./AppContainer.js";
+import { DrizzleChargeRepository } from "../../App/Repository/Charge/DrizzleChargeRepository.js";
+import { ChargeRepository } from "../../App/Repository/Charge/ChargeRepository.js";
+import { ChargePaymentService } from "../../App/Service/ChargePaymentService.js";
+import { ChargeCreationService } from "../../App/Service/ChargeCreationService.js";
+import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
 
 export class AppServiceProvider
 {
@@ -54,6 +59,29 @@ export class AppServiceProvider
 
         // Transaction Controller
         container.register(TransactionController, c => new TransactionController(c.get(TransactionProcessorService)));
+
+        // Charge Services
+        container.register(ChargeRepository, c => new DrizzleChargeRepository(), true);
+        container.register(
+            ChargePaymentService, 
+            c => new ChargePaymentService(
+                c.get(ChargeRepository),
+                c.get(WalletRepository),
+                c.get(TransactionProcessorService)
+            ),
+            true
+        );
+        container.register(
+            ChargeCreationService,
+            c => new ChargeCreationService(
+                c.get(ChargeRepository),
+                c.get(WalletRepository),
+            ),
+            true
+        );
+
+        // Charge Controller
+        container.register(ChargeController, c => new ChargeController(c.get(ChargePaymentService), c.get(ChargeCreationService)), true);
 
         // Middleware example
         container.register(AuthMockMiddleware, () => new AuthMockMiddleware());

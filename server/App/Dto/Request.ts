@@ -18,7 +18,26 @@ export type StatementQueryStringSchema = z.infer<typeof statementQueryStringSche
 
 
 export const getWalletParamsSchema = z.object({
-    id: z.coerce.string().nonempty().nonoptional()
+    walletId: z.coerce.string().nonempty().nonoptional()
 });
 
 export type GetWalletParamsSchema = z.infer<typeof getWalletParamsSchema>;
+
+
+export const chargeParamsSchema = z.object({
+    chargeId: z.coerce.string().nonoptional()
+});
+
+export type ChargeParamsSchema = z.infer<typeof chargeParamsSchema>;
+
+
+// id: string,
+// issuerWalletId: string,
+// amount: number,
+// description?: string | null,
+export const createChargeDTO = z.object({
+    amount: z.coerce.number().positive().nonoptional(),
+    description: z.coerce.string().optional()
+});
+
+export type CreateChargeDTO = z.infer<typeof createChargeDTO>;
