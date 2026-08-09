@@ -1,4 +1,5 @@
-import { ChargeNotFoundException, WalletNotFoundException } from "../Exception/DomainException.js";
+import { PaymentByWalletIdDTO } from "../Dto/Request.js";
+import { ChargeNotFoundException, ChargePaidOrExpiredException, WalletNotFoundException } from "../Exception/DomainException.js";
 import { Charge } from "../Model/Charge.js";
 import { Transaction } from "../Model/Transaction.js";
 import { ChargeRepository } from "../Repository/Charge/ChargeRepository.js";
@@ -24,8 +25,31 @@ export class ChargePaymentService
         return { charge: charge, isIssuerWallet: charge.getIssuerWalletId() === wallet.getId() };
     }
 
-    public async makePaymentTransaction():  Promise<Transaction>
+    public async makePaymentTransaction(chargeId: string, userId: string):  Promise<Transaction>
     {
+        const charge = await this.chargeRepository.findById(chargeId);
+        if(!charge) throw new ChargeNotFoundException(chargeId);
+
+        const payerWallet = await this.walletRepository.findByUserId(userId);
+        if(!payerWallet) throw new WalletNotFoundException(undefined, userId);
+
+        if(charge.isExpired()){
+            throw new ChargePaidOrExpiredException(chargeId);
+        }
+
+        charge.pay(payerWallet.getId());
+
+        const payload: PaymentByWalletIdDTO = {
+            toWalletId: charge.getIssuerWalletId(),
+            amount: charge.getAmount(),
+            description: charge.getDescription()
+        }
+
+        const transaction = await this.transactionProcessorService.process(payload, userId);
         
+        charge.attachTransaction(transaction.getId());
+        await this.chargeRepository.update(charge);
+
+        return transaction;
     }
 }

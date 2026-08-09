@@ -40,6 +40,9 @@ export class ChargeController extends Controller
 
     public async payCharge(request: FastifyRequest<{ Params: ChargeParamsSchema }>, reply: FastifyReply)
     {
-        
+        const chargeId = request.params.chargeId;
+        const userId = request.user!.id;
+
+        this.chargePaymentService.makePaymentTransaction(chargeId, userId);
     }
 }

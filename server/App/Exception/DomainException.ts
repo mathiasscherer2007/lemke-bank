@@ -106,3 +106,16 @@ export class ChargeAlreadyHasTransactionException extends DomainException
         this.transactionId = transactionId;
     }
 }
+
+
+export class ChargePaidByIssuerException extends DomainException
+{
+    private readonly issuerWalletId;
+    private readonly chargeId;
+
+    constructor(issuerWalletId: string, chargeId: string){
+        super("A charge can't be paid by the issuer", 422);
+        this.issuerWalletId = issuerWalletId;
+        this.chargeId = chargeId;
+    }
+}

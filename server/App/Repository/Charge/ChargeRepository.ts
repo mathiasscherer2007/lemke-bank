@@ -7,4 +7,4 @@ export interface ChargeRepository
     update(charge: Charge): Promise<void>;
 }
 
-const ChargeRepository = 'ChargeRepository';
+export const ChargeRepository = 'ChargeRepository';

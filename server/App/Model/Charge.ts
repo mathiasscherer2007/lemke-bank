@@ -1,4 +1,4 @@
-import { ChargeAlreadyHasTransactionException, ChargePaidOrExpiredException, TransactionAttachedToNotPaidCharge } from "../Exception/DomainException.js";
+import { ChargeAlreadyHasTransactionException, ChargePaidByIssuerException, ChargePaidOrExpiredException, TransactionAttachedToNotPaidCharge } from "../Exception/DomainException.js";
 import { ChargeStatus } from "./Enum/ChargeStatus.js";
 
 export class Charge 
@@ -51,6 +51,8 @@ export class Charge
             throw new ChargePaidOrExpiredException(this.id);
         } else if (this.status === ChargeStatus.EXPIRED || this.expiresAt < new Date()) {
             throw new ChargePaidOrExpiredException(this.id);
+        } else if (this.issuerWalletId === payerWalletId) {
+            throw new ChargePaidByIssuerException(this.issuerWalletId, this.id);
         }
 
         this.payerWalletId = payerWalletId;
@@ -94,5 +96,15 @@ export class Charge
     public getIssuerWalletId(): string
     {
         return this.issuerWalletId;
+    }
+
+    public getAmount(): number 
+    {
+        return this.amount;
+    }
+
+    public getDescription(): string | null | undefined
+    {
+        return this.description;
     }
 }
