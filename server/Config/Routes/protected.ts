@@ -2,23 +2,26 @@ import { FastifyPluginAsync } from "fastify";
 import { TransactionController } from "../../App/Http/Controller/TransactionController.js";
 import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
-import { StatementController } from "../Http/Controller/StatementController.js";
+import { StatementController } from "../../App/Http/Controller/StatementController.js";
+import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, createChargeDTO, statementQueryStringSchema } from "../../App/Dto/Request.js";
+import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
 
 export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
-
-    // TODO: This is just a example for now.
-    const authMiddleware = app.container.get<AuthMockMiddleware>(AuthMockMiddleware);
-    const walletController = app.container.get<WalletController>(WalletController);
-    const transactionController = app.container.get<TransactionController>(TransactionController);
-    const statementController = app.container.get<StatementController>(StatementController);
     
+    const authMiddleware = app.container.get<AuthMockMiddleware>(AuthMockMiddleware);
     app.addHook('onRequest', authMiddleware.authenticate);
 
-    app.get('/wallets/:id', walletController.getWallet);
+    const walletController = app.container.get<WalletController>(WalletController);
+    app.get('/wallets/:walletId', { schema: { params: getWalletParamsSchema } }, walletController.getWallet);
 
-    app.get('/statement', statementController.getStatement);
+    const statementController = app.container.get<StatementController>(StatementController);
+    app.get('/statement', { schema: { querystring: statementQueryStringSchema } }, statementController.getStatement);
 
-    app.post('/transactions', transactionController.transactionByWalletId);
+    const transactionController = app.container.get<TransactionController>(TransactionController);
+    app.post('/transactions', { schema: { body: paymentByWalletIdDTO } }, transactionController.transactionByWalletId);
 
-
+    const chargeController = app.container.get<ChargeController>(ChargeController);
+    app.get('/charges/:chargeId', { schema: { params: chargeParamsSchema } }, chargeController.getCharge);
+    app.post('/charges/pay/:chargeId', { schema: { params: chargeParamsSchema } }, chargeController.payCharge);
+    app.post('/charges', { schema: { body: createChargeDTO } }, chargeController.createCharge);
 }

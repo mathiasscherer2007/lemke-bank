@@ -61,3 +61,61 @@ export class NotABusinessDayException extends DomainException
         super('Sorry! You just can make transactions on business days.', 422)
     }
 }
+
+export class ChargeNotFoundException extends DomainException
+{
+    private readonly missingChargeId: string;
+
+    constructor(missingChargeId: string){
+        super('Charge not found.', 404);
+        this.missingChargeId = missingChargeId;
+    }
+}
+
+export class ChargePaidOrExpiredException extends DomainException
+{
+    private readonly chargeId: string;
+
+    constructor(chargeId: string){
+        super('Charge has been paid or expired.', 422);
+        this.chargeId = chargeId;
+    }
+}
+
+
+export class TransactionAttachedToNotPaidCharge extends DomainException
+{
+    private readonly chargeId: string;
+    private readonly transactionId;
+
+    constructor(chargeId: string, transactionId: string){
+        super("You can't attach a transaction to a not paid charge", 422);
+        this.chargeId = chargeId;
+        this.transactionId = transactionId;
+    }
+}
+
+export class ChargeAlreadyHasTransactionException extends DomainException
+{
+    private readonly chargeId: string;
+    private readonly transactionId;
+
+    constructor(chargeId: string, transactionId: string){
+        super("You can't attach a transaction to a charge that already has a transaction attached", 422);
+        this.chargeId = chargeId;
+        this.transactionId = transactionId;
+    }
+}
+
+
+export class ChargePaidByIssuerException extends DomainException
+{
+    private readonly issuerWalletId;
+    private readonly chargeId;
+
+    constructor(issuerWalletId: string, chargeId: string){
+        super("A charge can't be paid by the issuer", 422);
+        this.issuerWalletId = issuerWalletId;
+        this.chargeId = chargeId;
+    }
+}

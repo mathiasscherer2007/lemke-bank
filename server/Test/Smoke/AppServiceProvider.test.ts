@@ -5,7 +5,7 @@ import { WalletController } from "../../App/Http/Controller/WalletController.js"
 import { TransactionController } from "../../App/Http/Controller/TransactionController.js";
 import { WalletManagementService } from "../../App/Service/WalletManagementService.js";
 import { TransactionProcessorService } from "../../App/Service/TransactionProcessorService.js";
-import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BrasilApiBusinessDayService.js";
+import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BusinessDay/BrasilApiBusinessDayService.js"
 import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware.js";
 import { AppServiceProvider } from "../../Config/Provider/AppServiceProvider.js";
 

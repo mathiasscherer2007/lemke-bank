@@ -13,7 +13,13 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "moduleResolution": "node16",
+<<<<<<< HEAD
         "outDir": "./Build",
         "rootDirs": ["./App", "./Config", "./Test"]
+=======
+        "types": ["node"],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+>>>>>>> ed9f60a6e0b1a58d5fbc1f797f7a47b3db0c08aa
     }
 }

@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+import { injectable } from "tsyringe";
+
+@injectable()
+>>>>>>> ed9f60a6e0b1a58d5fbc1f797f7a47b3db0c08aa
 export class User {
     private id: string;
     private email: string;
@@ -37,4 +43,8 @@ export class User {
             updatedAt: this.updatedAt,
         };
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ed9f60a6e0b1a58d5fbc1f797f7a47b3db0c08aa

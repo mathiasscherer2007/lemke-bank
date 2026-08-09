@@ -14,7 +14,7 @@ export class WalletController extends Controller
 
     public async getWallet(request: FastifyRequest<{ Params: GetWalletParamsSchema }>, reply: FastifyReply)
     {
-        const id = request.params.id;
+        const id = request.params.walletId;
         const wallet = this.walletManagementService.getWalletData(id);
         return reply.status(200).send(wallet);
     }
