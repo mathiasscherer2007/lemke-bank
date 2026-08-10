@@ -1,9 +1,6 @@
-import fastifySwagger from "@fastify/swagger";
-import fastifySwaggerUi from "@fastify/swagger-ui";
 import { FastifyPluginAsync } from "fastify";
-import { jsonSchemaTransform } from "fastify-type-provider-zod";
-import { AuthController } from "../Http/Controller/AuthController.js";
-import { userLoginDTO, userSignupDTO } from "../Dto/Request.js";
+import { AuthController } from "../../App/Http/Controller/AuthController.js";
+import { userLoginDTO, userSignupDTO } from "../../App/Dto/Request.js";
 
 export const publicRoutes: FastifyPluginAsync = async (app, options) => {
 

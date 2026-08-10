@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from "fastify";
 import { TransactionController } from "../../App/Http/Controller/TransactionController.js";
-import { AuthMiddleware } from "../Http/Middleware/AuthMiddleware.js";
+import { AuthMiddleware } from "../../App/Http/Middleware/AuthMiddleware.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
 import { StatementController } from "../../App/Http/Controller/StatementController.js";
 import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, createChargeDTO, statementQueryStringSchema } from "../../App/Dto/Request.js";

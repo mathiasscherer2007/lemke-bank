@@ -1,6 +1,6 @@
 import { TransactionController } from "../../App/Http/Controller/TransactionController.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
-import { AuthMiddleware } from "../Http/Middleware/AuthMiddleware.js";
+import { AuthMiddleware } from "../../App/Http/Middleware/AuthMiddleware.js";
 import { DrizzleTransactionRepository } from "../../App/Repository/Transaction/DrizzleTransactionRepository.js";
 import { TransactionRepository } from "../../App/Repository/Transaction/TransactionRepository.js";
 import { DrizzleWalletRepository } from "../../App/Repository/Wallet/DrizzleWalletRepository.js";
@@ -20,12 +20,12 @@ import { ChargeRepository } from "../../App/Repository/Charge/ChargeRepository.j
 import { ChargePaymentService } from "../../App/Service/ChargePaymentService.js";
 import { ChargeCreationService } from "../../App/Service/ChargeCreationService.js";
 import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
-import { UserRepository } from "../Repository/User/UserRepository.js";
-import { DrizzleUserRepository } from "../Repository/User/DrizzleUserRepository.js";
-import { JwtTokenService } from "../Service/TokenService/JwtTokenService.js";
-import { TokenService } from "../Service/TokenService/TokenService.js";
-import { AuthService } from "../Service/AuthService.js";
-import { AuthController } from "../Http/Controller/AuthController.js";
+import { UserRepository } from "../../App/Repository/User/UserRepository.js";
+import { DrizzleUserRepository } from "../../App/Repository/User/DrizzleUserRepository.js";
+import { JwtTokenService } from "../../App/Service/TokenService/JwtTokenService.js";
+import { TokenService } from "../../App/Service/TokenService/TokenService.js";
+import { AuthService } from "../../App/Service/AuthService.js";
+import { AuthController } from "../../App/Http/Controller/AuthController.js";
 
 export class AppServiceProvider
 {

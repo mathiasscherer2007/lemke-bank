@@ -5,7 +5,6 @@ import { User } from "../../Model/User.js";
 import { UserRepository } from "./UserRepository.js";
 import { UserRole } from "../../Model/Enum/UserRole.js";
 
-
 export class DrizzleUserRepository implements UserRepository {
     public async findById(id: string): Promise<User | null> {
         const rows = await db.select().from(users).where(eq(users.id, id));
