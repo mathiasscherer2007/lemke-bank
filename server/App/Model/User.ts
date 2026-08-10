@@ -1,22 +1,20 @@
-<<<<<<< HEAD
-=======
-import { injectable } from "tsyringe";
+import { UserRole } from "./Enum/UserRole.js";
 
-@injectable()
->>>>>>> ed9f60a6e0b1a58d5fbc1f797f7a47b3db0c08aa
 export class User {
     private id: string;
     private email: string;
     private passwordHash: string;
     private username: string;
+    private readonly role: UserRole
     private readonly createdAt?: Date;
     private readonly updatedAt?: Date;
 
     constructor(
-        id: string,
         email: string,
         passwordHash: string,
         username: string,
+        role: UserRole,
+        id?: string,
         createdAt?: Date,
         updatedAt?: Date
     ){
@@ -24,6 +22,7 @@ export class User {
         this.email = email;
         this.passwordHash = passwordHash;
         this.username = username;
+        this.role = role;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -32,6 +31,7 @@ export class User {
     public getEmail(): string { return this.email; }
     public getPasswordHash(): string { return this.passwordHash; }
     public getUsername(): string { return this.username; }
+    public getRole(): UserRole { return this.role; }
 
     public toPrimitives() {
         return {
@@ -43,8 +43,4 @@ export class User {
             updatedAt: this.updatedAt,
         };
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ed9f60a6e0b1a58d5fbc1f797f7a47b3db0c08aa

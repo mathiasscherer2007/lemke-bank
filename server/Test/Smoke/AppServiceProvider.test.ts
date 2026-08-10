@@ -6,7 +6,7 @@ import { TransactionController } from "../../App/Http/Controller/TransactionCont
 import { WalletManagementService } from "../../App/Service/WalletManagementService.js";
 import { TransactionProcessorService } from "../../App/Service/TransactionProcessorService.js";
 import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BusinessDay/BrasilApiBusinessDayService.js"
-import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware.js";
+import { AuthMockMiddleware } from "../Http/Middleware/AuthMiddleware.js";
 import { AppServiceProvider } from "../../Config/Provider/AppServiceProvider.js";
 
 describe("AppServiceProvider", () => {

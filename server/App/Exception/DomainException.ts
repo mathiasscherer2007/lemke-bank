@@ -119,3 +119,53 @@ export class ChargePaidByIssuerException extends DomainException
         this.chargeId = chargeId;
     }
 }
+
+
+export class AuthorizationFailedException extends DomainException
+{
+    constructor(message: string){
+        super(message, 401);
+    }
+}
+
+
+export class TokenExpiredException extends DomainException
+{
+    constructor(){ super('Token has expired.', 401) }
+}
+
+
+export class TokenInvalidException extends DomainException
+{
+    constructor(){ super('Token is malformed or invalid.', 401) }
+}
+
+
+export class TokenNotBeforeException extends DomainException
+{
+    constructor(){ super('Token is not yet valid.', 401) }
+}
+
+
+export class ConfirmPasswordDoNotMatchException extends DomainException
+{
+    constructor(){ super('Confirm password is different than typed password', 422) }
+}
+
+
+export class WrongPasswordException extends DomainException
+{
+    constructor(){ super('Wrong password', 401) }
+}
+
+
+export class UserNotFoundException extends DomainException
+{
+    private readonly userId?: string;
+    private readonly userEmail?: string;
+
+    constructor(userId?: string, userEmail?: string){ 
+        super('User not found.', 404);
+        this.userId = userId;
+    }
+}

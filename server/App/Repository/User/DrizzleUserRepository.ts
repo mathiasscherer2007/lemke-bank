@@ -3,19 +3,20 @@ import { db } from "../../../Config/Database/connection.js";
 import { users } from "../../../Config/Database/Schema/users.js";
 import { User } from "../../Model/User.js";
 import { UserRepository } from "./UserRepository.js";
-import { injectable } from "tsyringe";
+import { UserRole } from "../../Model/Enum/UserRole.js";
 
-@injectable()
+
 export class DrizzleUserRepository implements UserRepository {
     public async findById(id: string): Promise<User | null> {
         const rows = await db.select().from(users).where(eq(users.id, id));
         if (rows.length <= 0) return null;
         const row = rows[0];
         return new User(
-          row.id, 
           row.email, 
           row.passwordHash, 
-          row.username, 
+          row.username,
+          row.role as UserRole,
+          row.id, 
           row.createdAt, 
           row.updatedAt
         );
@@ -26,10 +27,11 @@ export class DrizzleUserRepository implements UserRepository {
         if(rows.length <= 0) return null;
         const row = rows[0];
         return new User(
-          row.id, 
           row.email, 
           row.passwordHash, 
-          row.username, 
+          row.username,
+          row.role as UserRole,
+          row.id, 
           row.createdAt, 
           row.updatedAt
         );

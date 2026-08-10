@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from "fastify";
 import { TransactionController } from "../../App/Http/Controller/TransactionController.js";
-import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware.js";
+import { AuthMiddleware } from "../Http/Middleware/AuthMiddleware.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
 import { StatementController } from "../../App/Http/Controller/StatementController.js";
 import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, createChargeDTO, statementQueryStringSchema } from "../../App/Dto/Request.js";
@@ -8,7 +8,7 @@ import { ChargeController } from "../../App/Http/Controller/ChargeController.js"
 
 export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
     
-    const authMiddleware = app.container.get<AuthMockMiddleware>(AuthMockMiddleware);
+    const authMiddleware = app.container.get<AuthMiddleware>(AuthMiddleware);
     app.addHook('onRequest', authMiddleware.authenticate);
 
     const walletController = app.container.get<WalletController>(WalletController);

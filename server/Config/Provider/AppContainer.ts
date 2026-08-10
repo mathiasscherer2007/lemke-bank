@@ -8,7 +8,7 @@ export class AppContainer
     private instances = new Map<any, any>();
 
     /**
-     * Greets a user by their name.
+     * Registry a new application service.
      * 
      * @param token - Interface name for this service. Use class name if it doesn't has a abstraction.
      * @param factory - Method which will be responsable for instantiate this service.
