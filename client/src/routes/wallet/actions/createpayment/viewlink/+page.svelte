@@ -59,7 +59,7 @@
 			<li>Pagamentos só podem ser completos por um único usuário</li>
 			<li>Você não pode completar um pagamento criado por você mesmo(a)</li>
 		</ul>
-		<a href={resolve('/admin')} class="text-link self-center mt-5 lg:mt-0">Voltar para página inicial</a>
+		<a href={resolve('/wallet')} class="text-link self-center mt-5 lg:mt-0">Voltar para página inicial</a>
 	</span>
 </div>
 
