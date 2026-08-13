@@ -25,16 +25,22 @@ export class JwtTokenService implements TokenService
         }
     }
 
+    public decode(token: string): JwtPayload
+    {
+        return jwt.decode(token) as JwtPayload;
+    }
+
     public sign(user: User, tokenType: TokenType): string
     {
         return jwt.sign({ 
             sub: user.getId(), 
             email: user.getEmail(), 
-            role: user.getRole()
+            role: user.getRole(),
         },
         this.secret, 
         {
             algorithm: 'HS256',
+            jwtid: crypto.randomUUID(),
             expiresIn: TokenType.REFRESH_TOKEN ? this.refreshTokenTTL : this.accessTokenTTL
         });
     }

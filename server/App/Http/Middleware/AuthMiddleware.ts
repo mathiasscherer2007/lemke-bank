@@ -2,14 +2,16 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { AuthorizationFailedException } from "../../Exception/DomainException.js";
 import { UserRepository } from "../../Repository/User/UserRepository.js";
 import { TokenService } from "../../Service/TokenService/TokenService.js";
-import { TokenType } from "../../Model/Enum/TokenType.js";
+import { TokenType } from "../../Enum/TokenType.js";
 
 export class AuthMiddleware
 {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly tokenService: TokenService
-    ){}
+    ){
+        this.authenticate = this.authenticate.bind(this);
+    }
 
     public async authenticate(request: FastifyRequest, reply: FastifyReply)
     {
@@ -34,8 +36,8 @@ export class AuthMiddleware
                 role: user.getRole()
             }
 
-            reply.header('x-api-token', token);
-            reply.header('x-api-token-ttl', this.tokenService.getAccessTokenTTL());
+            reply.header('x-access-token', token);
+            reply.header('x-access-token-ttl', this.tokenService.getAccessTokenTTL());
         } else {
             throw new AuthorizationFailedException('Refresh token not provided.')
         }

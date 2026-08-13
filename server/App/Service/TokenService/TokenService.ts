@@ -5,6 +5,7 @@ import { JwtPayload } from "jsonwebtoken";
 export interface TokenService 
 {
     verify(token: string): JwtPayload;
+    decode(token: string): JwtPayload;
     sign(user: User, tokenType: TokenType): string;
     getAccessTokenTTL(): number;
     getRefreshTokenTTL(): number;

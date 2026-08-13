@@ -1,16 +1,19 @@
 import crypto from "node:crypto"
 import { UserLoginDTO, UserSignupDTO } from "../Dto/Request.js";
-import { ConfirmPasswordDoNotMatchException, UserNotFoundException, WrongPasswordException } from "../Exception/DomainException.js";
+import { ConfirmPasswordDoNotMatchException, EmailAlreadyExistsException, UserNotFoundException, WrongPasswordException } from "../Exception/DomainException.js";
 import { User } from "../Model/User.js";
 import { UserRepository } from "../Repository/User/UserRepository.js";
 import { UserRole } from "../Model/Enum/UserRole.js";
 import { TokenService } from "./TokenService/TokenService.js";
 import { TokenType } from "../Model/Enum/TokenType.js";
+import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
+import { Wallet } from "../Model/Wallet.js";
 
 export class AuthService 
 {
     constructor(
         private readonly userRepository: UserRepository,
+        private readonly walletRepository: WalletRepository,
         private readonly tokenService: TokenService
     ){}
 
@@ -23,6 +26,9 @@ export class AuthService
     }>
     {
         const { username, email, password, confirmPassword } = payload;
+
+        const emailExists = await this.userRepository.findByEmail(email);
+        if(emailExists) throw new EmailAlreadyExistsException(email);
 
         if(password !== confirmPassword){
             throw new ConfirmPasswordDoNotMatchException();
@@ -39,18 +45,21 @@ export class AuthService
 
         await this.userRepository.save(user);
 
+        const wallet = new Wallet(user.getId());
+        await this.walletRepository.create(wallet);
+
         const accessToken = this.tokenService.sign(user, TokenType.ACCESS_TOKEN);
         const refreshToken = this.tokenService.sign(user, TokenType.REFRESH_TOKEN);
 
         const loggedUserData = user.toPrimitives() as any;
         delete loggedUserData["passwordHash"];
 
-        return { 
-            accessToken: accessToken,  
-            accessTokenTTL: this.tokenService.getAccessTokenTTL(), 
+        return {
+            accessToken: accessToken,
+            accessTokenTTL: this.tokenService.getAccessTokenTTL(),
             refreshToken: refreshToken,
             refreshTokenTTL: this.tokenService.getRefreshTokenTTL(),
-            user: loggedUserData 
+            user: loggedUserData
         }
     }
 
@@ -84,7 +93,12 @@ export class AuthService
             accessTokenTTL: this.tokenService.getAccessTokenTTL(), 
             refreshToken: refreshToken,
             refreshTokenTTL: this.tokenService.getRefreshTokenTTL(),
-            user: loggedUserData 
+            user: loggedUserData
         }
+    }
+
+    public async logout(): Promise<void>
+    {
+        
     }
 }

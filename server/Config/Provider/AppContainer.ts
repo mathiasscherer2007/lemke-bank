@@ -17,7 +17,14 @@ export class AppContainer
     public register<T>(token: any, factory: Factory<T>, isSingleton?: boolean): void
     {
         this.factories.set(token, factory);
-        if(isSingleton) this.singletons.set(token, factory);
+        this.instances.delete(token);
+
+        if(isSingleton) {
+            this.singletons.set(token, factory);
+            return;
+        }
+
+        this.singletons.delete(token);
     }
 
     public get<T>(token: any): T

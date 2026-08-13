@@ -169,3 +169,14 @@ export class UserNotFoundException extends DomainException
         this.userId = userId;
     }
 }
+
+
+export class EmailAlreadyExistsException extends DomainException
+{
+    private readonly existentEmail?: string
+
+    constructor(existentEmail: string){
+        super('Email already exists', 422);
+        this.existentEmail = existentEmail;
+    }
+}

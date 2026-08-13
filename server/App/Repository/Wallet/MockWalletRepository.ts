@@ -7,8 +7,8 @@ export class MockWalletRepository implements WalletRepository {
     private readonly walletsById: Map<string, Wallet> = new Map();
     private readonly entriesByWalletId: Map<string, Transaction[]> = new Map();
 
-    async create(wallet: Wallet, userId: string): Promise<void> {
-        this.walletsByUserId.set(userId, wallet);
+    async create(wallet: Wallet): Promise<void> {
+        this.walletsByUserId.set(wallet.getUserId(), wallet);
         this.walletsById.set(wallet.getId(), wallet);
     }
 

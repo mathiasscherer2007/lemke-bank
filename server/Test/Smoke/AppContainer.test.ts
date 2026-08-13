@@ -51,6 +51,28 @@ describe("AppContainer", () => {
         assert.strictEqual(first, second);
     });
 
+    test("replaces a resolved singleton when its registration changes", () => {
+        const container = new AppContainer();
+        const firstInstance = new MockDependency();
+        const replacementInstance = new MockDependency();
+
+        container.register(MockDependency, () => firstInstance, true);
+        assert.strictEqual(container.get(MockDependency), firstInstance);
+
+        container.register(MockDependency, () => replacementInstance, true);
+        assert.strictEqual(container.get(MockDependency), replacementInstance);
+    });
+
+    test("removes singleton caching when a token is re-registered as transient", () => {
+        const container = new AppContainer();
+
+        container.register(MockDependency, () => new MockDependency(), true);
+        container.get(MockDependency);
+
+        container.register(MockDependency, () => new MockDependency());
+        assert.notStrictEqual(container.get(MockDependency), container.get(MockDependency));
+    });
+
     test("injects dependencies using the container in factory callbacks", () => {
         const container = new AppContainer();
 

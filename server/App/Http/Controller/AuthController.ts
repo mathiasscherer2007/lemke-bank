@@ -9,6 +9,8 @@ export class AuthController extends Controller
         private readonly authService: AuthService,
     ){
         super();
+        this.signup = this.signup.bind(this);
+        this.login = this.login.bind(this);
     }
 
     public async signup(request: FastifyRequest<{ Body: UserSignupDTO }>, reply: FastifyReply)
