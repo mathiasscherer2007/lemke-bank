@@ -12,7 +12,6 @@
 
 	// svelte-ignore state_referenced_locally
 	if (data.timeRemaining) {
-		// svelte-ignore state_referenced_locally
 		totalSeconds = Math.max(0, Math.floor((Number(data.timeRemaining) - Date.now()) / 1000))
 	}
 	setInterval(() => {
