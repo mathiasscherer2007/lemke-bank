@@ -1,10 +1,11 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
   import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
 
   let { children } = $props();
 
-  $effect(() => {
+  onMount(() => {
     let timer = setTimeout(() => {
       goto(resolve('/wallet/overview'));
     }, 10300);
