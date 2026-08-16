@@ -5,6 +5,7 @@
 
 @theme {
   --font-roboto: "Roboto", sans-serif;
+  --font-stacksans: "Stack Sans Headline", serif;
 }
 
 @utility green-filter {

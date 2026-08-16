@@ -90,7 +90,7 @@
     <span class="col-start-1 row-start-1 h-full w-full">
       <div class="grid grid-cols-1 grid-rows-1 w-full flex-1">
         {#key currentStep}
-          <div class="col-start-1 row-start-1 w-full lg:bg-[#00000020] lg:p-6 lg:pb-0 rounded-t-lg">
+          <div class="col-start-1 row-start-1 w-full lg:bg-black/3 lg:dark:bg-black/20 lg:p-6 lg:pb-0 rounded-t-lg">
             {@render steps[currentStep]()}
           </div>
         {/key}
@@ -98,13 +98,13 @@
 
       <div class="grid grid-cols-1">
         {#if currentStep === 0}
-          <span class="col-start-1 row-start-1 mb-5 flex w-full flex-col justify-end gap-2 lg:mb-0 lg:flex-row lg:bg-[#00000020] lg:p-6 lg:pt-0 rounded-b-lg">
+          <span class="col-start-1 row-start-1 mb-5 flex w-full flex-col justify-end gap-2 lg:mb-0 lg:flex-row lg:bg-black/3 lg:dark:bg-black/20 lg:p-6 lg:pt-0 rounded-b-lg">
             <CancelLink {returnLink} />
             <ContinueButton label='Continuar' onClick={nextStep} />
           </span>
 
         {:else if currentStep < totalSteps}
-          <span class="col-start-1 row-start-1 flex w-full flex-col justify-between gap-2 lg:flex-row lg:bg-[#00000020] lg:p-6 lg:pt-0 rounded-b-lg">
+          <span class="col-start-1 row-start-1 flex w-full flex-col justify-between gap-2 lg:flex-row lg:bg-black/3 lg:dark:bg-black/20 lg:p-6 lg:pt-0 rounded-b-lg">
             <span class="flex flex-1 gap-2">
               {@render returnButton()}
               <CancelLink {returnLink} />
@@ -113,7 +113,7 @@
           </span>
 
         {:else}
-          <span class="col-start-1 row-start-1 flex lg:w-full flex-col justify-end lg:justify-between gap-2 lg:flex-row lg:bg-[#00000020] lg:p-6 lg:pt-0 rounded-b-lg">
+          <span class="col-start-1 row-start-1 flex lg:w-full flex-col justify-end lg:justify-between gap-2 lg:flex-row lg:bg-black/3 lg:dark:bg-black/20 lg:p-6 lg:pt-0 rounded-b-lg">
             <span class="lg:flex lg:flex-1 lg:gap-2">
               {@render returnButton()}
               <CancelLink {returnLink} />

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { resolve } from "$app/paths";
   import CancelLink from "$lib/components/elements/Forms/CancelLink.svelte";
+  import { enhance } from "$app/forms";
 
 	import arrowIcon from '$lib/assets/icons/arrow-right.svg';
-  import { enhance } from "$app/forms";
 
   let submitting = $state(false);
 </script>
