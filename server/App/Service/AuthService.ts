@@ -99,7 +99,7 @@ export class AuthService
         }
     }
 
-    public async logout(token: string): Promise<void>
+    public async revokeToken(token: string): Promise<void>
     {
         const decodedToken = this.tokenService.decode(token);
         await this.tokenBlacklistingService.blacklist(decodedToken);

@@ -146,6 +146,11 @@ export class TokenNotBeforeException extends DomainException
     constructor(){ super('Token is not yet valid.', 401) }
 }
 
+export class RefreshTokenNotProvidedException extends DomainException
+{
+    constructor(){ super('Refresh token not provided.', 401) }
+}
+
 
 export class ConfirmPasswordDoNotMatchException extends DomainException
 {

@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { AuthorizationFailedException } from "../../Exception/DomainException.js";
 import { UserRepository } from "../../Repository/User/UserRepository.js";
 import { TokenService } from "../../Service/TokenService/TokenService.js";
-import { TokenType } from "../../Enum/TokenType.js";
+import { TokenType } from "../../Model/Enum/TokenType.js";
 
 export class AuthMiddleware
 {

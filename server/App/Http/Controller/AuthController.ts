@@ -42,4 +42,12 @@ export class AuthController extends Controller
         })
         .send(user);
     }
+
+    public async logout(request: FastifyRequest, reply: FastifyReply)
+    {
+        const token = request.headers["x-refresh-token"] as string;
+        if(!token) throw new Error("Refresh token not provided.");
+
+        await this.authService.revokeToken(token);
+    }
 }
