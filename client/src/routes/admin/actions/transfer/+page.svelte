@@ -2,6 +2,7 @@
   import MultiPartForm from "$lib/components/elements/MultiPartForm/MultiPartForm.svelte";
   import { slide } from "svelte/transition";
   import { resolve } from "$app/paths";
+  import { onMount } from "svelte";
 
   import trashIcon from '$lib/assets/icons/trash.svg';
   import arrowIcon from '$lib/assets/icons/arrow-right.svg';
@@ -58,7 +59,7 @@
     selectedUsers = selectedUsers.filter(item => item.walletId !== walletId);
   }
 
-  $effect(() => {
+  onMount(() => {
     document.addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         e.preventDefault();
