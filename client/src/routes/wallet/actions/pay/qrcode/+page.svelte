@@ -2,10 +2,10 @@
     import { resolve } from "$app/paths";
     import { onMount } from "svelte";
     import QrScanner from '$lib/qr-scanner/qr-scanner.min';
-
+    import { env } from "$env/dynamic/public";
     import arrowIcon from '$lib/assets/icons/arrow-right.svg';
     import { goto } from "$app/navigation";
-    import { PUBLIC_APP_URL } from "$env/static/public";
+    
     import type { RouteId } from "./$types";
 
     interface QrCodeResult {
@@ -20,7 +20,7 @@
     let qrScanner: QrScanner;
 
     function checkQrCode(result: QrCodeResult) {
-        if (result.data.startsWith(`${PUBLIC_APP_URL}`)) {
+        if (result.data.startsWith(`${env.PUBLIC_APP_URL}`)) {
             try {
                 const qrcodeUrl = new URL(result.data);
                 const targetPage = resolve(qrcodeUrl.pathname as RouteId);
