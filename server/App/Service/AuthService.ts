@@ -8,13 +8,15 @@ import { TokenService } from "./TokenService/TokenService.js";
 import { TokenType } from "../Model/Enum/TokenType.js";
 import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
 import { Wallet } from "../Model/Wallet.js";
+import { TokenBlacklistingService } from "./TokenBlacklistingService/TokenBlacklistingService.js";
 
 export class AuthService 
 {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly walletRepository: WalletRepository,
-        private readonly tokenService: TokenService
+        private readonly tokenService: TokenService,
+        private readonly tokenBlacklistingService: TokenBlacklistingService
     ){}
 
     public async register(payload: UserSignupDTO): Promise<{ 
@@ -97,8 +99,9 @@ export class AuthService
         }
     }
 
-    public async logout(): Promise<void>
+    public async logout(token: string): Promise<void>
     {
-        
+        const decodedToken = this.tokenService.decode(token);
+        await this.tokenBlacklistingService.blacklist(decodedToken);
     }
 }
