@@ -1,12 +1,35 @@
 <script lang="ts">
     import { resolve } from "$app/paths";
     import { onMount } from "svelte";
+    import QrScanner from '$lib/qr-scanner/qr-scanner.min';
 
     import arrowIcon from '$lib/assets/icons/arrow-right.svg';
+    import { goto } from "$app/navigation";
+    import { PUBLIC_APP_URL } from "$env/static/public";
+    import type { RouteId } from "./$types";
+
+    interface QrCodeResult {
+        data: string;
+        cornerPoints: Array<unknown>;
+    }
 
     let stream: MediaStream | undefined = $state();
-    let videoElement : HTMLVideoElement | null = $state(null);
+    let videoElement: HTMLVideoElement | undefined = $state();
     let streaming = $state(false);
+
+    let qrScanner: QrScanner;
+
+    function checkQrCode(result: QrCodeResult) {
+        if (result.data.startsWith(`${PUBLIC_APP_URL}`)) {
+            try {
+                const qrcodeUrl = new URL(result.data);
+                const targetPage = resolve(qrcodeUrl.pathname as RouteId);
+                goto(targetPage);
+            } catch (error) {
+                console.error("Tried resolving URL, but it wasn't a valid route ID.", error);
+            }   
+        }
+    }
 
     async function requestCameraAccess() {
         try {
@@ -25,13 +48,23 @@
             if (videoElement) {
                 videoElement.srcObject = stream;
                 streaming = true;
+
+                qrScanner = new QrScanner(
+                    videoElement,
+                    (result: QrCodeResult) => checkQrCode(result),
+                    {}
+                )
+
+                qrScanner.start();
             }
         } catch (error: unknown) {
             if (error instanceof Error) {
                 if (error.name === "NotFoundError") {
-                    // pass
+                    alert("Nenhuma câmera encontrada. Conecte uma câmera e tente de novo.");
+                    goto(resolve("/wallet/actions/pay"));
                 } else if (error.name === "NotAllowedError") {
-                    // pass
+                    alert("Para escanear um QRCode, precisamos do acesso à câmera. Edite suas permissões e tente novamente.");
+                    requestCameraAccess();
                 }
             }
         }
@@ -41,6 +74,12 @@
         requestCameraAccess();
 
         return () => {
+            try {
+                qrScanner.stop();
+            } catch (error) {
+                console.warn("Tried stopping QRScanner, but couldn't do so.", error);
+            }
+
             stream?.getTracks()[0].stop();
         }
     })
