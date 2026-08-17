@@ -26,6 +26,8 @@ import { JwtTokenService } from "../../App/Service/TokenService/JwtTokenService.
 import { TokenService } from "../../App/Service/TokenService/TokenService.js";
 import { AuthService } from "../../App/Service/AuthService.js";
 import { AuthController } from "../../App/Http/Controller/AuthController.js";
+import { TokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/TokenBlacklistingService.js";
+import { RedisTokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/RedisTokenBlacklistingService.js";
 
 export class AppServiceProvider
 {
@@ -94,10 +96,23 @@ export class AppServiceProvider
 
         // Auth Services
         container.register(TokenService, c => new JwtTokenService(env.API_SECRET!), true);
-        container.register(AuthService, c => new AuthService(c.get(UserRepository), c.get(TokenService)), true)
+
+        const redisUrl = `redis://:${env.REDIS_PASSWORD}@${env.REDIS_HOST}:${env.REDIS_PORT}`;
+
+        container.register(TokenBlacklistingService, c => new RedisTokenBlacklistingService(redisUrl), true);
+        container.register(
+            AuthService, 
+            c => new AuthService(
+                c.get(UserRepository), 
+                c.get(WalletRepository),
+                c.get(TokenService),
+                c.get(TokenBlacklistingService)
+            ), 
+            true
+        );
 
         // Middleware example
-        container.register(AuthMiddleware, c => new AuthMiddleware(c.get(UserRepository), c.get(TokenService)));
+        container.register(AuthMiddleware, c => new AuthMiddleware(c.get(UserRepository), c.get(TokenService), c.get(TokenBlacklistingService)));
 
         // Auth Controller
         container.register(AuthController, c => new AuthController(c.get(AuthService)));

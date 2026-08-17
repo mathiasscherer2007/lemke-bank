@@ -11,6 +11,7 @@ export class AuthController extends Controller
         super();
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     public async signup(request: FastifyRequest<{ Body: UserSignupDTO }>, reply: FastifyReply)
@@ -49,5 +50,7 @@ export class AuthController extends Controller
         if(!token) throw new Error("Refresh token not provided.");
 
         await this.authService.revokeToken(token);
+
+        return reply.status(204).send();
     }
 }

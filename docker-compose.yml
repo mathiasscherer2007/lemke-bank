@@ -14,5 +14,18 @@ services:
     ports:
       - "3306:3306"
 
+  redis:
+    image: redis:7.4-alpine
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    volumes:
+      - redis_data:/data
+
 volumes:
+  redis_data:
+    driver: local
   mysql_data:
+    driver: local

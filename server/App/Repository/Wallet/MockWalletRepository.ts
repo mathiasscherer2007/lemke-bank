@@ -3,11 +3,13 @@ import { Wallet } from "../../Model/Wallet.js";
 import { WalletRepository } from "./WalletRepository.js";
 
 export class MockWalletRepository implements WalletRepository {
+    public readonly createdWallets: Wallet[] = [];
     private readonly walletsByUserId: Map<string, Wallet> = new Map();
     private readonly walletsById: Map<string, Wallet> = new Map();
     private readonly entriesByWalletId: Map<string, Transaction[]> = new Map();
 
     async create(wallet: Wallet): Promise<void> {
+        this.createdWallets.push(wallet);
         this.walletsByUserId.set(wallet.getUserId(), wallet);
         this.walletsById.set(wallet.getId(), wallet);
     }
@@ -36,6 +38,7 @@ export class MockWalletRepository implements WalletRepository {
     }
 
     public clear(): void {
+        this.createdWallets.length = 0;
         this.walletsByUserId.clear();
         this.walletsById.clear();
         this.entriesByWalletId.clear();
