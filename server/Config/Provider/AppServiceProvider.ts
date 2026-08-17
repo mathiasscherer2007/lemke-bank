@@ -1,6 +1,6 @@
 import { TransactionController } from "../../App/Http/Controller/TransactionController.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
-import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware.js";
+import { AuthMiddleware } from "../../App/Http/Middleware/AuthMiddleware.js";
 import { DrizzleTransactionRepository } from "../../App/Repository/Transaction/DrizzleTransactionRepository.js";
 import { TransactionRepository } from "../../App/Repository/Transaction/TransactionRepository.js";
 import { DrizzleWalletRepository } from "../../App/Repository/Wallet/DrizzleWalletRepository.js";
@@ -20,6 +20,14 @@ import { ChargeRepository } from "../../App/Repository/Charge/ChargeRepository.j
 import { ChargePaymentService } from "../../App/Service/ChargePaymentService.js";
 import { ChargeCreationService } from "../../App/Service/ChargeCreationService.js";
 import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
+import { UserRepository } from "../../App/Repository/User/UserRepository.js";
+import { DrizzleUserRepository } from "../../App/Repository/User/DrizzleUserRepository.js";
+import { JwtTokenService } from "../../App/Service/TokenService/JwtTokenService.js";
+import { TokenService } from "../../App/Service/TokenService/TokenService.js";
+import { AuthService } from "../../App/Service/AuthService.js";
+import { AuthController } from "../../App/Http/Controller/AuthController.js";
+import { TokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/TokenBlacklistingService.js";
+import { RedisTokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/RedisTokenBlacklistingService.js";
 
 export class AppServiceProvider
 {
@@ -83,7 +91,30 @@ export class AppServiceProvider
         // Charge Controller
         container.register(ChargeController, c => new ChargeController(c.get(ChargePaymentService), c.get(ChargeCreationService)), true);
 
+        // User Services
+        container.register(UserRepository, c => new DrizzleUserRepository(), true);
+
+        // Auth Services
+        container.register(TokenService, c => new JwtTokenService(env.API_SECRET!), true);
+
+        const redisUrl = `redis://:${env.REDIS_PASSWORD}@${env.REDIS_HOST}:${env.REDIS_PORT}`;
+
+        container.register(TokenBlacklistingService, c => new RedisTokenBlacklistingService(redisUrl), true);
+        container.register(
+            AuthService, 
+            c => new AuthService(
+                c.get(UserRepository), 
+                c.get(WalletRepository),
+                c.get(TokenService),
+                c.get(TokenBlacklistingService)
+            ), 
+            true
+        );
+
         // Middleware example
-        container.register(AuthMockMiddleware, () => new AuthMockMiddleware());
+        container.register(AuthMiddleware, c => new AuthMiddleware(c.get(UserRepository), c.get(TokenService), c.get(TokenBlacklistingService)));
+
+        // Auth Controller
+        container.register(AuthController, c => new AuthController(c.get(AuthService)));
     }
 }

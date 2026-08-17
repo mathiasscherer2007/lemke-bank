@@ -18,3 +18,13 @@ export class ServiceProviderTokenNotFound extends InfrastructureException
         this.message = `AppContainer could not resolve service provider for ${missingToken}`;
     }
 }
+
+export class CacheProviderException extends InfrastructureException
+{
+    private readonly error;
+
+    constructor(error: Error){
+        super('Cache provider error', 500);
+        this.error = error;
+    }
+}

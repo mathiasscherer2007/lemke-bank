@@ -18,12 +18,15 @@
     "database:migrate": "drizzle-kit migrate",
     "database:push": "drizzle-kit push",
     "database:pull": "drizzle-kit pull",
-    "database:studio": "drizzle-kit studio"
+    "database:studio": "drizzle-kit studio",
+    "generate-secret": "npm run generate-secret -w server"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^5.5.7",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/qrcode": "^1.5.6",
-    "concurrently": "^10.0.3"
+    "concurrently": "^10.0.3",
+    "drizzle-kit": "^0.31.10"
   },
   "dependencies": {
     "qrcode": "^1.5.4",

@@ -6,7 +6,7 @@ import { TransactionController } from "../../App/Http/Controller/TransactionCont
 import { WalletManagementService } from "../../App/Service/WalletManagementService.js";
 import { TransactionProcessorService } from "../../App/Service/TransactionProcessorService.js";
 import { BrasilApiBusinessDayService } from "../../App/Service/WebService/BusinessDay/BrasilApiBusinessDayService.js"
-import { AuthMockMiddleware } from "../../App/Http/Middleware/AuthMockMiddleware.js";
+import { AuthMiddleware } from "../../App/Http/Middleware/AuthMiddleware.js";
 import { AppServiceProvider } from "../../Config/Provider/AppServiceProvider.js";
 
 describe("AppServiceProvider", () => {
@@ -52,8 +52,8 @@ describe("AppServiceProvider", () => {
         assert.strictEqual(firstController["walletManagementService"], secondController["walletManagementService"]);
     });
 
-    test("boot resolves AuthMockMiddleware successfully", async () => {
-        const middleware = container.get(AuthMockMiddleware);
-        assert.ok(middleware instanceof AuthMockMiddleware);
+    test("boot resolves AuthMiddleware successfully", async () => {
+        const middleware = container.get(AuthMiddleware);
+        assert.ok(middleware instanceof AuthMiddleware);
     });
 });
