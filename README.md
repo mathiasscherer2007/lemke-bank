@@ -1,16 +1,27 @@
 # LemkeBank
+
+[![Lemke-Bank CI](https://github.com/mathiasscherer2007/lemke-bank/actions/workflows/test.yml/badge.svg)](https://github.com/mathiasscherer2007/lemke-bank/actions/workflows/test.yml)
+![MPV](https://img.shields.io/github/milestones/progress-percent/mathiasscherer2007/lemke-bank/1)
+
 ## O seu banco (e o do seu professor)
 
 O LemkeBank é um projeto de internet-banking que opera com a moeda fictícia Bills (BL$). O professor consegue distribuir bills para os alunos, que podem realizar transações (tanto para o professor, como para outros alunos) utilizando os bills na sua carteira.
 
 ## Linguagens e Frameworks
 
-Este projeto utiliza principalmente a linguagem TypeScript, tanto no backend como para ações de servidor no frontend.
+Tecnologias utilizadas:<br />
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/css-%23663399.svg?style=for-the-badge&logo=css&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-As frameworks utilizadas incluem:
-- SvelteKit (frontend)
-- Fastify (backend)
-- Tailwind (CSS)
+Frameworks utilizadas:<br />
+<a target="_blank" href="https://svelte.dev/">![Svelte](https://img.shields.io/badge/sveltekit-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white)</a>
+<a target="_blank" href="https://tailwindcss.com/">![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)</a>
+<a target="_blank" href="https://fastify.dev">![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)</a>
+<a target="_blank" href="https://nodejs.org">![NodeJS](https://img.shields.io/badge/node.js-%236DA55F.svg?style=for-the-badge&logo=node.js&logoColor=white)</a>
 
 ## Features do projeto final
 
