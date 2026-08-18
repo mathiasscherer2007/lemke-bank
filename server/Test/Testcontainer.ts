@@ -39,4 +39,23 @@ export class Testcontainer
         await container.stop({ remove: true });
     }
 
+    public static async upTestRedisContainer()
+    {
+        const container = await new GenericContainer('redis:latest')
+        .withExposedPorts(6379)
+        .withWaitStrategy(Wait.forListeningPorts())
+        .start();
+
+        const mappedPort = container.getMappedPort(6379);
+        process.env.REDIS_HOST = 'localhost';
+        process.env.REDIS_PORT = String(mappedPort);
+
+        return container;
+    }
+
+    public static async downTestRedisContainer(container: StartedTestContainer)
+    {
+        await container.stop({ remove: true });
+    }
+
 }

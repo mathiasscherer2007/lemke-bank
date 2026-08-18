@@ -8,10 +8,13 @@ import { pool } from "../../Config/Database/connection.js";
 
 describe("AuthController routes", () => {
     let app: FastifyInstance;
-    let container: StartedTestContainer;
+    let dbContainer: StartedTestContainer;
+    let redisContainer: StartedTestContainer;
 
     before(async () => {
-        container = await Testcontainer.upTestDatabaseContainer();
+        dbContainer = await Testcontainer.upTestDatabaseContainer();
+        redisContainer = await Testcontainer.upTestRedisContainer();
+
         app = await buildApp();
         app.ready();
     });
@@ -19,7 +22,8 @@ describe("AuthController routes", () => {
     after(async () => {
         pool.end();
         app.close();
-        await Testcontainer.downTestDatabaseContainer(container);
+        await Testcontainer.downTestDatabaseContainer(dbContainer);
+        await Testcontainer.downTestRedisContainer(redisContainer);
         process.exit(0); // Ensure the process exits after tests are done
     });
 
