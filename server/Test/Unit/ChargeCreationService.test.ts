@@ -13,7 +13,7 @@ describe('ChargeCreationService', () => {
 
         const userId = 'user-1';
         const wallet = new Wallet(userId, undefined, 0, 'wallet-1');
-        await walletRepo.create(wallet, userId);
+        await walletRepo.create(wallet);
 
         const service = new ChargeCreationService(chargeRepo, walletRepo);
 

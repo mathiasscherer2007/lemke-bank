@@ -13,7 +13,7 @@ describe('WalletManagementService', () => {
     test('getWalletData returns repository.findById result', async () => {
         const repo = new MockWalletRepository();
         const wallet = new Wallet('user-1', WalletStatus.ACTIVE, 0, 'wallet-1', new Date('2026-01-01'));
-        await repo.create(wallet, 'user-1');
+        await repo.create(wallet);
 
         const service = new WalletManagementService(repo as any);
 

@@ -65,7 +65,7 @@ describe("StatementGenerationService", () => {
         const statementRepository = new MockStatementRepository();
 
         const wallet = createWallet("wallet-1", new Date(2026, 0, 1));
-        await walletRepository.create(wallet, "user-1");
+        await walletRepository.create(wallet);
 
         const service = new StatementGenerationService(
             walletRepository,
@@ -91,7 +91,7 @@ describe("StatementGenerationService", () => {
         const statementRepository = new MockStatementRepository();
 
         const wallet = createWallet("wallet-1", new Date(2026, 0, 1));
-        await walletRepository.create(wallet, "user-1");
+        await walletRepository.create(wallet);
 
         statementRepository.addTransaction(
             wallet.getId(),
@@ -125,7 +125,7 @@ describe("StatementGenerationService", () => {
         const statementRepository = new MockStatementRepository();
 
         const wallet = createWallet("wallet-1", new Date(2026, 0, 1));
-        await walletRepository.create(wallet, "user-1");
+        await walletRepository.create(wallet);
 
         statementRepository.addTransaction(
             wallet.getId(),
