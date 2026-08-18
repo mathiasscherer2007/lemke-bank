@@ -42,6 +42,7 @@
 				passwordContent = "";
 			};
 		}}
+		autocomplete="off"
 		action="?/signup"
 		method="POST"
 		class="mx-5 lg:mx-auto flex w-xl flex-col items-center rounded-xl p-5 px-7 bg-[#fbfafb] dark:bg-[rgb(27,27,26)] shadow dark:text-white"
@@ -64,7 +65,6 @@
 				type="text"
 				name="username"
 				id="username"
-				autocomplete="off"
 				required
 				class="rounded-xl p-3 bg-[#efefef] dark:bg-[rgb(46,46,45)]"
 			/>
@@ -75,7 +75,6 @@
 				type="email"
 				name="email"
 				id="email"
-				autocomplete="off"
 				placeholder="exemplo@email.com"
 				required
 				class="flex-1 rounded-xl p-3 bg-[#efefef] dark:bg-[rgb(46,46,45)]"
@@ -101,6 +100,7 @@
 					<img src={showPassword ? crossedEyeIcon : eyeIcon} alt="show" class="h-full white-filter" />
 				</button>
 			</div>
+			<p class="opacity-70 italic mt-3">sua senha deve ter pelo menos 6 caracteres</p>
 		</div>
 		<div class="my-2 flex w-full flex-col pt-6">
 			<button
