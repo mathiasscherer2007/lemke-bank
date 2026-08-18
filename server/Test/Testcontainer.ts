@@ -52,6 +52,7 @@ export class Testcontainer
         const mappedPort = container.getMappedPort(6379);
         process.env.REDIS_HOST = '127.0.0.1';
         process.env.REDIS_PORT = String(mappedPort);
+        env.REDIS_PORT = mappedPort;
 
         return container;
     }
