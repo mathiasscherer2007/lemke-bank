@@ -9,7 +9,7 @@ export const actions: Actions = {
 			method: 'POST',
 			headers: {
 				'x-access-token': cookies.get('x-access-token') ?? '',
-				'x-refresh-token': cookies.get('x-refresh-token') ?? ''
+				'x-refresh-token': cookies.get('x-refresh-token') ?? '',
 			}
 		});
 
@@ -18,7 +18,8 @@ export const actions: Actions = {
 		} else {
 			cookies.delete('x-access-token', { path: '/' });
 			cookies.delete('x-refresh-token', { path: '/' });
-			throw redirect(303, resolve('/account/login'));
 		}
+
+		throw redirect(303, resolve('/account/login'));
 	},
 };
