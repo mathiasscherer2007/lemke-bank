@@ -8,9 +8,9 @@ export const actions: Actions = {
 		const username = form.get('username')?.toString().trim() ?? '';
 		const email = form.get('email')?.toString().trim() ?? '';
 		const password = form.get('password')?.toString() ?? '';
-		const confirmPassword = password;
+		const confirmPassword = form.get('passwordConfirm')?.toString() ?? '';
 
-		if (!username || !email || !password) {
+		if (!username || !email || !password || !confirmPassword) {
 			return fail(422, { error: { message: 'Por favor, preencha todos os campos.' } });
 		}
 
