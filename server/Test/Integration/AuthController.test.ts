@@ -16,7 +16,7 @@ describe("AuthController routes", () => {
         redisContainer = await Testcontainer.upTestRedisContainer();
 
         app = await buildApp();
-        app.ready();
+        await app.ready();
     });
 
     after(async () => {
