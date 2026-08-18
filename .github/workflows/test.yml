@@ -26,5 +26,8 @@ jobs:
           echo "DB_USER=${{ vars.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "HOLIDAYS_API_URL=${{ vars.HOLIDAYS_API_URL }}" >> .env
+          echo "REDIS_HOST"=${{ vars.REDIS_HOST }}" >> .env
+          echo "REDIS_PORT=${{ vars.REDIS_PORT }}" >> .env
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env
       - run: npm run build --if-present
       - run: npm test
