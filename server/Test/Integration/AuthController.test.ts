@@ -24,7 +24,7 @@ describe("AuthController routes", () => {
         await app.close();
         await Testcontainer.downTestDatabaseContainer(dbContainer);
         await Testcontainer.downTestRedisContainer(redisContainer);
-        process.exit(0); // Ensure the process exits after tests are done
+        process.exit(0);
     });
 
     test("POST /signup creates an account and returns authentication headers", async () => {
