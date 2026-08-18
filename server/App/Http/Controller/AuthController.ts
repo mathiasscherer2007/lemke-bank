@@ -34,7 +34,7 @@ export class AuthController extends Controller
         const payload = request.body;
         const { accessToken, accessTokenTTL, refreshToken, refreshTokenTTL, user } = await this.authService.authenticate(payload);
 
-        return reply.status(201)
+        return reply.status(200)
         .headers({
             "x-access-token": accessToken,
             "x-access-token-ttl": accessTokenTTL,
