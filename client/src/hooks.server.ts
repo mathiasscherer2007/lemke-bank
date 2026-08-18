@@ -5,8 +5,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (pathName.startsWith('/wallet') || pathName.startsWith('/admin')) {
 		if (event.cookies.get('x-access-token') && event.cookies.get('x-refresh-token')) {
-			const response = await resolve(event);
-			return response;
+			// pass
 		} else {
 			throw redirect(303, '/account/login');
 		}
