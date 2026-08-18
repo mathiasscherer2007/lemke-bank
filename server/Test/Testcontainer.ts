@@ -42,12 +42,15 @@ export class Testcontainer
     public static async upTestRedisContainer()
     {
         const container = await new GenericContainer('redis:latest')
+        .withEnvironment({
+            REDIS_PASSWORD: env.REDIS_PASSWORD!
+        })
         .withExposedPorts(6379)
         .withWaitStrategy(Wait.forListeningPorts())
         .start();
 
         const mappedPort = container.getMappedPort(6379);
-        process.env.REDIS_HOST = 'localhost';
+        process.env.REDIS_HOST = '127.0.0.1';
         process.env.REDIS_PORT = String(mappedPort);
 
         return container;
