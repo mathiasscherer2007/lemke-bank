@@ -20,8 +20,8 @@ describe("AuthController routes", () => {
     });
 
     after(async () => {
-        pool.end();
-        app.close();
+        await pool.end();
+        await app.close();
         await Testcontainer.downTestDatabaseContainer(dbContainer);
         await Testcontainer.downTestRedisContainer(redisContainer);
         process.exit(0); // Ensure the process exits after tests are done
