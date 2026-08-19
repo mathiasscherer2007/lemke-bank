@@ -11,10 +11,14 @@
 
 	let { form }: PageProps = $props();
 
-	let submitting = $state(false);
 	let warningVisible = $state(true);
 	let showPassword = $state(false);
-	let passwordContent = $state();
+	let passwordContent = $state('');
+	let email = $state('');
+	let submitting = $state(false);
+	let canSubmit = $derived.by(() => {
+		return (passwordContent) && (email)
+	});
 
 	function hideError() {
 		warningVisible = false;
@@ -66,6 +70,7 @@
 				id="email"
 				placeholder="exemplo@email.com"
 				required
+				bind:value={email}
 				class="rounded-xl p-3 bg-[#efefef] dark:bg-[rgb(46,46,45)]"
 			/>
 		</div>
@@ -92,7 +97,7 @@
 		</div>
 		<div class="my-2 flex w-full flex-col pt-6">
 			<button
-				disabled={submitting}
+				disabled={submitting || !canSubmit}
 				class="cursor-pointer rounded-xl p-3 font-bold transition bg-teal-400 dark:text-black disabled:cursor-default disabled:bg-transparent border border-teal-400 disabled:text-teal-400 enabled:hover:bg-teal-500 dark:enabled:hover:bg-teal-500"
 				>{submitting ? '...' : 'Entrar'}</button
 			>
