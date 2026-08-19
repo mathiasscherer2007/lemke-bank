@@ -10,6 +10,7 @@ export class WalletController extends Controller
     ){
         super();
         this.getWallet = this.getWallet.bind(this);
+        this.overview = this.overview.bind(this);
     }
 
     public async getWallet(request: FastifyRequest<{ Params: GetWalletParamsSchema }>, reply: FastifyReply)
@@ -17,5 +18,15 @@ export class WalletController extends Controller
         const id = request.params.walletId;
         const wallet = this.walletManagementService.getWalletData(id);
         return reply.status(200).send(wallet);
+    }
+
+    public async overview(request: FastifyRequest, reply: FastifyReply) 
+    {
+        const userId = request.user!.id;
+        const { wallet, recentTransactions } = await this.walletManagementService.getOverview(userId);
+        return reply.status(200).send({ 
+            wallet: wallet, 
+            recentTransactions: recentTransactions 
+        });
     }
 }

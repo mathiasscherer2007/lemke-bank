@@ -77,4 +77,69 @@ export class DrizzleStatementRepository implements StatementRepository
 
         return statementTransactions;
     }
+
+    public async findRecentTransactions(walletId: string, limit: number): Promise<StatementTransaction[]> 
+    {
+        const result = await db
+            .select({
+                id: transactions.id,
+                description: transactions.description,
+                totalAmount: transactions.amount,
+                createdAt: transactions.createdAt,
+                entries: sql`
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'id', ${ledgerEntries.id},
+                            'counterpartyWalletId', ${ledgerEntries.counterpartyWalletId},
+                            'amount', ${ledgerEntries.amount},
+                            'type', ${ledgerEntries.entryType},
+                            'balanceBefore', ${ledgerEntries.balanceBefore},
+                            'balanceAfter', ${ledgerEntries.balanceAfter},
+                            'createdAt', ${ledgerEntries.createdAt},
+                            'relatedUser', JSON_OBJECT(
+                                'id', ${users.id},
+                                'username', ${users.username}
+                            )
+                        )
+                    )
+                `.as("entries"),
+            })
+            .from(ledgerEntries)
+            .innerJoin(
+                transactions,
+                eq(transactions.id, ledgerEntries.transactionId),
+            )
+            .innerJoin(
+                wallets,
+                eq(wallets.id, ledgerEntries.counterpartyWalletId),
+            )
+            .innerJoin(
+                users,
+                eq(users.id, wallets.userId),
+            )
+            .where(
+                eq(ledgerEntries.walletId, walletId)
+            )
+            .groupBy(
+                transactions.id,
+                transactions.description,
+                transactions.amount,
+                transactions.createdAt,
+            )
+            .orderBy(desc(transactions.createdAt))
+            .limit(limit);
+
+        const statementTransactions: StatementTransaction[] = result.map((row) => {
+            const entries = JSON.parse(row.entries as string) as StatementEntry[];
+            return new StatementTransaction(
+                row.id,
+                row.totalAmount,
+                row.description,
+                entries,
+                row.createdAt
+            );
+        });
+
+        return statementTransactions;
+    }
 }

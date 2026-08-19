@@ -15,6 +15,13 @@
       "when": 1785684923838,
       "tag": "0001_luxuriant_norman_osborn",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787103208898,
+      "tag": "0002_friendly_proteus",
+      "breakpoints": true
     }
   ]
 }
