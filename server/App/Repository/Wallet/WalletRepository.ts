@@ -1,9 +1,8 @@
-import { Transaction } from "../../Model/Transaction.js";
 import { Wallet } from "../../Model/Wallet.js";
 
 export interface WalletRepository
 {
-    create(wallet: Wallet, userId: string): Promise<void>;
+    create(wallet: Wallet): Promise<void>;
     findById(id: string): Promise<Wallet | null>;
     findByUserId(userId: string): Promise<Wallet | null>;
 }

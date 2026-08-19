@@ -27,7 +27,7 @@ describe('ChargePaymentService', () => {
 
         const userId = 'user-1';
         const issuerWallet = new Wallet(userId, undefined, 0, 'wallet-1');
-        await walletRepo.create(issuerWallet, userId);
+        await walletRepo.create(issuerWallet);
 
         const charge = new Charge(issuerWallet.getId(), 50, 'desc', 'charge-1');
         chargeRepo.seed(charge);
@@ -83,7 +83,7 @@ describe('ChargePaymentService', () => {
 
         const issuerUser = 'issuer';
         const issuerWallet = new Wallet(issuerUser, undefined, 0, 'wallet-issuer');
-        await walletRepo.create(issuerWallet, issuerUser);
+        await walletRepo.create(issuerWallet);
 
         // create expired charge
         const expired = new Date();
@@ -104,8 +104,8 @@ describe('ChargePaymentService', () => {
         const payerUser = 'payer';
         const issuerWallet = new Wallet(issuerUser, undefined, 0, 'wallet-issuer');
         const payerWallet = new Wallet(payerUser, undefined, 1000, 'wallet-payer');
-        await walletRepo.create(issuerWallet, issuerUser);
-        await walletRepo.create(payerWallet, payerUser);
+        await walletRepo.create(issuerWallet);
+        await walletRepo.create(payerWallet);
 
         const charge = new Charge(issuerWallet.getId(), 50, 'desc', 'charge-1');
         chargeRepo.seed(charge);

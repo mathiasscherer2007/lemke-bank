@@ -8,7 +8,7 @@ export class AppContainer
     private instances = new Map<any, any>();
 
     /**
-     * Greets a user by their name.
+     * Registry a new application service.
      * 
      * @param token - Interface name for this service. Use class name if it doesn't has a abstraction.
      * @param factory - Method which will be responsable for instantiate this service.
@@ -17,7 +17,14 @@ export class AppContainer
     public register<T>(token: any, factory: Factory<T>, isSingleton?: boolean): void
     {
         this.factories.set(token, factory);
-        if(isSingleton) this.singletons.set(token, factory);
+        this.instances.delete(token);
+
+        if(isSingleton) {
+            this.singletons.set(token, factory);
+            return;
+        }
+
+        this.singletons.delete(token);
     }
 
     public get<T>(token: any): T

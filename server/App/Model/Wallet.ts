@@ -42,6 +42,11 @@ export class Wallet
         return this.createdAt!;
     }
 
+    public getUserId(): string
+    {
+        return this.userId;
+    }
+
     public toPrimitives(): Record<string, unknown>
     {
         return {

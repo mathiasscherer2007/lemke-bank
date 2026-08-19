@@ -41,3 +41,21 @@ export const createChargeDTO = z.object({
 });
 
 export type CreateChargeDTO = z.infer<typeof createChargeDTO>;
+
+
+export const userSignupDTO = z.object({
+    username: z.coerce.string().min(3).max(50).nonoptional(),
+    email: z.email().nonempty().nonoptional(),
+    password: z.coerce.string().min(6).nonoptional(),
+    confirmPassword: z.coerce.string().min(6).nonoptional()
+});
+
+export type UserSignupDTO = z.infer<typeof userSignupDTO>;
+
+
+export const userLoginDTO = z.object({
+    email: z.email().nonempty().nonoptional(),
+    password: z.coerce.string().min(6).nonoptional(),
+});
+
+export type UserLoginDTO = z.infer<typeof userLoginDTO>

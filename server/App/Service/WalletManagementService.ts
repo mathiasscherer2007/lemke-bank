@@ -1,4 +1,3 @@
-import { WalletNotFoundException } from "../Exception/DomainException.js";
 import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
 
 export class WalletManagementService

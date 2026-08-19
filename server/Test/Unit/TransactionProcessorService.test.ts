@@ -42,8 +42,8 @@ describe("TransactionProcessorService", () => {
         const toWallet = createTestWallet("user-456", 0, "wallet-to-uuid");
 
         const walletRepository = new MockWalletRepository();
-        await walletRepository.create(fromWallet, "user-123");
-        await walletRepository.create(toWallet, "user-456");
+        await walletRepository.create(fromWallet);
+        await walletRepository.create(toWallet);
 
         const transactionRepository = new MockTransactionRepository();
         const businessDayService = new MockBusinessDayService();
@@ -89,8 +89,8 @@ describe("TransactionProcessorService", () => {
         const toWallet = createTestWallet("user-456", 0, "wallet-to-uuid");
 
         const walletRepository = new MockWalletRepository();
-        await walletRepository.create(fromWallet, "user-123");
-        await walletRepository.create(toWallet, "user-456");
+        await walletRepository.create(fromWallet);
+        await walletRepository.create(toWallet);
 
         const transactionRepository = new MockTransactionRepository();
         const businessDayService = new MockBusinessDayService();
@@ -119,8 +119,8 @@ describe("TransactionProcessorService", () => {
         const toWallet = createTestWallet("user-456", 0, "wallet-to-uuid");
 
         const walletRepository = new MockWalletRepository();
-        await walletRepository.create(fromWallet, "user-123");
-        await walletRepository.create(toWallet, "user-456");
+        await walletRepository.create(fromWallet);
+        await walletRepository.create(toWallet);
 
         const transactionRepository = new MockTransactionRepository();
         const businessDayService = new MockBusinessDayService();
@@ -147,8 +147,8 @@ describe("TransactionProcessorService", () => {
         const toWallet = createTestWallet("user-456", 0, "wallet-to-uuid");
 
         const walletRepository = new MockWalletRepository();
-        await walletRepository.create(fromWallet, "user-123");
-        await walletRepository.create(toWallet, "user-456");
+        await walletRepository.create(fromWallet);
+        await walletRepository.create(toWallet);
 
         const transactionRepository = new MockTransactionRepository();
         const businessDayService = new MockBusinessDayService();
@@ -186,8 +186,8 @@ describe("TransactionProcessorService", () => {
         const toWallet = createTestWallet("user-456", 0, "wallet-to-uuid");
 
         const walletRepository = new MockWalletRepository();
-        await walletRepository.create(fromWallet, "user-123");
-        await walletRepository.create(toWallet, "user-456");
+        await walletRepository.create(fromWallet);
+        await walletRepository.create(toWallet);
 
         const transactionRepository = new MockTransactionRepository();
         const businessDayService = new MockBusinessDayService();
