@@ -53,12 +53,13 @@
 
 <div>
   {#if form?.transactions.length > 0}
-    <ol in:slide class="mt-3 flex flex-col gap-1">
+    <!-- <ol in:slide class="mt-3 flex flex-col gap-1">
       <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">25/03</li>
       {@render transfer('credit', 'ana paula lemke', '10', 'Atividade de números binários')}
       <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">24/03</li>
       {@render transfer('debit', 'Túlio Lima Baségio', '6')}
-    </ol>
+    </ol> -->
+    <p>{form?.transactions}</p>
   {:else}
     <p class="mt-5 text-xl opacity-80">Não houveram movimentações no período selecionado.</p>
   {/if}
