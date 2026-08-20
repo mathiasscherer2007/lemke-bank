@@ -1,22 +1,29 @@
 <script lang="ts">
-  import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
-  import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
   import MonthSlider from '$lib/components/elements/MonthSlider.svelte';
   import { slide } from 'svelte/transition';
+  import type { PageProps } from './$types';
 
-  const months = [
-    { month: 'Jan', year: 2026 },
-    { month: 'Fev', year: 2026 },
-    { month: 'Mar', year: 2026 },
-    { month: 'Abr', year: 2026 },
-    { month: 'Mai', year: 2026 },
-    { month: 'Jun', year: 2026 }
-  ];
+  import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
+  import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
+  import { onMount } from 'svelte';
+  import { numberToMonth } from '$lib/utils/date-utils';
 
-  function handleMonthClick(month: string, year: number) {
-    // TODO: fetch the month and year in the api
-    console.log(month, year);
-  }
+  let { data, form }: PageProps = $props();
+  let months: Array<{ month: string, year: number, endpoint: string | URL }> = $state([]);
+
+  onMount(() => {
+    data.links.forEach((l: string) => {
+      const link = new URL(l);
+      const month = numberToMonth(Number(link.searchParams.get('month') ?? 0), true);
+      const year = Number(link.searchParams.get('year'));
+
+      months.push({
+        month: month,
+        year: year,
+        endpoint: link
+      });
+    });
+  });
 </script>
 
 <svelte:head>
@@ -25,7 +32,7 @@
 
 <h1 class="mb-3 font-[Stack_Sans_Headline] text-3xl lg:ml-3">Extrato</h1>
 <div class="flex w-full gap-2">
-  <MonthSlider {months} onMonthButtonClick={handleMonthClick} />
+  <MonthSlider {months} buttonFormAction="?/getMonthStatement" selectedButton={form?.selectedButton ?? ''} />
 </div>
 
 {#snippet transfer(type: 'credit' | 'debit', title: string, amount: string, description?: string)}
@@ -45,10 +52,14 @@
 {/snippet}
 
 <div>
-  <ol in:slide class="mt-3 flex flex-col gap-1">
-    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">25/03</li>
-    {@render transfer('credit', 'ana paula lemke', '10', 'Atividade de números binários')}
-    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">24/03</li>
-    {@render transfer('debit', 'Túlio Lima Baségio', '6')}
-  </ol>
+  {#if form?.transactions.length > 0}
+    <ol in:slide class="mt-3 flex flex-col gap-1">
+      <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">25/03</li>
+      {@render transfer('credit', 'ana paula lemke', '10', 'Atividade de números binários')}
+      <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">24/03</li>
+      {@render transfer('debit', 'Túlio Lima Baségio', '6')}
+    </ol>
+  {:else}
+    <p class="mt-5 text-xl opacity-80">Não houveram movimentações no período selecionado.</p>
+  {/if}
 </div>
