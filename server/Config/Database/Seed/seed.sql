@@ -1,5 +1,10 @@
 START TRANSACTION;
 
+-- ============================================================
+-- ADDS 10 TRANSACTIONS TO ALL USERS IN USERS TABLE
+-- THIS SEED WAS VIBECODED
+-- ============================================================
+
 DROP TEMPORARY TABLE IF EXISTS seed_transactions;
 
 CREATE TEMPORARY TABLE seed_transactions (
