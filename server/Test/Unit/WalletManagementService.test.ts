@@ -8,14 +8,16 @@ import { WalletStatus } from '../../App/Model/Enum/WalletStatus.js';
 import { LedgerEntry } from '../../App/Model/LedgerEntry.js';
 import { LedgerEntryType } from '../../App/Model/Enum/LedgerEntryType.js';
 import { Transaction } from '../../App/Model/Transaction.js';
+import { MockStatementRepository } from '../../App/Repository/Statement/MockStatementRepository.js';
 
 describe('WalletManagementService', () => {
     test('getWalletData returns repository.findById result', async () => {
-        const repo = new MockWalletRepository();
+        const walletRepository = new MockWalletRepository();
+        const statementRepository = new MockStatementRepository();
         const wallet = new Wallet('user-1', WalletStatus.ACTIVE, 0, 'wallet-1', new Date('2026-01-01'));
-        await repo.create(wallet);
+        await walletRepository.create(wallet);
 
-        const service = new WalletManagementService(repo as any);
+        const service = new WalletManagementService(walletRepository as any, statementRepository as any);
 
         const result = await service.getWalletData('wallet-1');
 

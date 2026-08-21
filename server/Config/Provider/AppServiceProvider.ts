@@ -36,20 +36,18 @@ export class AppServiceProvider
      */
     public static boot(container: AppContainer): void 
     {
-        // Wallet Services
+        // Wallet and Statement Services
         container.register(WalletRepository, () => new DrizzleWalletRepository(), true);
-        container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository)), true);
-
-        // Wallet Controller
-        container.register(WalletController, c => new WalletController(c.get(WalletManagementService)));
-
-        // Statement Services
         container.register(StatementRepository, () => new DrizzleStatementRepository(), true);
+
+        container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository), c.get(StatementRepository)), true);
         container.register(StatementGenerationService, c => new StatementGenerationService(c.get(WalletRepository), c.get(StatementRepository)), true);
 
-        // Statement Controller
+        // Wallet and Statement Controllers
+        container.register(WalletController, c => new WalletController(c.get(WalletManagementService)));
         container.register(StatementController, c => new StatementController(c.get(StatementGenerationService)));
 
+        
         // Business Day Service
         container.register(BusinessDayService, () => new BrasilApiBusinessDayService(env.HOLIDAYS_API_URL!));
 

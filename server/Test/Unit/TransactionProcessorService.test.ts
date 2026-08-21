@@ -8,7 +8,7 @@ import { WalletStatus } from "../../App/Model/Enum/WalletStatus.js";
 import { LedgerEntryType } from "../../App/Model/Enum/LedgerEntryType.js";
 import { InsufficientFundsException, NotABusinessDayException } from "../../App/Exception/DomainException.js";
 import { PaymentByWalletIdDTO } from "../../App/Dto/Request.js";
-import { BusinessDayService } from "../Service/WebService/BusinessDay/BusinessDayService.js";
+import { BusinessDayService } from "../../App/Service/WebService/BusinessDay/BusinessDayService.js";
 
 const createTestWallet = (userId: string, balance: number, id?: string) => {
     return new Wallet(userId, WalletStatus.ACTIVE, balance, id);
