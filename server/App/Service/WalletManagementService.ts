@@ -7,19 +7,19 @@ export class WalletManagementService
     private readonly recentTransacionsLimit: number = 10;
 
     constructor(
-        private readonly walletStatement: WalletRepository,
+        private readonly walletRepository: WalletRepository,
         private readonly statementRepository: StatementRepository,
     ){}
 
     public async getWalletData(id: string)
     {        
-        const wallet = this.walletStatement.findById(id);
+        const wallet = await this.walletRepository.findById(id);
         return wallet;
     }
 
     public async getOverview(userId: string)
     {
-        const wallet = await this.walletStatement.findByUserId(userId);
+        const wallet = await this.walletRepository.findByUserId(userId);
         if(!wallet) throw new WalletNotFoundException(undefined, userId);
 
         const transactions = await this.statementRepository.findRecentTransactions(wallet!.getId(), this.recentTransacionsLimit);

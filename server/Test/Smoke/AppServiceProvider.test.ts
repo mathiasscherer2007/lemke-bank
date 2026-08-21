@@ -24,7 +24,7 @@ describe("AppServiceProvider", () => {
         const walletService = walletController["walletManagementService"];
         assert.ok(walletService instanceof WalletManagementService);
 
-        const walletRepository = walletService["walletStatement"];
+        const walletRepository = walletService["walletRepository"];
         assert.strictEqual(walletRepository.constructor.name, "DrizzleWalletRepository");
     });
 
