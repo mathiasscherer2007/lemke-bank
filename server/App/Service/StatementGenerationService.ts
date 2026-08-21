@@ -22,7 +22,12 @@ export class StatementGenerationService
         if(!wallet) throw new WalletNotFoundException(undefined, userId);
 
         const startDate = new Date(`${year}-${month}-01`);
-        const endDate = new Date(`${year}-${month + 1}-01`);
+        let endDate;
+        if (month === 12) {
+            endDate = new Date(`${year+1}-01-01`);
+        } else {
+            endDate = new Date(`${year}-${month + 1}-01`);
+        }
 
         const entries = await this.statementRepository.findTransactions(wallet.getId(), startDate, endDate);
         const statement = new Statement(wallet.getId(), entries);
