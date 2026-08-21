@@ -53,7 +53,7 @@ export class StatementController extends Controller
         const links = [];
 
         while((month >= walletMonth && year === walletYear) || year > walletYear){
-            links.push(`${ this.API_HOST }:${ this.API_PORT }?month=${ month }&year=${ year }`);
+            links.push(`${ this.API_HOST }:${ this.API_PORT }/statement?month=${ month }&year=${ year }`);
             
             if(month === 1){
                 year--;

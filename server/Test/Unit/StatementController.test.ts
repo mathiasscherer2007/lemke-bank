@@ -62,7 +62,7 @@ describe('StatementController generateStatementLinks', () => {
         const walletYear = walletCreatedDate.getFullYear();
 
         while((month >= walletMonth && year === walletYear) || year > walletYear){
-            expected.push(`${host}:${port}?month=${month}&year=${year}`);
+            expected.push(`${host}:${port}/statement?month=${month}&year=${year}`);
             if(month === 1){
                 year--;
                 month = 12;
@@ -86,10 +86,10 @@ describe('StatementController generateStatementLinks', () => {
         const port = controller.API_PORT;
 
         const current = new Date();
-        const expectedFirst = `${host}:${port}?month=${current.getMonth() + 1}&year=${current.getFullYear()}`;
+        const expectedFirst = `${host}:${port}/statement?month=${current.getMonth() + 1}&year=${current.getFullYear()}`;
         const walletMonth = walletCreatedDate.getMonth() + 1;
         const walletYear = walletCreatedDate.getFullYear();
-        const walletLink = `${host}:${port}?month=${walletMonth}&year=${walletYear}`;
+        const walletLink = `${host}:${port}/statement?month=${walletMonth}&year=${walletYear}`;
 
         assert.strictEqual(links[0], expectedFirst);
         assert.ok(links.includes(walletLink));
