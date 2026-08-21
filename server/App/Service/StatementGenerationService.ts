@@ -18,7 +18,7 @@ export class StatementGenerationService
         walletCreationDate: Date 
     }>
     {
-        const wallet = await this.walletRepository.findById(userId);
+        const wallet = await this.walletRepository.findByUserId(userId);
         if(!wallet) throw new WalletNotFoundException(undefined, userId);
 
         const startDate = new Date(`${year}-${month}-01`);

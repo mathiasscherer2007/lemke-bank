@@ -17,6 +17,7 @@ export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
 
     const walletController = app.container.get<WalletController>(WalletController);
     app.get('/wallets/:walletId', { schema: { params: getWalletParamsSchema } }, walletController.getWallet);
+    app.get('/overview', walletController.overview);
 
     const statementController = app.container.get<StatementController>(StatementController);
     app.get('/statement', { schema: { querystring: statementQueryStringSchema } }, statementController.getStatement);
