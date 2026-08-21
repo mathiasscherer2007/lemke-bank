@@ -1,6 +1,5 @@
 <script lang="ts">
   import MonthSlider from '$lib/components/elements/MonthSlider.svelte';
-  import { slide } from 'svelte/transition';
   import type { PageProps } from './$types';
 
   import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
