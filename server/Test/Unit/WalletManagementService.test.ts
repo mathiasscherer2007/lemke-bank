@@ -8,6 +8,7 @@ import { MockStatementRepository } from '../../App/Repository/Statement/MockStat
 import { MockUserRepository } from '../../App/Repository/User/MockUserRepository.js';
 import { UserRole } from '../../App/Model/Enum/UserRole.js';
 import { User } from '../../App/Model/User.js';
+import { StatementTransaction } from '../../App/Model/StatementTransaction.js';
 
 describe('WalletManagementService', () => {
     test('getWalletData returns repository.findById result', async () => {
@@ -32,6 +33,37 @@ describe('WalletManagementService', () => {
         delete userData.passwordHash; // Remove passwordHash for comparison
 
         assert.deepStrictEqual({ ...resultWallet, user: resultUserData }, { ...wallet, user: userData });
+    });
+
+    test('getOverview returns the wallet and its ten most recent transactions', async () => {
+        const walletRepository = new MockWalletRepository();
+        const statementRepository = new MockStatementRepository();
+        const userRepository = new MockUserRepository();
+
+        const wallet = new Wallet('user-1', WalletStatus.ACTIVE, 0, 'wallet-1', new Date('2026-01-01'));
+        await walletRepository.create(wallet);
+
+        const transactions = Array.from({ length: 11 }, (_, index) => new StatementTransaction(
+            `transaction-${index + 1}`,
+            100,
+            `Transaction ${index + 1}`,
+            [],
+            new Date(2026, 0, index + 1),
+        ));
+
+        for (const transaction of transactions) {
+            statementRepository.addTransaction(wallet.getId(), transaction);
+        }
+
+        const service = new WalletManagementService(walletRepository as any, userRepository as any, statementRepository as any);
+
+        const result = await service.getOverview(wallet.getUserId());
+
+        assert.strictEqual(result.wallet, wallet);
+        assert.deepStrictEqual(
+            result.recentTransactions,
+            transactions.slice().reverse().slice(0, 10),
+        );
     });
 
     
