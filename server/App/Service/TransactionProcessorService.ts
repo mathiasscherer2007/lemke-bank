@@ -18,9 +18,9 @@ export class TransactionProcessorService
     public async process(paymentPayload: PaymentByWalletIdDTO, userId: string): Promise<Transaction>
     {
         const today = new Date();
-        if(!await this.businessDayService.isBusinessDay(today)){
-            throw new NotABusinessDayException();
-        }
+        // if(!await this.businessDayService.isBusinessDay(today)){
+        //     throw new NotABusinessDayException();
+        // }
 
         const { toWalletId, amount, description } = paymentPayload;
         const entries = await this.generateEntries(toWalletId, amount, userId);
@@ -51,7 +51,8 @@ export class TransactionProcessorService
             fromWallet.getId(), 
             toWalletId, 
             LedgerEntryType.DEBIT, 
-            amount
+            amount,
+            fromWallet.getBalance()
         )
 
         entries.push(entry);
