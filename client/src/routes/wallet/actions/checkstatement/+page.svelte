@@ -56,7 +56,6 @@
 
 <ol class="mt-3 flex flex-col gap-1">
   {#if form?.transactions.length > 0}
-    {console.log("yep")}
     {#each form?.transactions as { date, transactions }, index (index)}
       <details open in:slide|global class="bg-[#bbbbbb95] text-lg font-bold dark:bg-neutral-800 rounded">
         <summary class="p-2">{date}</summary>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { RouteId } from '$app/types';
   import { enhance } from '$app/forms';
-  import type { Snippet } from 'svelte';
+  import { onMount, type Snippet } from 'svelte';
 
   import ContinueButton from '../Forms/ContinueButton.svelte';
     import CancelLink from '../Forms/CancelLink.svelte';
@@ -46,6 +46,14 @@
     };
     return false;
   }
+
+  onMount(() => {
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+      }
+    });
+  })
 </script>
 
 {#snippet submitButton(label: string)}

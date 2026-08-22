@@ -10,7 +10,17 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		}
 	});
 
-	const body = await response.json();
-
-	return new Response(JSON.stringify(body));
+	if (response.ok) {
+		const body = await response.json();
+		return new Response(JSON.stringify(body), {status: 200, headers: {'Content-Type': 'application/json'}});
+	} else {
+		return new Response(
+			JSON.stringify({ message: "Carteira não encontrada. "}), {
+				status: 404,
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			}
+		)
+	}
 }
