@@ -2,7 +2,6 @@
   import { resolve } from '$app/paths';
   import MultiPartForm from '$lib/components/elements/MultiPartForm/MultiPartForm.svelte';
   import { SvelteMap } from 'svelte/reactivity';
-  import { onMount } from 'svelte';
 
   import arrowIcon from '$lib/assets/icons/arrow-right.svg';
 
@@ -12,11 +11,19 @@
     'description': null
   });
   let receiverName = $state('');
+  let canSubmit = $state(true);
 
   async function fetchReceiver() {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    const response = await fetch(`/api/wallet?walletId=${fullData.receiver}`, { method: 'GET' });
 
-    receiverName = 'Sr. Dinheiros';
+    if (response.ok) {
+      const data = await response.json();
+      receiverName = data.user?.username;
+      canSubmit = true;
+    } else {
+      receiverName = 'Nenhum usuário encontrado.';
+      canSubmit = false;
+    }
   }
 
   let loadEvents = new SvelteMap<number, () => void>();
@@ -27,20 +34,12 @@
       fullData[key as keyof typeof fullData] = null;
     })
   }
-
-  onMount(() => {
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        e.preventDefault();
-      }
-    });
-  })
 </script>
 
 {#snippet walletId()}
   <div>
     <h1 class="mb-6 font-[Stack_Sans_Headline] text-3xl">Digite ou cole o ID da carteira do recebedor</h1>
-    <span class="m-5 ml-0 flex lg:block">
+    <span class="my-5 flex lg:block">
       <input
         type="text"
         name="receiver"
@@ -48,7 +47,7 @@
         placeholder="ID da carteira"
         required
         bind:value={fullData.receiver}
-        class="flex-1 border-b border-b-teal-500 p-1 text-2xl lg:flex-none dark:border-b-teal-400"
+        class="flex-1 border-b border-b-teal-500 p-1 text-2xl w-full dark:border-b-teal-400"
       />
     </span>
   </div>
@@ -91,7 +90,7 @@
   <div>Esperando resposta do servidor...</div>
 {/snippet}
 
-<a href={resolve('/admin')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
+<a href={resolve('/wallet/overview')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
   <img src={arrowIcon} alt="cancelar" class="aspect-square h-full rotate-180 white-filter" />
   cancelar
 </a>
@@ -106,7 +105,7 @@
       {loadEvents} 
       submitObject={fullData}
       {resetOnSubmit}
-      valuesToCheck={[fullData.amount, fullData.receiver]} 
+      valuesToCheck={[fullData.amount, fullData.receiver, canSubmit]} 
     />
   </div>
 </div>
