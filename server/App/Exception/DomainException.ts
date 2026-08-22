@@ -58,7 +58,7 @@ export class WalletNotFoundException extends DomainException
 export class NotABusinessDayException extends DomainException
 {
     constructor(){
-        super('Sorry! You just can make transactions on business days.', 422)
+        super('Sorry! Transactions can only be made on business days.', 422)
     }
 }
 
