@@ -102,7 +102,7 @@ describe("TransactionProcessorService", () => {
         });
 
         // Execute & Verify
-        assert.rejects(
+        await assert.rejects(
             () => transactionProcessorService.process(paymentDTO, "user-123"),
             InsufficientFundsException,
             "Should throw InsufficientFundsException when balance is insufficient"
@@ -200,7 +200,7 @@ describe("TransactionProcessorService", () => {
         });
 
         // Execute & Verify
-        assert.rejects(
+        await assert.rejects(
             () => transactionProcessorService.process(paymentDTO, "user-123"),
             NotABusinessDayException,
             "Should throw NotABusinessDayException when date is not a business day"

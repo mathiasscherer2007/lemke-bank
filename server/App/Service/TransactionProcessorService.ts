@@ -51,7 +51,8 @@ export class TransactionProcessorService
             fromWallet.getId(), 
             toWalletId, 
             LedgerEntryType.DEBIT, 
-            amount
+            amount,
+            fromWallet.getBalance()
         )
 
         entries.push(entry);
