@@ -30,14 +30,22 @@ export const actions: Actions = {
       })
     });
 
-    console.log(await response.json());
-
     // TEMPORARY
     // When backend is implemented, this will check if the request returned OK or not
     if (response.ok) {
       throw redirect(303, resolve('/wallet/actions/pay/confirmations/success'));
     } else {
-      throw redirect(303, resolve('/wallet/actions/pay/confirmations/failure'));
+      let message;
+      switch (response.status) {
+        case 422:
+          message = "Transações só podem ser feitas em dias úteis.";
+          break;
+      
+        default:
+          break;
+      }
+
+      throw redirect(303, resolve(`/wallet/actions/pay/confirmations/failure?message=${message}`));
     }
   }
 };
