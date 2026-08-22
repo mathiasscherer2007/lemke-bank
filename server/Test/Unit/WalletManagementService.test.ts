@@ -21,4 +21,6 @@ describe('WalletManagementService', () => {
 
         assert.strictEqual(result, wallet);
     });
+
+    
 });
