@@ -39,8 +39,9 @@ export class AppServiceProvider
         // Wallet and Statement Services
         container.register(WalletRepository, () => new DrizzleWalletRepository(), true);
         container.register(StatementRepository, () => new DrizzleStatementRepository(), true);
+        container.register(UserRepository, c => new DrizzleUserRepository(), true);
 
-        container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository), c.get(StatementRepository)), true);
+        container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository), c.get(UserRepository), c.get(StatementRepository)), true);
         container.register(StatementGenerationService, c => new StatementGenerationService(c.get(WalletRepository), c.get(StatementRepository)), true);
 
         // Wallet and Statement Controllers
@@ -88,9 +89,6 @@ export class AppServiceProvider
 
         // Charge Controller
         container.register(ChargeController, c => new ChargeController(c.get(ChargePaymentService), c.get(ChargeCreationService)), true);
-
-        // User Services
-        container.register(UserRepository, c => new DrizzleUserRepository(), true);
 
         // Auth Services
         container.register(TokenService, c => new JwtTokenService(env.API_SECRET!), true);
