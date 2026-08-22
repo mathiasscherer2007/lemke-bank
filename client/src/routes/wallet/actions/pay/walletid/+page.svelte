@@ -14,9 +14,8 @@
   let receiverName = $state('');
 
   async function fetchReceiver() {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    receiverName = 'Sr. Dinheiros';
+    const response = await fetch(`/api/wallet?walletId=${fullData.receiver}`, { method: 'GET' });
+    console.log(await response.json())
   }
 
   let loadEvents = new SvelteMap<number, () => void>();

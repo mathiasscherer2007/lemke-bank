@@ -1,26 +1,40 @@
 import { resolve } from '$app/paths';
+import { env } from '$env/dynamic/private';
 import { redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
-  pay: async ({ request }) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+  pay: async ({ request, cookies }) => {
+    const formData = await request.formData();
 
-    const data = await request.formData();
-    let fullData;
+    const fullData = JSON.parse(formData.get('fullData')?.toString() ?? '{}');
 
-    if (typeof data.get('fullData') === 'string') {
-      fullData = JSON.parse(data.get('fullData') as string ?? '');
-    }
+    const receiver = fullData.receiver.toString().trim() ?? '';
+    const amount = fullData.amount.toString() ?? 0;
+    const description = fullData.description ?? '';
 
-    console.log(fullData)
-
-    if (!fullData.receiver || !fullData.amount) {
+    if (!receiver || !amount) {
       throw redirect(303, resolve('/wallet/actions/pay/confirmations/failure'));
     }
 
+    const response = await fetch(`${env.API_HOST}:${env.API_PORT}/transactions`, {
+      method: 'POST',
+      headers: {
+        'x-refresh-token': cookies.get('x-refresh-token') ?? '',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${cookies.get('x-access-token') ?? ''}`,
+      },
+      body: JSON.stringify({
+        toWalletId: receiver,
+        amount: amount,
+        description: description,
+      })
+    });
+
+    console.log(await response.json());
+
     // TEMPORARY
     // When backend is implemented, this will check if the request returned OK or not
-    if (true === true) {
+    if (response.ok) {
       throw redirect(303, resolve('/wallet/actions/pay/confirmations/success'));
     } else {
       throw redirect(303, resolve('/wallet/actions/pay/confirmations/failure'));
