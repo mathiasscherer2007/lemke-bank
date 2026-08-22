@@ -6,7 +6,7 @@ import { MockWalletRepository } from "../../App/Repository/Wallet/MockWalletRepo
 import { Wallet } from "../../App/Model/Wallet.js";
 import { WalletStatus } from "../../App/Model/Enum/WalletStatus.js";
 import { LedgerEntryType } from "../../App/Model/Enum/LedgerEntryType.js";
-import { InsufficientFundsException } from "../../App/Exception/DomainException.js";
+import { InsufficientFundsException, NotABusinessDayException } from "../../App/Exception/DomainException.js";
 import { PaymentByWalletIdDTO } from "../../App/Dto/Request.js";
 import { BusinessDayService } from "../../App/Service/WebService/BusinessDay/BusinessDayService.js";
 
@@ -180,7 +180,7 @@ describe("TransactionProcessorService", () => {
         assert.ok(stored2, "Second transaction should be stored");
     });
 
-    test("processes payment when business day service reports a non-business day", async () => {
+    test("throws NotABusinessDayException when date is not a business day", async () => {
         // Setup
         const fromWallet = createTestWallet("user-123", 500, "wallet-from-uuid");
         const toWallet = createTestWallet("user-456", 0, "wallet-to-uuid");
@@ -200,7 +200,10 @@ describe("TransactionProcessorService", () => {
         });
 
         // Execute & Verify
-        const transaction = await transactionProcessorService.process(paymentDTO, "user-123");
-        assert.ok(transaction, "Should return a transaction object");
+        await assert.rejects(
+            () => transactionProcessorService.process(paymentDTO, "user-123"),
+            NotABusinessDayException,
+            "Should throw NotABusinessDayException when date is not a business day"
+        );
     });
 });
