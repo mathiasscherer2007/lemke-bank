@@ -43,4 +43,10 @@ export class DrizzleWalletRepository implements WalletRepository
             row.updatedAt
         );
     }
+
+    public async update(wallet: Wallet): Promise<void>
+    {
+        const primitive = wallet.toPrimitives() as any;
+        await db.update(wallets).set(primitive).where(eq(wallets.id, primitive.id));
+    }
 }
