@@ -40,11 +40,14 @@ export const actions: Actions = {
         case 422:
           message = "Transações só podem ser feitas em dias úteis.";
           break;
+        
+        case 404:
+          message = "Carteira não encontrada. Tente outro WalletID.";
+          break;
       
         default:
           break;
       }
-
       throw redirect(303, resolve(`/wallet/actions/pay/confirmations/failure?message=${message}`));
     }
   }
