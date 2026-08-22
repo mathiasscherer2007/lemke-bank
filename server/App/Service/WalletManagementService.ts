@@ -1,5 +1,8 @@
-import { WalletNotFoundException } from "../Exception/DomainException.js";
+import { UserNotFoundException, WalletNotFoundException } from "../Exception/DomainException.js";
+import { User } from "../Model/User.js";
+import { Wallet } from "../Model/Wallet.js";
 import { StatementRepository } from "../Repository/Statement/StatementRepository.js";
+import { UserRepository } from "../Repository/User/UserRepository.js";
 import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
 
 export class WalletManagementService
@@ -8,13 +11,19 @@ export class WalletManagementService
 
     constructor(
         private readonly walletRepository: WalletRepository,
+        private readonly userRepository: UserRepository,
         private readonly statementRepository: StatementRepository,
     ){}
 
-    public async getWalletData(id: string)
+    public async getWalletData(id: string): Promise<{ user: User, wallet: Wallet }>
     {        
         const wallet = await this.walletRepository.findById(id);
-        return wallet;
+        if(!wallet) throw new WalletNotFoundException(id);
+
+        const user = await this.userRepository.findById(wallet.getUserId());
+        if(!user) throw new UserNotFoundException(wallet.getUserId());
+
+        return { user, wallet };
     }
 
     public async getOverview(userId: string)
