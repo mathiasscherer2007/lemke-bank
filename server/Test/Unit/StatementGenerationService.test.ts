@@ -73,7 +73,7 @@ describe("StatementGenerationService", () => {
         );
 
         const statement = await service.generate(
-            wallet.getId(),
+            wallet.getUserId(),
             8,
             2026,
         );
@@ -109,7 +109,7 @@ describe("StatementGenerationService", () => {
         );
 
         const statement = await service.generate(
-            wallet.getId(),
+            wallet.getUserId(),
             8,
             2026,
         );
@@ -143,7 +143,7 @@ describe("StatementGenerationService", () => {
         );
 
         const statement = await service.generate(
-            wallet.getId(),
+            wallet.getUserId(),
             8,
             2026,
         );

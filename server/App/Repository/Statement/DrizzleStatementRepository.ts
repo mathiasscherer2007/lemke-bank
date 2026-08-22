@@ -65,7 +65,19 @@ export class DrizzleStatementRepository implements StatementRepository
             .orderBy(desc(transactions.createdAt));
 
         const statementTransactions: StatementTransaction[] = result.map((row) => {
-            const entries = JSON.parse(row.entries as string) as StatementEntry[];
+            const entries = (row.entries as StatementEntry[]).map((entry: any) => ({
+                id: entry.id,
+                counterpartyWalletId: entry.counterpartyWalletId,
+                amount: entry.amount,
+                type: entry.type,
+                balanceBefore: entry.balanceBefore,
+                balanceAfter: entry.balanceAfter,
+                createdAt: new Date(entry.createdAt),
+                relatedUser: {
+                    id: entry.relatedUser.id,
+                    username: entry.relatedUser.username,
+                },
+            }));
             return new StatementTransaction(
                 row.id,
                 row.totalAmount,
@@ -130,7 +142,19 @@ export class DrizzleStatementRepository implements StatementRepository
             .limit(limit);
 
         const statementTransactions: StatementTransaction[] = result.map((row) => {
-            const entries = JSON.parse(row.entries as string) as StatementEntry[];
+            const entries = (row.entries as StatementEntry[]).map((entry: any) => ({
+                id: entry.id,
+                counterpartyWalletId: entry.counterpartyWalletId,
+                amount: entry.amount,
+                type: entry.type,
+                balanceBefore: entry.balanceBefore,
+                balanceAfter: entry.balanceAfter,
+                createdAt: new Date(entry.createdAt),
+                relatedUser: {
+                    id: entry.relatedUser.id,
+                    username: entry.relatedUser.username,
+                },
+            }));
             return new StatementTransaction(
                 row.id,
                 row.totalAmount,

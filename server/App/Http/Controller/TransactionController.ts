@@ -17,7 +17,7 @@ export class TransactionController extends Controller
         const payload = request.body;
         const userId = request.user!.id; 
         
-        const transaction = this.transactionProcessorService.process(payload, userId);
+        const transaction = await this.transactionProcessorService.process(payload, userId);
         return reply.status(201).send({
             status: "succesfull",
             message: "Transaction succesfull created",

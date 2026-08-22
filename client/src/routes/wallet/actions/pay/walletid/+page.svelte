@@ -2,6 +2,7 @@
   import { resolve } from '$app/paths';
   import MultiPartForm from '$lib/components/elements/MultiPartForm/MultiPartForm.svelte';
   import { SvelteMap } from 'svelte/reactivity';
+  import { onMount } from 'svelte';
 
   import arrowIcon from '$lib/assets/icons/arrow-right.svg';
 
@@ -26,6 +27,14 @@
       fullData[key as keyof typeof fullData] = null;
     })
   }
+
+  onMount(() => {
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+      }
+    });
+  })
 </script>
 
 {#snippet walletId()}
