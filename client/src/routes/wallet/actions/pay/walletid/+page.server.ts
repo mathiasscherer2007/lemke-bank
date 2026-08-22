@@ -33,14 +33,20 @@ export const actions: Actions = {
     if (response.ok) {
       throw redirect(303, resolve('/wallet/actions/pay/confirmations/success'));
     } else {
+      const data = await response.json();
       let message;
       switch (response.status) {
         case 422:
-          message = "Transações só podem ser feitas em dias úteis.";
+          // This sucks.
+          if (data.message != 'Insufficient funds to complete this transaction.') {
+            message = 'Transações só podem ser feitas em dias úteis.';
+          } else {
+            message = 'Você não tem fundos suficientes para concluir esta transação.'
+          }
           break;
         
         case 404:
-          message = "Carteira não encontrada. Tente outro WalletID.";
+          message = 'Carteira não encontrada. Tente outro WalletID.';
           break;
       
         default:
