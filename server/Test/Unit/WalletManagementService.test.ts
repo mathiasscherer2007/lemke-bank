@@ -1,13 +1,9 @@
 import { strict as assert } from 'node:assert';
 import { describe, test } from 'node:test';
 import { WalletManagementService } from '../../App/Service/WalletManagementService.js';
-import { WalletNotFoundException } from '../../App/Exception/DomainException.js';
 import { MockWalletRepository } from '../../App/Repository/Wallet/MockWalletRepository.js';
 import { Wallet } from '../../App/Model/Wallet.js';
 import { WalletStatus } from '../../App/Model/Enum/WalletStatus.js';
-import { LedgerEntry } from '../../App/Model/LedgerEntry.js';
-import { LedgerEntryType } from '../../App/Model/Enum/LedgerEntryType.js';
-import { Transaction } from '../../App/Model/Transaction.js';
 import { MockStatementRepository } from '../../App/Repository/Statement/MockStatementRepository.js';
 import { MockUserRepository } from '../../App/Repository/User/MockUserRepository.js';
 import { UserRole } from '../../App/Model/Enum/UserRole.js';
