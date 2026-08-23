@@ -47,6 +47,11 @@ export class Wallet
         return this.userId;
     }
 
+    public setStatus(status: WalletStatus): void 
+    {
+        this.status = status;
+    }
+
     public toPrimitives(): Record<string, unknown>
     {
         return {

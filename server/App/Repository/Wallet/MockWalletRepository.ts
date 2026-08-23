@@ -26,6 +26,18 @@ export class MockWalletRepository implements WalletRepository {
         return wallet;
     }
 
+    async update(wallet: Wallet): Promise<void> {
+        const storedWallet = this.walletsById.get(wallet.getId());
+        if (!storedWallet) return;
+
+        if (storedWallet.getUserId() !== wallet.getUserId()) {
+            this.walletsByUserId.delete(storedWallet.getUserId());
+        }
+
+        this.walletsById.set(wallet.getId(), wallet);
+        this.walletsByUserId.set(wallet.getUserId(), wallet);
+    }
+
     // Return stored entries for a wallet, or empty array when none are set.
     async findEntries(walletId: string, month: number, year: number): Promise<Transaction[]> {
         const entries = this.entriesByWalletId.get(walletId);

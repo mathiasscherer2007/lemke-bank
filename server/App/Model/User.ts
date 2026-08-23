@@ -1,11 +1,13 @@
 import { UserRole } from "./Enum/UserRole.js";
+import { UserStatus } from "./Enum/UserStatus.js";
 
 export class User {
     private id: string;
     private email: string;
     private passwordHash: string;
     private username: string;
-    private readonly role: UserRole
+    private readonly role: UserRole;
+    private status: UserStatus;
     private readonly createdAt?: Date;
     private readonly updatedAt?: Date;
 
@@ -15,6 +17,7 @@ export class User {
         username: string,
         role: UserRole,
         id?: string,
+        status?: UserStatus,
         createdAt?: Date,
         updatedAt?: Date
     ){
@@ -23,6 +26,7 @@ export class User {
         this.passwordHash = passwordHash;
         this.username = username;
         this.role = role;
+        this.status = status ?? UserStatus.ACTIVE;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -33,14 +37,14 @@ export class User {
     public getUsername(): string { return this.username; }
     public getRole(): UserRole { return this.role; }
 
-    public toPrimitives() {
+    public toPrimitives(): Record<string, unknown>
+    {
         return {
-            id: this.id,
-            email: this.email,
-            passwordHash: this.passwordHash,
-            username: this.username,
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt,
+            ...this as Record<string, unknown>,
         };
+    }
+
+    public setStatus(status: UserStatus): void {
+        this.status = status;
     }
 }
