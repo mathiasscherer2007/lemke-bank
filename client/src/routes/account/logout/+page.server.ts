@@ -5,10 +5,10 @@ import { resolve } from "$app/paths";
 
 export const actions: Actions = {
 	logout: async ({ cookies, fetch }) => {
-		const response = await fetch(`${env.PRIVATE_API_URL}logout`, {
+		const response = await fetch(`${env.API_HOST}:${env.API_PORT}/logout`, {
 			method: 'POST',
 			headers: {
-				'x-access-token': cookies.get('x-access-token') ?? '',
+				Authorization: `Bearer ${cookies.get('x-access-token') ?? ''}`,
 				'x-refresh-token': cookies.get('x-refresh-token') ?? '',
 			}
 		});
