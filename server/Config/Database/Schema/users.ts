@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, timestamp, mysqlEnum, uniqueIndex,  } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, timestamp, mysqlEnum, uniqueIndex, index } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
 import { UserStatus } from '../../../App/Model/Enum/UserStatus.js';
 
@@ -17,6 +17,5 @@ export const users = mysqlTable('users', {
 // Indexes
  table => [
   uniqueIndex('users_email_idx').on(table.email),
-  uniqueIndex('status_idx').on(table.status),
-  sql`CREATE FULLTEXT INDEX search_idx on ${table} (${table.username}, ${table.email})`,
+  index('status_idx').on(table.status)
 ]);

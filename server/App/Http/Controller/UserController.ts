@@ -15,7 +15,9 @@ export class UserController extends Controller
 
     public async searchUser(request: FastifyRequest<{ Querystring: UserSearchQuerySchema }>, reply: FastifyReply) {
         const { query, limit } = request.query;
-        const users = await this.userManagementService.searchUser(query, limit);
+        const sanitizedQuery = query.replace(/[^a-zA-Z0-9\s]/g, ''); // Handle special characters
+
+        const users = await this.userManagementService.searchUser(sanitizedQuery, limit);
         return reply.status(200).send(users);
     }
 

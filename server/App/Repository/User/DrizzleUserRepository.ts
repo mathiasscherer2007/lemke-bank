@@ -57,7 +57,15 @@ export class DrizzleUserRepository implements UserRepository {
         await db.update(users).set(primitive).where(eq(users.id, primitive.id));
     }
 
-    public async search(query: string, limit: number): Promise<SearchedUser[]> {
+    public async search(query: string, limit: number): Promise<SearchedUser[]> 
+    {
+        // Split and apply wildcard(*) to each term for boolean full-text search
+        const booleanQuery = query
+            .trim()
+            .split(/\s+/)
+            .map(term => `${term}*`)
+            .join(' ');
+
         const rows = await db
         .select({
             id: users.id,
@@ -70,7 +78,10 @@ export class DrizzleUserRepository implements UserRepository {
         .from(users)
         .innerJoin(wallets, eq(users.id, wallets.userId))
         .where(
-            sql`MATCH(${users.username}, ${users.email}) AGAINST (${query} IN NATURAL LANGUAGE MODE) AND ${users.status} = ${UserStatus.ACTIVE}`
+            sql`
+            MATCH(${users.username}, ${users.email}) 
+            AGAINST (${booleanQuery} IN BOOLEAN MODE) AND ${users.status} = ${UserStatus.ACTIVE}
+            `
         )
         .limit(limit);
 
