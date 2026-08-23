@@ -33,7 +33,7 @@ export class ChargeController extends Controller
 
         return reply.status(201).send({
             status: "succesfull",
-            message: "Charge succesfull created",
+            message: "Charge succesfully created",
             charge: charge
         });
     }
