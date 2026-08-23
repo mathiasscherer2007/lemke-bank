@@ -1,6 +1,6 @@
 import { mysqlTable, varchar, timestamp, mysqlEnum, uniqueIndex,  } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
-import { UserStatus } from '../../Model/Enum/UserStatus.js';
+import { UserStatus } from '../../../App/Model/Enum/UserStatus.js';
 
 const userStatusEnum = mysqlEnum('status', Object.values(UserStatus) as [string, ...string[]]);
 

@@ -1,7 +1,6 @@
 import { UserNotFoundException, WalletNotFoundException } from "../Exception/DomainException.js";
 import { UserStatus } from "../Model/Enum/UserStatus.js";
 import { WalletStatus } from "../Model/Enum/WalletStatus.js";
-import { User } from "../Model/User.js";
 import { UserRepository } from "../Repository/User/UserRepository.js";
 import { WalletRepository } from "../Repository/Wallet/WalletRepository.js";
 import { SearchedUser } from "../Types/domain.js";

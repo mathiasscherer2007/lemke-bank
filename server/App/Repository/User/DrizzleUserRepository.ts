@@ -5,8 +5,8 @@ import { User } from "../../Model/User.js";
 import { UserRepository } from "./UserRepository.js";
 import { UserRole } from "../../Model/Enum/UserRole.js";
 import { UserStatus } from "../../Model/Enum/UserStatus.js";
-import { wallets } from "../../Database/Schema/wallets.js";
-import { SearchedUser } from "../../Types/domain.js";
+import { wallets } from "../../../Config/Database/Schema/wallets.js";
+import { SearchedUser } from "../../../Config/Types/domain.js";
 
 export class DrizzleUserRepository implements UserRepository {
     public async findById(id: string): Promise<User | null> {
