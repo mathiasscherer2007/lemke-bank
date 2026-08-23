@@ -55,7 +55,7 @@
 			<h3 class="text-center text-4xl mt-4">{minutes}:{seconds}</h3>
 		</span>
 		<ul class="hidden lg:flex flex-col gap-2 list-disc text-lg text-justify mx-2">
-			<li>Pagamentos expiram após 5 minutos, caso não tenham sido concluídos</li>
+			<li>Pagamentos expiram após 30 minutos, caso não tenham sido concluídos</li>
 			<li>Pagamentos só podem ser completos por um único usuário</li>
 			<li>Você não pode completar um pagamento criado por você mesmo(a)</li>
 		</ul>
