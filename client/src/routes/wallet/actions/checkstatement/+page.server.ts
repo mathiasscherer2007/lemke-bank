@@ -2,10 +2,10 @@ import { env } from "$env/dynamic/private";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ fetch, cookies }) => {
-	const response = await fetch(`${env.PRIVATE_API_URL}statement?month=0&year=0`, {
+	const response = await fetch(`${env.API_HOST}:${env.API_PORT}/statement?month=0&year=0`, {
 		method: 'GET',
 		headers: {
-			'x-access-token': cookies.get('x-access-token') ?? '',
+			Authorization: `Bearer ${cookies.get('x-access-token') ?? ''}`,
 			'x-refresh-token': cookies.get('x-refresh-token') ?? '',
 		},
 	});
@@ -24,12 +24,13 @@ export const actions: Actions = {
 		const response = await fetch(endpoint, {
 			method: 'GET',
 			headers: {
-				'x-access-token': cookies.get('x-access-token') ?? '',
+				Authorization: `Bearer ${cookies.get('x-access-token') ?? ''}`,
 				'x-refresh-token': cookies.get('x-refresh-token') ?? ''
 			}
 		})
 
 		const data = await response.json();
+		console.log(JSON.stringify(data))
 
 		return {
 			selectedButton: selectedButton,

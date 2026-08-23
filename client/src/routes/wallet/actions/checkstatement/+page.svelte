@@ -48,7 +48,7 @@
     </div>
     <div class="ml-1 flex flex-col gap-1">
       <span class="m-0 text-xl font-semibold">{title.toUpperCase()}</span>
-      <span class="text-md text-neutral-600 italic dark:text-neutral-300">{description ?? 'Nenhuma descrição fornecida.'}</span>
+      <span class="text-md text-neutral-600 dark:text-neutral-300">{description}</span>
       <span class="text-lg font-bold">{type === 'debit' ? '-' : ''}BL$ {amount}</span>
     </div>
   </div>
@@ -56,9 +56,12 @@
 
 <ol class="mt-3 flex flex-col gap-1">
   {#if form?.transactions.length > 0}
-    {#each form?.transactions as { date, transactions }, index (index)}
+    {#each form?.transactions as { date, transactions, closingBalance }, index (index)}
       <details open in:slide|global class="bg-[#bbbbbb95] text-lg font-bold dark:bg-neutral-800 rounded">
-        <summary class="p-2">{date}</summary>
+        <summary class="p-2 flex items-center justify-between">
+          <span>{date}</span>
+          <span class="font-normal">Saldo no dia: BL$ {closingBalance}</span>
+        </summary>
         <div class="flex flex-col gap-1 font-normal">
           {#each transactions as { totalAmount, entries, description, transactionId } (transactionId)}
             {@render transfer(entries[0].type, entries[0].relatedUser.username, totalAmount, description ?? '')}
