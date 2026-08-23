@@ -14,7 +14,16 @@ export class DrizzleWalletRepository implements WalletRepository
     
     public async findById(id: string): Promise<Wallet | null>
     {
-        const [ row ] = await db.select().from(wallets).where(eq(wallets.id, id)).limit(1);
+        const [ row ] = await db
+            .select()
+            .from(wallets)
+            .where(
+                and(
+                    eq(wallets.id, id), 
+                    eq(wallets.status, WalletStatus.ACTIVE)
+                )
+            )
+            .limit(1);
 
         if(!row) return null;
 
@@ -30,7 +39,16 @@ export class DrizzleWalletRepository implements WalletRepository
 
     public async findByUserId(userId: string): Promise<Wallet | null>
     {
-        const [ row ] = await db.select().from(wallets).where(eq(wallets.userId, userId)).limit(1);
+        const [ row ] = await db
+            .select()
+            .from(wallets)
+            .where(
+                and(
+                    eq(wallets.userId, userId), 
+                    eq(wallets.status, WalletStatus.ACTIVE)
+                )
+            )
+            .limit(1);
 
         if(!row) return null;
 
