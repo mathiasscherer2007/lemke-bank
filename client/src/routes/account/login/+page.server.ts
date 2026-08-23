@@ -12,7 +12,7 @@ export const actions: Actions = {
 			return fail(422, { error: { message: 'Por favor, preencha todos os campos.' } });
 		}
 
-		const response = await fetch(`${env.PRIVATE_API_URL}login`, {
+		const response = await fetch(`${env.API_HOST}:${env.API_PORT}/login`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email, password }),
