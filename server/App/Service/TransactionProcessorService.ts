@@ -1,5 +1,5 @@
 import { PaymentByWalletIdDTO } from "../Dto/Request.js";
-import { InsufficientFundsException, NotABusinessDayException, WalletNotFoundException } from "../Exception/DomainException.js";
+import { InsufficientFundsException, NotABusinessDayException, TransactionOriginEqualsDestinationException, WalletNotFoundException } from "../Exception/DomainException.js";
 import { LedgerEntryType } from "../Model/Enum/LedgerEntryType.js";
 import { LedgerEntry } from "../Model/LedgerEntry.js";
 import { Transaction } from "../Model/Transaction.js";
@@ -34,12 +34,13 @@ export class TransactionProcessorService
 
 
     private async generateEntries(toWalletId: string, amount: number, userId: string): Promise<LedgerEntry[]>
-    {
+    {        
         const fromWallet = await this.walletRepository.findByUserId(userId);
         const toWallet = await this.walletRepository.findById(toWalletId);
 
         if(!fromWallet) throw new WalletNotFoundException(undefined, userId);
         if(!toWallet) throw new WalletNotFoundException(toWalletId);
+        if(fromWallet.getId() === toWallet.getId()) throw new TransactionOriginEqualsDestinationException(fromWallet.getId());
 
         if(!fromWallet.hasEnoughBalance(amount)){
             throw new InsufficientFundsException();

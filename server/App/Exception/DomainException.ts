@@ -36,6 +36,16 @@ export class TransactionNotFoundException extends DomainException
     }
 }
 
+export class TransactionOriginEqualsDestinationException extends DomainException
+{
+    private readonly walletId: string;
+
+    constructor(walletId: string){
+        super('Transaction origin is equal to destination.', 422);
+        this.walletId = walletId;
+    }
+}
+
 export class InsufficientFundsException extends DomainException
 {
     constructor(){
