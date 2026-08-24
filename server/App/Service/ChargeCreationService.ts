@@ -20,8 +20,8 @@ export class ChargeCreationService
         const { amount, description } = payload;
         const charge = new Charge(issuerWallet.getId(), amount, description);
 
-        await this.chargeRepository.create(charge);
-        
+        await this.chargeRepository.create(charge);        
+
         const createdCharge = await this.chargeRepository.findById(charge.getId());
         return createdCharge!;
     }
