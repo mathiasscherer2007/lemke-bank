@@ -28,6 +28,8 @@ import { AuthService } from "../../App/Service/AuthService.js";
 import { AuthController } from "../../App/Http/Controller/AuthController.js";
 import { TokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/TokenBlacklistingService.js";
 import { RedisTokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/RedisTokenBlacklistingService.js";
+import { UserManagementService } from "../../App/Service/UserManagementService.js";
+import { UserController } from "../../App/Http/Controller/UserController.js";
 
 export class AppServiceProvider
 {
@@ -36,17 +38,20 @@ export class AppServiceProvider
      */
     public static boot(container: AppContainer): void 
     {
-        // Wallet and Statement Services
+        // Wallet, Statement and User Services
         container.register(WalletRepository, () => new DrizzleWalletRepository(), true);
         container.register(StatementRepository, () => new DrizzleStatementRepository(), true);
-        container.register(UserRepository, c => new DrizzleUserRepository(), true);
+        container.register(UserRepository, () => new DrizzleUserRepository(), true);
 
         container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository), c.get(UserRepository), c.get(StatementRepository)), true);
         container.register(StatementGenerationService, c => new StatementGenerationService(c.get(WalletRepository), c.get(StatementRepository)), true);
+        container.register(UserManagementService, c => new UserManagementService(c.get(UserRepository), c.get(WalletRepository)), true);
 
-        // Wallet and Statement Controllers
+
+        // Wallet, Statement and User Controllers
         container.register(WalletController, c => new WalletController(c.get(WalletManagementService)));
         container.register(StatementController, c => new StatementController(c.get(StatementGenerationService)));
+        container.register(UserController, c => new UserController(c.get(UserManagementService)));
 
         
         // Business Day Service
@@ -72,6 +77,7 @@ export class AppServiceProvider
         container.register(
             ChargePaymentService, 
             c => new ChargePaymentService(
+                c.get(UserRepository),
                 c.get(ChargeRepository),
                 c.get(WalletRepository),
                 c.get(TransactionProcessorService)

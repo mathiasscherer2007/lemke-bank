@@ -45,7 +45,9 @@ describe("AuthController routes", () => {
         assert.deepStrictEqual(Object.keys(response.json()).sort(), [
             "email",
             "id",
-            "username",
+            "role",
+            "status",
+            "username"
         ]);
     });
 
@@ -92,6 +94,8 @@ describe("AuthController routes", () => {
             "createdAt",
             "email",
             "id",
+            "role",
+            "status",
             "updatedAt",
             "username",
         ]);

@@ -50,10 +50,3 @@ export async function buildApp(options: object = {})
 
     return app;
 }
-
-
-export async function buildTestApp(options: object = {}){
-
-    
-
-}

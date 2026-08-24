@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "f148109d-0ba9-4378-b81a-5b941c9005df",
+  "id": "025979cc-c62a-4e16-b38b-af3735855e2b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "charges": {
@@ -178,7 +178,7 @@
           "name": "counterparty_wallet_id",
           "type": "varchar(36)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "created_at": {
@@ -195,6 +195,13 @@
           "name": "wallet_idx",
           "columns": [
             "wallet_id"
+          ],
+          "isUnique": false
+        },
+        "counterparty_wallet_idx": {
+          "name": "counterparty_wallet_idx",
+          "columns": [
+            "counterparty_wallet_id"
           ],
           "isUnique": false
         },
@@ -276,20 +283,6 @@
           "notNull": true,
           "autoincrement": false
         },
-        "from_wallet_id": {
-          "name": "from_wallet_id",
-          "type": "varchar(36)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "to_wallet_id": {
-          "name": "to_wallet_id",
-          "type": "varchar(36)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "charge_id": {
           "name": "charge_id",
           "type": "varchar(36)",
@@ -313,34 +306,16 @@
           "default": "(now())"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "createdAt_idx": {
+          "name": "createdAt_idx",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {
-        "transactions_from_wallet_id_wallets_id_fk": {
-          "name": "transactions_from_wallet_id_wallets_id_fk",
-          "tableFrom": "transactions",
-          "tableTo": "wallets",
-          "columnsFrom": [
-            "from_wallet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
-        },
-        "transactions_to_wallet_id_wallets_id_fk": {
-          "name": "transactions_to_wallet_id_wallets_id_fk",
-          "tableFrom": "transactions",
-          "tableTo": "wallets",
-          "columnsFrom": [
-            "to_wallet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
-        },
         "transactions_charge_id_charges_id_fk": {
           "name": "transactions_charge_id_charges_id_fk",
           "tableFrom": "transactions",
@@ -438,6 +413,13 @@
             "email"
           ],
           "isUnique": true
+        },
+        "status_idx": {
+          "name": "status_idx",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
         }
       },
       "foreignKeys": {},
@@ -503,7 +485,15 @@
           "default": "(now())"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "user_idx": {
+          "name": "user_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {
         "wallets_user_id_users_id_fk": {
           "name": "wallets_user_id_users_id_fk",

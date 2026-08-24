@@ -1,1 +1,0 @@
-CREATE INDEX `createdAt_idx` ON `transactions` (`created_at`);
