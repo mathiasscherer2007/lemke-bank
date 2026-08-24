@@ -20,6 +20,7 @@
     let qrScanner: QrScanner;
 
     function checkQrCode(result: QrCodeResult) {
+        console.log(result.data)
         if (result.data.startsWith(`${env.PUBLIC_APP_URL}`)) {
             try {
                 const qrcodeUrl = new URL(result.data);

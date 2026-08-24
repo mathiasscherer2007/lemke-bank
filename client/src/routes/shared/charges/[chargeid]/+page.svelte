@@ -3,6 +3,7 @@
     import type { PageProps } from "./$types";
 
 	let { data }: PageProps = $props();
+	console.log(data);
 	let submitting = $state(false);
 </script>
 
@@ -20,8 +21,10 @@
 		}
 	}}>
 		<h1 class="mb-4 font-[Stack_Sans_Headline] text-3xl">Realizar Pagamento</h1>
-		<p class="text-lg my-1">Valor: {data.charge.amount}</p>
+		<p class="text-lg my-1">Valor: BL$ {data.charge.amount}</p>
 		<p class="text-lg my-1">Descrição: {data.charge.description ?? 'Nenhuma descrição fornecida.'}</p>
+		<p class="text-lg my-1">Criado por: {data.issuer.username}</p>
+		<p class="text-lg my-1">E-mail: {data.issuer.email}</p>
 		<p class="text-lg my-1">Criado em: {new Date(data.charge.createdAt).toLocaleString('pt-br')}</p>
 		<input type="hidden" name="chargeId" value={data.charge.id}>
 		<span class="mt-5">

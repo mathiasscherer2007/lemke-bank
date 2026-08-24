@@ -16,6 +16,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 
 	return {
 		'charge': data.charge,
+		'issuer': data.issuer,
 		'isIssuer': data.isIssuerWallet
 	}
 };
