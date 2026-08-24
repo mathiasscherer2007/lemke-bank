@@ -58,36 +58,36 @@ const createUser = (id: string): User => new User(
 );
 
 describe('ChargePaymentService', () => {
-    test('getData returns the charge, issuer, and issuer-wallet flag', async () => {
+    test('getData returns the charge, wallet user, and issuer-wallet flag', async () => {
         const { service, userRepository, chargeRepository, walletRepository } = createService();
         const viewerUserId = 'viewer-user';
         const issuerWallet = new Wallet('issuer-user', undefined, 0, 'wallet-issuer');
         const viewerWallet = new Wallet(viewerUserId, undefined, 0, 'wallet-viewer');
-        const issuer = createUser(issuerWallet.getId());
+        const walletUser = createUser(viewerUserId);
 
         await walletRepository.create(viewerWallet);
-        await userRepository.save(issuer);
+        await userRepository.save(walletUser);
         chargeRepository.seed(new Charge(issuerWallet.getId(), 50, 'desc', 'charge-1'));
 
         const result = await service.getData('charge-1', viewerUserId);
 
         assert.strictEqual(result.charge.getId(), 'charge-1');
-        assert.strictEqual(result.issuer, issuer);
+        assert.strictEqual(result.issuer, walletUser);
         assert.strictEqual(result.isIssuerWallet, false);
     });
 
     test('getData marks the current wallet as the issuer wallet', async () => {
         const { service, userRepository, chargeRepository, walletRepository } = createService();
         const issuerWallet = new Wallet('issuer-user', undefined, 0, 'wallet-issuer');
-        const issuer = createUser(issuerWallet.getId());
+        const walletUser = createUser(issuerWallet.getUserId());
 
         await walletRepository.create(issuerWallet);
-        await userRepository.save(issuer);
+        await userRepository.save(walletUser);
         chargeRepository.seed(new Charge(issuerWallet.getId(), 50, 'desc', 'charge-1'));
 
         const result = await service.getData('charge-1', 'issuer-user');
 
-        assert.strictEqual(result.issuer, issuer);
+        assert.strictEqual(result.issuer, walletUser);
         assert.strictEqual(result.isIssuerWallet, true);
     });
 
@@ -110,7 +110,7 @@ describe('ChargePaymentService', () => {
         );
     });
 
-    test('getData throws when the issuer user is not found', async () => {
+    test('getData throws when the current wallet user is not found', async () => {
         const { service, chargeRepository, walletRepository } = createService();
         await walletRepository.create(new Wallet('viewer-user', undefined, 0, 'wallet-viewer'));
         chargeRepository.seed(new Charge('wallet-issuer', 50, 'desc', 'charge-1'));
