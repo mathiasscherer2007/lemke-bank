@@ -30,7 +30,6 @@ export const actions: Actions = {
 		})
 
 		const data = await response.json();
-		console.log(JSON.stringify(data))
 
 		return {
 			selectedButton: selectedButton,

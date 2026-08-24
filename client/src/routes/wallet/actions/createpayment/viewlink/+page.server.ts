@@ -3,16 +3,16 @@ import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ url, cookies }) => {
 	const rawLink = url.searchParams.get('link');
-	if (!rawLink) { redirect(303, '/admin'); }
+	if (!rawLink) { redirect(303, '/wallet/overview'); }
 
 	const paymentLink = rawLink.replace(/[^a-zA-Z0-9_-]/g, '_');
 	let expiration = cookies.get(paymentLink);
 
     if (!expiration) {
-        expiration = (Date.now() + 5 * 60 * 1000).toString();
+        expiration = (Date.now() + 30 * 60 * 1000).toString();
         cookies.set(paymentLink, expiration, { 
             path: '/', 
-            maxAge: 300 
+            maxAge: 5000
         });
     }
 
