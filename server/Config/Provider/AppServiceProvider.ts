@@ -77,6 +77,7 @@ export class AppServiceProvider
         container.register(
             ChargePaymentService, 
             c => new ChargePaymentService(
+                c.get(UserRepository),
                 c.get(ChargeRepository),
                 c.get(WalletRepository),
                 c.get(TransactionProcessorService)
