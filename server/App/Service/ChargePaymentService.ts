@@ -25,8 +25,8 @@ export class ChargePaymentService
         const wallet = await this.walletRepository.findByUserId(userId);
         if(!wallet) throw new WalletNotFoundException(undefined, userId);
 
-        const user = await this.userRepository.findById(charge.getIssuerWalletId());
-        if(!user) throw new UserNotFoundException(charge.getIssuerWalletId());
+        const user = await this.userRepository.findById(wallet.getUserId());
+        if(!user) throw new UserNotFoundException(wallet.getUserId());
 
         return { charge: charge, issuer: user, isIssuerWallet: charge.getIssuerWalletId() === wallet.getId() };
     }
