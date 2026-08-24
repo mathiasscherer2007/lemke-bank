@@ -30,10 +30,31 @@ export const actions: Actions = {
 				'x-refresh-token': cookies.get('x-refresh-token') ?? ''
 			}
 		});
-
-		console.log(await response.json());
+		
 		if (response.ok) {
 			throw redirect(303, resolve('/shared/charges/confirmations/success'));
+		} else {
+			const data = await response.json();
+			let message;
+			switch (response.status) {
+				case 422:
+					switch (data.code) {
+						case 'NOT_BUSINESS_DAY':
+							message = 'Transações só podem ser realizadas em dias úteis.';
+							break;
+					
+						case 'INSUFFICIENT_FUNDS':
+							message = 'Você não tem fundos suficientes para realizar este pagamento.';
+							break;
+						default:
+							break;
+					}
+					break;
+
+				default:
+				break;
+			}
+			throw redirect(303, resolve(`/wallet/actions/pay/confirmations/failure?message=${message}`));
 		}
 	}
 };
