@@ -6,9 +6,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const pathName = event.url.pathname;
 
 	if (pathName.startsWith('/wallet') || pathName.startsWith('/admin') || pathName.startsWith('/shared')) {
-		const accessToken = event.cookies.get('x-access-token');
+		const accessToken = event.cookies.get('x-access-token') ?? '';
 		const refreshToken = event.cookies.get('x-refresh-token');
-		if (accessToken && refreshToken) {
+		if (refreshToken) {
 			let payload;
 			try {
 				payload = jwt.verify(accessToken, env.API_SECRET);
