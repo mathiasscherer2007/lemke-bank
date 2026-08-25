@@ -8,6 +8,13 @@ export const paymentByWalletIdDTO = z.object({
 
 export type PaymentByWalletIdDTO = z.infer<typeof paymentByWalletIdDTO>;
 
+export const batchPaymentDTO = z.object({
+    walletIds: z.array(z.string().nonempty()).min(1),
+    amount: z.coerce.number().positive(),
+    description: z.string().optional().nullable()
+});
+
+export type BatchPaymentDTO = z.infer<typeof batchPaymentDTO>;
 
 export const statementQueryStringSchema = z.object({
     month: z.coerce.number().nonnegative(),
