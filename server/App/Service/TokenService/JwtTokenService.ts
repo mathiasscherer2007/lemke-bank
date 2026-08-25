@@ -7,7 +7,7 @@ import { TokenExpiredException, TokenInvalidException, TokenNotBeforeException }
 export class JwtTokenService implements TokenService
 {
     private readonly secret: string;
-    private readonly accessTokenTTL = 10; // 10 minutes of TTL for access token
+    private readonly accessTokenTTL = 1000 * 60 * 10; // 10 minutes of TTL for access token
     private readonly refreshTokenTTL = 1000 * 60 * 60 * 24 * 7; // 7 days of TTL for refresh token
 
     constructor(secret: string){
