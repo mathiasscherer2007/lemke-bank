@@ -3,7 +3,7 @@ import { TransactionController } from "../../App/Http/Controller/TransactionCont
 import { AuthMiddleware } from "../../App/Http/Middleware/AuthMiddleware.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
 import { StatementController } from "../../App/Http/Controller/StatementController.js";
-import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, createChargeDTO, statementQueryStringSchema, userSearchQuerySchema, userParamsSchema } from "../../App/Dto/Request.js";
+import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, createChargeDTO, statementQueryStringSchema, batchPaymentDTO, userSearchQuerySchema, userParamsSchema } from "../../App/Dto/Request.js";
 import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
 import { AuthController } from "../../App/Http/Controller/AuthController.js";
 import { UserController } from "../../App/Http/Controller/UserController.js";
@@ -25,6 +25,7 @@ export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
 
     const transactionController = app.container.get<TransactionController>(TransactionController);
     app.post('/transactions', { schema: { body: paymentByWalletIdDTO } }, transactionController.transactionByWalletId);
+    app.post('/transactions/batch', { schema: { body: batchPaymentDTO } }, transactionController.transactionBatch);
 
     const chargeController = app.container.get<ChargeController>(ChargeController);
     app.get('/charges/:chargeId', { schema: { params: chargeParamsSchema } }, chargeController.getCharge);

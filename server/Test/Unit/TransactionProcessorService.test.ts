@@ -6,8 +6,8 @@ import { MockWalletRepository } from "../../App/Repository/Wallet/MockWalletRepo
 import { Wallet } from "../../App/Model/Wallet.js";
 import { WalletStatus } from "../../App/Model/Enum/WalletStatus.js";
 import { LedgerEntryType } from "../../App/Model/Enum/LedgerEntryType.js";
+import { PaymentByWalletIdDTO, BatchPaymentDTO } from "../../App/Dto/Request.js";
 import { InsufficientFundsException, NotABusinessDayException, TransactionOriginEqualsDestinationException } from "../../App/Exception/DomainException.js";
-import { PaymentByWalletIdDTO } from "../../App/Dto/Request.js";
 import { BusinessDayService } from "../../App/Service/WebService/BusinessDay/BusinessDayService.js";
 
 const createTestWallet = (userId: string, balance: number, id?: string) => {
@@ -19,6 +19,21 @@ const createPaymentDTO = (overrides?: Partial<PaymentByWalletIdDTO>): PaymentByW
         toWalletId: "wallet-credit-uuid",
         amount: 100,
         description: "Test payment",
+        ...overrides
+    };
+};
+
+const createBatchPaymentDTO = (
+    overrides?: Partial<BatchPaymentDTO>
+): BatchPaymentDTO => {
+    return {
+        walletIds: [
+            "wallet-credit-1",
+            "wallet-credit-2",
+            "wallet-credit-3"
+        ],
+        amount: 100,
+        description: "Batch test",
         ...overrides
     };
 };
@@ -207,6 +222,151 @@ describe("TransactionProcessorService", () => {
         );
     });
 
+    test("successfully processes batch payment", async () => {
+        // Setup
+        const adminWallet = createTestWallet(
+            "admin-123",
+            1000,
+            "wallet-admin-uuid"
+        );
+
+        const walletA = createTestWallet(
+            "user-a",
+            0,
+            "wallet-a-uuid"
+        );
+
+        const walletB = createTestWallet(
+            "user-b",
+            0,
+            "wallet-b-uuid"
+        );
+
+        const walletC = createTestWallet(
+            "user-c",
+            0,
+            "wallet-c-uuid"
+        );
+
+        const walletRepository = new MockWalletRepository();
+
+        await walletRepository.create(adminWallet);
+        await walletRepository.create(walletA);
+        await walletRepository.create(walletB);
+        await walletRepository.create(walletC);
+
+        const transactionRepository = new MockTransactionRepository();
+        const businessDayService = new MockBusinessDayService();
+
+        const transactionProcessorService =
+            new TransactionProcessorService(
+                transactionRepository,
+                walletRepository,
+                businessDayService
+            );
+
+        const paymentDTO = createBatchPaymentDTO({
+            walletIds: [
+                walletA.getId(),
+                walletB.getId(),
+                walletC.getId()
+            ],
+            amount: 100
+        });
+
+        // Execute
+        const transaction =
+            await transactionProcessorService.processBatch(
+                paymentDTO,
+                "admin-123"
+            );
+
+        // Verify transaction
+        assert.ok(transaction, "Should return a transaction");
+
+        const entries = transaction.getEntries();
+
+        assert.strictEqual(
+            entries.length,
+            4,
+            "Transaction should have 1 DEBIT and 3 CREDIT entries"
+        );
+
+        // Find entries
+        const debitEntries = entries.filter(
+            entry => entry.getType() === LedgerEntryType.DEBIT
+        );
+
+        const creditEntries = entries.filter(
+            entry => entry.getType() === LedgerEntryType.CREDIT
+        );
+
+        assert.strictEqual(
+            debitEntries.length,
+            1,
+            "Should have exactly one DEBIT"
+        );
+
+        assert.strictEqual(
+            creditEntries.length,
+            3,
+            "Should have exactly three CREDIT entries"
+        );
+
+        // Verify debit
+        const debitEntry = debitEntries[0];
+
+        assert.strictEqual(
+            debitEntry.getWalletId(),
+            adminWallet.getId(),
+            "DEBIT should come from admin wallet"
+        );
+
+        assert.strictEqual(
+            debitEntry.getAmount(),
+            300,
+            "DEBIT should be amount multiplied by number of wallets"
+        );
+
+        // Verify credits
+        const creditedWalletIds = creditEntries.map(
+            entry => entry.getWalletId()
+        );
+
+        assert.ok(
+            creditedWalletIds.includes(walletA.getId()),
+            "Wallet A should receive a CREDIT"
+        );
+
+        assert.ok(
+            creditedWalletIds.includes(walletB.getId()),
+            "Wallet B should receive a CREDIT"
+        );
+
+        assert.ok(
+            creditedWalletIds.includes(walletC.getId()),
+            "Wallet C should receive a CREDIT"
+        );
+
+        // Every wallet should receive exactly 100
+        for (const entry of creditEntries) {
+            assert.strictEqual(
+                entry.getAmount(),
+                100,
+                "Each wallet should receive the requested amount"
+            );
+        }
+
+        // Verify transaction is stored
+        const storedTransaction =
+            await transactionRepository.findById(transaction.getId());
+
+        assert.strictEqual(
+            storedTransaction,
+            transaction,
+            "Batch transaction should be stored in repository"
+        );
+    });
     test("throws TransactionOriginEqualsDestinationException when origin and destination wallets are the same", async () => {
         // Setup
         const fromWallet = createTestWallet("user-123", 500, "wallet-from-uuid");
