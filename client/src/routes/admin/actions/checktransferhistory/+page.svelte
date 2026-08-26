@@ -1,22 +1,30 @@
 <script lang="ts">
+  import { numberToMonth } from '$lib/utils/date-utils';
+  import type { PageProps } from './$types';
+  import { slide } from 'svelte/transition';
+  import { onMount } from 'svelte';
+
+  import MonthSlider from '$lib/components/elements/MonthSlider.svelte';
+
   import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
   import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
-  import MonthSlider from '$lib/components/elements/MonthSlider.svelte';
-  import { slide } from 'svelte/transition';
 
-  const months = [
-    { month: 'Jan', year: 2026 },
-    { month: 'Fev', year: 2026 },
-    { month: 'Mar', year: 2026 },
-    { month: 'Abr', year: 2026 },
-    { month: 'Mai', year: 2026 },
-    { month: 'Jun', year: 2026 }
-  ];
+  let { data, form }: PageProps = $props();
+  let months: Array<{ month: string, year: number, endpoint: string | URL }> = $state([]);
 
-  function handleMonthClick(month: string, year: number) {
-    // TODO: fetch the month and year in the api
-    console.log(month, year);
-  }
+  onMount(() => {
+    data.links.forEach((l: string) => {
+      const link = new URL(l);
+      const month = numberToMonth(Number(link.searchParams.get('month') ?? 0), true);
+      const year = Number(link.searchParams.get('year'));
+
+      months.unshift({
+        month: month,
+        year: year,
+        endpoint: link
+      });
+    });
+  });
 </script>
 
 <svelte:head>
@@ -25,7 +33,7 @@
 
 <h1 class="mb-3 font-[Stack_Sans_Headline] text-3xl lg:ml-3">Histórico de Transferências</h1>
 <div class="flex w-full gap-2">
-  <MonthSlider {months} onMonthButtonClick={handleMonthClick} />
+  <MonthSlider {months} buttonFormAction="?/getMonthStatement" selectedButton={form?.selectedButton ?? ''} />
 </div>
 
 {#snippet transfer(

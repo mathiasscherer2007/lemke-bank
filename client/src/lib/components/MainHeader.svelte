@@ -3,10 +3,6 @@
   import type { Attachment } from 'svelte/attachments';
   import tippy from 'tippy.js';
 
-  function onclick() {
-    
-  }
-
   const logoutTooltip: Attachment = (element) => {
     tippy(element, {
       content: 'Sair',
@@ -21,7 +17,7 @@
     >Lemke<b>Bank</b></a
   >
   <form action="/account/logout?/logout" method="POST" class="flex items-center justify-center">
-    <button {@attach logoutTooltip} type="submit" aria-label="logout" {onclick} class="logout-icon h-7 mr-2 aspect-square cursor-pointer"></button>
+    <button {@attach logoutTooltip} type="submit" aria-label="logout" class="logout-icon h-7 mr-2 aspect-square cursor-pointer"></button>
   </form>
 </header>
 

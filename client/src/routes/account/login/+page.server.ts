@@ -41,7 +41,12 @@ export const actions: Actions = {
 		} else {
 			cookies.set('x-access-token', response.headers.get('x-access-token') ?? '', { path: '/' });
 			cookies.set('x-refresh-token', response.headers.get('x-refresh-token') ?? '', { path: '/' });
-			throw redirect(303, resolve('/wallet/overview'));
+
+			if (data.role === 'user') {
+				throw redirect(303, resolve('/wallet/overview'));
+			} else if (data.role === 'admin') {
+				throw redirect(303, resolve('/admin'));
+			}
 		}
 	}
 };

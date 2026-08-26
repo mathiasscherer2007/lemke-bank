@@ -10,6 +10,7 @@
 
   interface Receiver {
     name: string,
+    email: string,
     walletId: string
   }
 
@@ -28,30 +29,23 @@
     searchedNames.length = 0;
     if (!searchItem) { return };
 
-    // wait for server...
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    const response = await fetch(`/api/user/search?query=${searchItem}`);
 
-    searchedNames = [
-      {
-        name: 'Nicolas Kochhann',
-        walletId: '123123'
-      },
-      {
-        name: 'Mathias Scherer',
-        walletId: '321321'
-      },
-      {
-        name: 'Thaila Jesuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuus',
-        walletId: '123412'
-      }
-    ]
+    const searchedUsers = await response.json();
+    searchedUsers.forEach(user => {
+      searchedNames.push({
+        name: user.username,
+        email: user.email,
+        walletId: user.walletId
+      })
+    });
   }
 
-  function addToReceivers(user: string, walletId: string) {
+  function addToReceivers(user: string, email: string, walletId: string) {
     searchItem = '';
     searchedNames = [];
     fullData.walletIds.push(walletId);
-    selectedUsers.push({ 'name': user, 'walletId': walletId });
+    selectedUsers.push({ 'name': user, 'email': email, 'walletId': walletId });
   }
 
   function removeSelectedUser(walletId: string) {
@@ -69,7 +63,7 @@
 </script>
 
 <!-- for mobile -->
-<a href={resolve('/admin')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
+<a href={resolve('/admin')} class="flex aspect-square h-10 items-center text-lg lg:hidden">
   <img src={arrowIcon} alt="cancelar" class="aspect-square h-full rotate-180 white-filter" />
   cancelar
 </a>
@@ -77,12 +71,12 @@
 {#snippet receivers()}
 	<h1 class="mb-3 font-[Stack_Sans_Headline] text-3xl">Selecione os recebedores</h1>
   <div class="w-full relative flex flex-col my-5">
-    <input type="text" id="1" onfocusin={toggleFocused} onfocusout={toggleFocused} oninput={searchNames} bind:value={searchItem} placeholder="Pesquise por nome/email/walletID" class="flex-1 border-b border-b-teal-500 p-1 text-xl lg:text-2xl dark:border-b-teal-400">
+    <input type="text" id="1" onfocusin={toggleFocused} onfocusout={toggleFocused} oninput={searchNames} bind:value={searchItem} placeholder="Pesquise por nome/email" class="flex-1 border-b border-b-teal-500 p-1 text-xl lg:text-2xl dark:border-b-teal-400">
     {#if searchedNames && focused}
-      <ul class="absolute top-full z-50 flex flex-col max-w-full bg-neutral-100 dark:bg-neutral-700 rounded-b">
-        {#each searchedNames as { name, walletId } (walletId)}
-          <button type="button" class="flex-1 flex gap-1 p-1 hover:bg-teal-400/20 dark:hover:bg-teal-500/25 hover:cursor-pointer" onmousedown={() => {addToReceivers(name, walletId)}}>
-            <p class="w-fit max-w-1/2 text-ellipsis overflow-clip whitespace-nowrap">{name}</p><p>| {walletId}</p>
+      <ul class="absolute w-full text-lg top-full z-50 flex flex-col max-w-full bg-neutral-100 dark:bg-neutral-700 rounded-b">
+        {#each searchedNames as { name, email, walletId } (walletId)}
+          <button type="button" class="flex-1 flex gap-1 p-1 hover:bg-teal-400/20 dark:hover:bg-teal-500/25 hover:cursor-pointer" onmousedown={() => {addToReceivers(name, email, walletId)}}>
+            <p class="w-fit max-w-1/2 text-ellipsis overflow-clip whitespace-nowrap">{name} | {email}</p>
           </button>
         {/each}
       </ul>
@@ -90,14 +84,14 @@
   </div>
   <h3 class="text-lg font-semibold">Usuários Selecionados</h3>
   <div class="px-1 rounded bg-neutral-300/70 dark:bg-neutral-700/30 overflow-y-scroll scrollbar-none scrollbar-track-transparent scrollbar-thumb-neutral-500 scrollbar-gutter-stable lg:scrollbar-thin mb-3">
-    <ul class="h-40 max-w-full divide-y divide-neutral-50/25">
+    <ul class="h-40 max-w-full">
     {#if selectedUsers.length > 0}
-      {#each selectedUsers as { name, walletId } (walletId)}
+      {#each selectedUsers as { name, email, walletId } (email)}
         <li out:slide class="flex justify-between px-1 py-1 hover:bg-neutral-300/95 dark:hover:bg-neutral-700/70 transition">
           <span class="flex-1 max-w-3/4 lg:max-w-2/3 flex gap-2 items-center">
             <span class="w-fit max-w-1/2 text-ellipsis overflow-clip whitespace-nowrap">{name}</span>
             <div class="bg-neutral-400 h-5 w-0.5 rounded"></div>
-            <span class="opacity-50">{walletId}</span>
+            <span class="opacity-50">{email}</span>
           </span>
           <button type="button" onclick={() => {removeSelectedUser(walletId)}} class="white-filter w-7 p-0.5 cursor-pointer hover:red-filter">
             <img src={trashIcon} alt="deletar">
@@ -105,7 +99,7 @@
         </li>
       {/each}
     {:else}
-      <p class="px-1 py-1 italic opacity-75">Nenhum usuário selecionado</p>
+      <p class="p-2 opacity-75">Nenhum usuário selecionado</p>
     {/if}
     </ul>
   </div>

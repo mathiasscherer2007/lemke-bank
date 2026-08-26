@@ -41,7 +41,7 @@ export class JwtTokenService implements TokenService
         {
             algorithm: 'HS256',
             jwtid: crypto.randomUUID(),
-            expiresIn: TokenType.REFRESH_TOKEN ? this.refreshTokenTTL : this.accessTokenTTL
+            expiresIn: tokenType === TokenType.REFRESH_TOKEN ? this.refreshTokenTTL : this.accessTokenTTL
         });
     }
 
