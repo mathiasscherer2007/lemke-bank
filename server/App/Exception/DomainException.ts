@@ -176,6 +176,17 @@ export class WrongPasswordException extends DomainException
 }
 
 
+export class UserRoleNotAllowedException extends DomainException
+{
+    private readonly role: string;
+
+    constructor(role: string){
+        super('User role not allowed.', 403, 'USER_ROLE_NOT_ALLOWED');
+        this.role = role;
+    }
+}
+
+
 export class UserNotFoundException extends DomainException
 {
     private readonly userId?: string;

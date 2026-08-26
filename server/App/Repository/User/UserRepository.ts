@@ -7,6 +7,7 @@ export interface UserRepository {
     save(user: User): Promise<User>;
     update(user: User): Promise<void>;
     search(query: string, limit: number): Promise<SearchedUser[]>;
+    getTotalUsersCount(): Promise<number>;
 }
 
 export const UserRepository = 'UserRepository';

@@ -88,4 +88,16 @@ export class DrizzleUserRepository implements UserRepository {
         return rows;
     }
 
+
+    public async getTotalUsersCount(): Promise<number> {
+        const [ row ] = await db
+            .select({
+                totalUsers: sql<number>`COUNT(${users.id})`
+            })
+            .from(users)
+            .where(and(eq(users.status, UserStatus.ACTIVE), eq(users.role, UserRole.USER)));
+
+        return row?.totalUsers ?? 0;
+    }
+
 }
