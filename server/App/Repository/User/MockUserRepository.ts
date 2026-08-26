@@ -1,4 +1,5 @@
 import { User } from "../../Model/User.js";
+import { UserRole } from "../../Model/Enum/UserRole.js";
 import { UserStatus } from "../../Model/Enum/UserStatus.js";
 import { SearchedUser } from "../../Types/domain.js";
 import { UserRepository } from "./UserRepository.js";
@@ -71,6 +72,15 @@ export class MockUserRepository implements UserRepository
                     updatedAt: (primitives.updatedAt as Date | undefined) ?? fallbackDate,
                 };
             });
+    }
+
+    public async getTotalUsersCount(): Promise<number> {
+        return Array.from(this.usersById.values()).filter((user) => {
+            const primitives = user.toPrimitives() as Record<string, unknown>;
+            const status = primitives.status ?? UserStatus.ACTIVE;
+
+            return status === UserStatus.ACTIVE && user.getRole() === UserRole.USER;
+        }).length;
     }
 
     public seed(user: User, walletId?: string): void {

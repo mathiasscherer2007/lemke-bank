@@ -30,6 +30,8 @@ import { TokenBlacklistingService } from "../../App/Service/TokenBlacklistingSer
 import { RedisTokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/RedisTokenBlacklistingService.js";
 import { UserManagementService } from "../../App/Service/UserManagementService.js";
 import { UserController } from "../../App/Http/Controller/UserController.js";
+import { AdminService } from "../../App/Service/AdminService.js";
+import { AdminController } from "../../App/Http/Controller/AdminController.js";
 
 export class AppServiceProvider
 {
@@ -52,6 +54,11 @@ export class AppServiceProvider
         container.register(WalletController, c => new WalletController(c.get(WalletManagementService)));
         container.register(StatementController, c => new StatementController(c.get(StatementGenerationService)));
         container.register(UserController, c => new UserController(c.get(UserManagementService)));
+
+
+        // Admin Service and Controller
+        container.register(AdminService, c => new AdminService(c.get(WalletRepository), c.get(UserRepository)), true);
+        container.register(AdminController, c => new AdminController(c.get(AdminService)));
 
         
         // Business Day Service

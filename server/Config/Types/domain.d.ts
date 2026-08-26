@@ -26,3 +26,15 @@ export type SearchedUser = {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export type RichestUserWallet = {
+    id: string;
+    balance: number;
+    createdAt: Date;
+    updatedAt: Date;
+    user: {
+        id: string;
+        email: string;
+        username: string;
+    }
+}
