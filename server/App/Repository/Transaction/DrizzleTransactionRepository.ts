@@ -31,7 +31,7 @@ export class DrizzleTransactionRepository implements TransactionRepository
             }
             
             let primitives = transaction.toPrimitives() as any;
-            primitives = delete primitives.entries;
+            delete primitives.entries;
             await tx.insert(transactions).values(primitives);
             await tx.insert(ledgerEntries).values(entries.map(entry => entry.toPrimitives()) as any);
 

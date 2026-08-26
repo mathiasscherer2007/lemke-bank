@@ -1,5 +1,5 @@
 import { PaymentByWalletIdDTO, BatchPaymentDTO } from "../Dto/Request.js";
-import { InsufficientFundsException, NotABusinessDayException, WalletNotFoundException } from "../Exception/DomainException.js";
+import { InsufficientFundsException, NotABusinessDayException, TransactionOriginEqualsDestinationException, WalletNotFoundException } from "../Exception/DomainException.js";
 import { LedgerEntryType } from "../Model/Enum/LedgerEntryType.js";
 import { LedgerEntry } from "../Model/LedgerEntry.js";
 import { Wallet } from "../Model/Wallet.js";
@@ -35,12 +35,13 @@ export class TransactionProcessorService
 
 
     private async generateEntries(toWalletId: string, amount: number, userId: string): Promise<LedgerEntry[]>
-    {
+    {        
         const fromWallet = await this.walletRepository.findByUserId(userId);
         const toWallet = await this.walletRepository.findById(toWalletId);
 
         if(!fromWallet) throw new WalletNotFoundException(undefined, userId);
         if(!toWallet) throw new WalletNotFoundException(toWalletId);
+        if(fromWallet.getId() === toWallet.getId()) throw new TransactionOriginEqualsDestinationException(fromWallet.getId());
 
         if(!fromWallet.hasEnoughBalance(amount)){
             throw new InsufficientFundsException();
@@ -52,7 +53,8 @@ export class TransactionProcessorService
             fromWallet.getId(), 
             toWalletId, 
             LedgerEntryType.DEBIT, 
-            amount
+            amount,
+            fromWallet.getBalance()
         )
 
         entries.push(entry);

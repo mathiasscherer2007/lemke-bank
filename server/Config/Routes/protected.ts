@@ -3,9 +3,10 @@ import { TransactionController } from "../../App/Http/Controller/TransactionCont
 import { AuthMiddleware } from "../../App/Http/Middleware/AuthMiddleware.js";
 import { WalletController } from "../../App/Http/Controller/WalletController.js";
 import { StatementController } from "../../App/Http/Controller/StatementController.js";
-import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, createChargeDTO, statementQueryStringSchema, batchPaymentDTO } from "../../App/Dto/Request.js";
+import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, createChargeDTO, statementQueryStringSchema, batchPaymentDTO, userSearchQuerySchema, userParamsSchema } from "../../App/Dto/Request.js";
 import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
 import { AuthController } from "../../App/Http/Controller/AuthController.js";
+import { UserController } from "../../App/Http/Controller/UserController.js";
 
 export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
     
@@ -17,6 +18,7 @@ export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
 
     const walletController = app.container.get<WalletController>(WalletController);
     app.get('/wallets/:walletId', { schema: { params: getWalletParamsSchema } }, walletController.getWallet);
+    app.get('/overview', walletController.overview);
 
     const statementController = app.container.get<StatementController>(StatementController);
     app.get('/statement', { schema: { querystring: statementQueryStringSchema } }, statementController.getStatement);
@@ -29,4 +31,8 @@ export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
     app.get('/charges/:chargeId', { schema: { params: chargeParamsSchema } }, chargeController.getCharge);
     app.post('/charges/pay/:chargeId', { schema: { params: chargeParamsSchema } }, chargeController.payCharge);
     app.post('/charges', { schema: { body: createChargeDTO } }, chargeController.createCharge);
+
+    const userController = app.container.get<UserController>(UserController);
+    app.get('/users/search', { schema: { querystring: userSearchQuerySchema } }, userController.searchUser);
+    app.delete('/users/:userId', { schema: { params: userParamsSchema } }, userController.deleteUser);
 }

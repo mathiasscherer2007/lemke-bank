@@ -4,9 +4,9 @@ import {
   int,
   timestamp,
   text,
+  index,
 } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
-import { wallets } from './wallets.js';
 import { charges } from './charges.js';
 
 export const transactions = mysqlTable('transactions', {
@@ -15,4 +15,8 @@ export const transactions = mysqlTable('transactions', {
   chargeId: varchar('charge_id', { length: 36 }).references(() => charges.id, { onDelete: 'restrict' }),
   description: text('description'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-});
+},
+
+table => [
+  index('createdAt_idx').on(table.createdAt),
+]);

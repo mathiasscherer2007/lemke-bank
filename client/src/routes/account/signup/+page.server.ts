@@ -14,7 +14,7 @@ export const actions: Actions = {
 			return fail(422, { error: { message: 'Por favor, preencha todos os campos.' } });
 		}
 
-		const response = await fetch(`${env.PRIVATE_API_URL}signup`, {
+		const response = await fetch(`${env.API_HOST}:${env.API_PORT}/signup`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ username, email, password, confirmPassword }),

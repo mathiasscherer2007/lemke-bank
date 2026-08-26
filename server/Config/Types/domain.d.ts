@@ -17,3 +17,24 @@ export type DateStatementGroup = {
     closingBalance: number;
     transactions: StatementTransaction[];
 }
+
+export type SearchedUser = {
+    id: string;
+    email: string;
+    username: string;
+    walletId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export type RichestUserWallet = {
+    id: string;
+    balance: number;
+    createdAt: Date;
+    updatedAt: Date;
+    user: {
+        id: string;
+        email: string;
+        username: string;
+    }
+}

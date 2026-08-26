@@ -3,7 +3,7 @@ import { LedgerEntryType } from './Enum/LedgerEntryType.js';
 
 export class LedgerEntry
 {
-    private readonly type: LedgerEntryType;
+    private readonly entryType: LedgerEntryType;
     private transactionId?: string;
     private readonly amount: number;
     private readonly balanceBefore?: number;
@@ -16,7 +16,7 @@ export class LedgerEntry
     constructor(
         walletId: string,
         counterpartyWalletId: string,
-        type: LedgerEntryType,
+        entryType: LedgerEntryType,
         amount: number,
         balanceBefore?: number,
         balanceAfter?: number,
@@ -26,11 +26,11 @@ export class LedgerEntry
     {
         this.id = id ?? crypto.randomUUID();
         this.walletId = walletId;
-        this.type = type;
+        this.entryType = entryType;
         this.counterpartyWalletId = counterpartyWalletId;
         this.amount = amount;
         this.balanceBefore = balanceBefore;
-        this.balanceAfter = balanceAfter;
+        this.balanceAfter = balanceAfter ?? balanceBefore! + (entryType === LedgerEntryType.CREDIT ? amount : -amount);
         this.createdAt = createdAt;
         this.transactionId = this.transactionId;
     }
@@ -44,7 +44,7 @@ export class LedgerEntry
     }
 
     public getType(): LedgerEntryType {
-        return this.type;
+        return this.entryType;
     }
 
     public getCounterpartyWalletId(): string {

@@ -28,6 +28,10 @@ import { AuthService } from "../../App/Service/AuthService.js";
 import { AuthController } from "../../App/Http/Controller/AuthController.js";
 import { TokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/TokenBlacklistingService.js";
 import { RedisTokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/RedisTokenBlacklistingService.js";
+import { UserManagementService } from "../../App/Service/UserManagementService.js";
+import { UserController } from "../../App/Http/Controller/UserController.js";
+import { AdminService } from "../../App/Service/AdminService.js";
+import { AdminController } from "../../App/Http/Controller/AdminController.js";
 
 export class AppServiceProvider
 {
@@ -36,20 +40,27 @@ export class AppServiceProvider
      */
     public static boot(container: AppContainer): void 
     {
-        // Wallet Services
+        // Wallet, Statement and User Services
         container.register(WalletRepository, () => new DrizzleWalletRepository(), true);
-        container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository)), true);
-
-        // Wallet Controller
-        container.register(WalletController, c => new WalletController(c.get(WalletManagementService)));
-
-        // Statement Services
         container.register(StatementRepository, () => new DrizzleStatementRepository(), true);
+        container.register(UserRepository, () => new DrizzleUserRepository(), true);
+
+        container.register(WalletManagementService, c => new WalletManagementService(c.get(WalletRepository), c.get(UserRepository), c.get(StatementRepository)), true);
         container.register(StatementGenerationService, c => new StatementGenerationService(c.get(WalletRepository), c.get(StatementRepository)), true);
+        container.register(UserManagementService, c => new UserManagementService(c.get(UserRepository), c.get(WalletRepository)), true);
 
-        // Statement Controller
+
+        // Wallet, Statement and User Controllers
+        container.register(WalletController, c => new WalletController(c.get(WalletManagementService)));
         container.register(StatementController, c => new StatementController(c.get(StatementGenerationService)));
+        container.register(UserController, c => new UserController(c.get(UserManagementService)));
 
+
+        // Admin Service and Controller
+        container.register(AdminService, c => new AdminService(c.get(WalletRepository), c.get(UserRepository)), true);
+        container.register(AdminController, c => new AdminController(c.get(AdminService)));
+
+        
         // Business Day Service
         container.register(BusinessDayService, () => new BrasilApiBusinessDayService(env.HOLIDAYS_API_URL!));
 
@@ -73,6 +84,7 @@ export class AppServiceProvider
         container.register(
             ChargePaymentService, 
             c => new ChargePaymentService(
+                c.get(UserRepository),
                 c.get(ChargeRepository),
                 c.get(WalletRepository),
                 c.get(TransactionProcessorService)
@@ -90,9 +102,6 @@ export class AppServiceProvider
 
         // Charge Controller
         container.register(ChargeController, c => new ChargeController(c.get(ChargePaymentService), c.get(ChargeCreationService)), true);
-
-        // User Services
-        container.register(UserRepository, c => new DrizzleUserRepository(), true);
 
         // Auth Services
         container.register(TokenService, c => new JwtTokenService(env.API_SECRET!), true);

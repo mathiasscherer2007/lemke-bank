@@ -15,6 +15,7 @@ import { MockUserRepository } from "../../App/Repository/User/MockUserRepository
 import { MockWalletRepository } from "../../App/Repository/Wallet/MockWalletRepository.js";
 import { MockTokenBlacklistingService } from "../../App/Service/TokenBlacklistingService/MockBlacklistingService.js";
 import { MockTokenService } from "../../App/Service/TokenService/MockTokenService.js";
+import { UserStatus } from "../../App/Model/Enum/UserStatus.js";
 
 function createService() {
     const users = new MockUserRepository();
@@ -63,6 +64,8 @@ describe("AuthService", () => {
                 id: users.savedUsers[0].getId(),
                 email: "alice@example.com",
                 username: "alice",
+                role: UserRole.USER,
+                status: UserStatus.ACTIVE,
                 createdAt: undefined,
                 updatedAt: undefined,
             },
@@ -162,6 +165,8 @@ describe("AuthService", () => {
             id: user.getId(),
             email: "alice@example.com",
             username: "alice",
+            role: UserRole.USER,
+            status: UserStatus.ACTIVE,
             createdAt: undefined,
             updatedAt: undefined,
         });

@@ -6,7 +6,6 @@ import { AppServiceProvider } from "./Provider/AppServiceProvider.js";
 import { publicRoutes } from "./Routes/public.js";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
-import { UserRole } from "./Model/Enum/UserRole.js";
 
 export async function buildApp(options: object = {})
 {
@@ -49,11 +48,4 @@ export async function buildApp(options: object = {})
     app.register(protectedRoutes);
 
     return app;
-}
-
-
-export async function buildTestApp(options: object = {}){
-
-    
-
 }

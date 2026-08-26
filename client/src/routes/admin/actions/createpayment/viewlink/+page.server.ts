@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 	let expiration = cookies.get(paymentLink);
 
     if (!expiration) {
-        expiration = (Date.now() + 5 * 60 * 1000).toString();
+        expiration = (Date.now() + 30 * 60 * 1000).toString();
         cookies.set(paymentLink, expiration, { 
             path: '/', 
             maxAge: 300 

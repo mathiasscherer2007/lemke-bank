@@ -1,15 +1,15 @@
 <script lang="ts">
   import { resolve } from "$app/paths";
   import CancelLink from "$lib/components/elements/Forms/CancelLink.svelte";
-  import { enhance } from "$app/forms";
 
-	import arrowIcon from '$lib/assets/icons/arrow-right.svg';
+  import arrowIcon from '$lib/assets/icons/arrow-right.svg';
+  import { enhance } from "$app/forms";
 
   let submitting = $state(false);
 </script>
 
 <!-- for mobile -->
-<a href={resolve('/admin')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
+<a href={resolve('/wallet/overview')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
   <img src={arrowIcon} alt="cancelar" class="aspect-square h-full rotate-180 white-filter" />
   cancelar
 </a>

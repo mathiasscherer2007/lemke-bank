@@ -6,9 +6,9 @@ import { MockWalletRepository } from "../../App/Repository/Wallet/MockWalletRepo
 import { Wallet } from "../../App/Model/Wallet.js";
 import { WalletStatus } from "../../App/Model/Enum/WalletStatus.js";
 import { LedgerEntryType } from "../../App/Model/Enum/LedgerEntryType.js";
-import { InsufficientFundsException, NotABusinessDayException } from "../../App/Exception/DomainException.js";
 import { PaymentByWalletIdDTO, BatchPaymentDTO } from "../../App/Dto/Request.js";
-import { BusinessDayService } from "../Service/WebService/BusinessDay/BusinessDayService.js";
+import { InsufficientFundsException, NotABusinessDayException, TransactionOriginEqualsDestinationException } from "../../App/Exception/DomainException.js";
+import { BusinessDayService } from "../../App/Service/WebService/BusinessDay/BusinessDayService.js";
 
 const createTestWallet = (userId: string, balance: number, id?: string) => {
     return new Wallet(userId, WalletStatus.ACTIVE, balance, id);
@@ -117,7 +117,7 @@ describe("TransactionProcessorService", () => {
         });
 
         // Execute & Verify
-        assert.rejects(
+        await assert.rejects(
             () => transactionProcessorService.process(paymentDTO, "user-123"),
             InsufficientFundsException,
             "Should throw InsufficientFundsException when balance is insufficient"
@@ -215,7 +215,7 @@ describe("TransactionProcessorService", () => {
         });
 
         // Execute & Verify
-        assert.rejects(
+        await assert.rejects(
             () => transactionProcessorService.process(paymentDTO, "user-123"),
             NotABusinessDayException,
             "Should throw NotABusinessDayException when date is not a business day"
@@ -365,6 +365,30 @@ describe("TransactionProcessorService", () => {
             storedTransaction,
             transaction,
             "Batch transaction should be stored in repository"
+        );
+    });
+    test("throws TransactionOriginEqualsDestinationException when origin and destination wallets are the same", async () => {
+        // Setup
+        const fromWallet = createTestWallet("user-123", 500, "wallet-from-uuid");
+
+        const walletRepository = new MockWalletRepository();
+        await walletRepository.create(fromWallet);
+
+        const transactionRepository = new MockTransactionRepository();
+        const businessDayService = new MockBusinessDayService();
+        businessDayService.setIsBusinessDay(true);
+        const transactionProcessorService = new TransactionProcessorService(transactionRepository, walletRepository, businessDayService);
+
+        const paymentDTO = createPaymentDTO({
+            toWalletId: fromWallet.getId(),
+            amount: 100
+        });
+
+        // Execute & Verify
+        await assert.rejects(
+            () => transactionProcessorService.process(paymentDTO, "user-123"),
+            TransactionOriginEqualsDestinationException,
+            "Should throw TransactionOriginEqualsDestinationException when origin and destination wallets are the same"
         );
     });
 });

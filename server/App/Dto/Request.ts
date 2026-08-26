@@ -66,3 +66,18 @@ export const userLoginDTO = z.object({
 });
 
 export type UserLoginDTO = z.infer<typeof userLoginDTO>
+
+
+export const userParamsSchema = z.object({
+    userId: z.coerce.string().nonempty().nonoptional()
+});
+
+export type UserParamsSchema = z.infer<typeof userParamsSchema>;
+
+
+export const userSearchQuerySchema = z.object({
+    query: z.coerce.string().nonempty().nonoptional(),
+    limit: z.coerce.number().optional()
+})
+
+export type UserSearchQuerySchema = z.infer<typeof userSearchQuerySchema>;
