@@ -7,6 +7,7 @@ import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, create
 import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
 import { AuthController } from "../../App/Http/Controller/AuthController.js";
 import { UserController } from "../../App/Http/Controller/UserController.js";
+import { AdminController } from "../../App/Http/Controller/AdminController.js";
 
 export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
     
@@ -35,4 +36,7 @@ export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
     const userController = app.container.get<UserController>(UserController);
     app.get('/users/search', { schema: { querystring: userSearchQuerySchema } }, userController.searchUser);
     app.delete('/users/:userId', { schema: { params: userParamsSchema } }, userController.deleteUser);
+
+    const adminController = app.container.get<AdminController>(AdminController);
+    app.get('/admin/overview', adminController.getOverview);
 }
