@@ -37,7 +37,6 @@ export class BrasilApiBusinessDayService implements BusinessDayService
 
         for(const entry of data as any[]){
             holidays.add(new Date(entry.date).toDateString());
-            console.log(new Date(entry.date).toDateString())
         }
         
         return holidays;

@@ -288,8 +288,8 @@ describe("TransactionProcessorService", () => {
 
         assert.strictEqual(
             entries.length,
-            4,
-            "Transaction should have 1 DEBIT and 3 CREDIT entries"
+            6,
+            "Transaction should have an equal amount of DEBIT and CREDIT entries."
         );
 
         // Find entries
@@ -303,8 +303,8 @@ describe("TransactionProcessorService", () => {
 
         assert.strictEqual(
             debitEntries.length,
-            1,
-            "Should have exactly one DEBIT"
+            3,
+            "Should have exactly three DEBIT entries"
         );
 
         assert.strictEqual(
@@ -322,8 +322,10 @@ describe("TransactionProcessorService", () => {
             "DEBIT should come from admin wallet"
         );
 
+        const totalDebit = debitEntries.reduce((acc, entry) => {return acc + entry.getAmount()}, 0)
+
         assert.strictEqual(
-            debitEntry.getAmount(),
+            totalDebit,
             300,
             "DEBIT should be amount multiplied by number of wallets"
         );

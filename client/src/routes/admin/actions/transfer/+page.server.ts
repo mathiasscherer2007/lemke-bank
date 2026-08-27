@@ -1,8 +1,59 @@
-import type { Actions } from "@sveltejs/kit";
+import { resolve } from '$app/paths';
+import { env } from '$env/dynamic/private';
+import { redirect, type Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {
-	transfer: async ({ request }) => {
-		const formData = await request.formData();
-		console.log(formData);
-	}
+  transfer: async ({ request, cookies }) => {
+    const formData = await request.formData();
+
+    const fullData = JSON.parse(formData.get('fullData')?.toString() ?? '{}');
+
+    const walletIds = fullData.walletIds ?? '';
+	console.log(walletIds)
+    const amount = fullData.amount.toString() ?? 0;
+    const description = fullData.description ?? '';
+
+    if (walletIds.length === 0 || !amount) {
+      throw redirect(303, resolve('/wallet/actions/pay/confirmations/failure'));
+    }
+
+    const response = await fetch(`${env.API_HOST}:${env.API_PORT}/transactions/batch`, {
+      method: 'POST',
+      headers: {
+        'x-refresh-token': cookies.get('x-refresh-token') ?? '',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${cookies.get('x-access-token') ?? ''}`,
+      },
+      body: JSON.stringify({
+        walletIds: walletIds,
+        amount: amount,
+        description: description,
+      })
+    });
+
+    if (response.ok) {
+      throw redirect(303, resolve('/admin/actions/transfer/confirmations/success'));
+    } else {
+      const data = await response.json();
+      let message;
+      switch (response.status) {
+        case 422:
+          if (data.message != 'Insufficient funds to complete this transaction.') {
+            message = 'Transações só podem ser feitas em dias úteis.';
+          } else {
+            message = 'Você não tem fundos suficientes para concluir esta transação.'
+          }
+          break;
+        
+        case 404:
+          message = 'Carteira não encontrada. Tente outro WalletID.';
+          break;
+      
+        default:
+		  message = 'Algo deu errado.';
+          break;
+      }
+      throw redirect(303, resolve(`/admin/actions/transfer/confirmations/failure?message=${message}`));
+    }
+  }
 };
