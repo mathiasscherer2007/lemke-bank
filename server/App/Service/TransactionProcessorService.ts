@@ -124,16 +124,17 @@ export class TransactionProcessorService
 
         const entries: LedgerEntry[] = [];
 
-        entries.push(
-            new LedgerEntry(
-                fromWallet.getId(),
-                toWallets[0].getId(),
-                LedgerEntryType.DEBIT,
-                totalAmount
-            )
-        );
-
         for (const wallet of toWallets) {
+            entries.push(
+                new LedgerEntry(
+                    fromWallet.getId(),
+                    wallet.getId(),
+                    LedgerEntryType.DEBIT,
+                    amount,
+                    fromWallet.getBalance()
+                )
+            );
+
             entries.push(
                 new LedgerEntry(
                     wallet.getId(),
