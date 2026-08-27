@@ -42,6 +42,9 @@
   }
 
   function addToReceivers(user: string, email: string, walletId: string) {
+    if(fullData.walletIds.some(wallet => wallet === walletId)){
+      return;
+    }
     searchItem = '';
     searchedNames = [];
     fullData.walletIds.push(walletId);

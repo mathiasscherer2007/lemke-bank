@@ -1,0 +1,21 @@
+<script lang="ts">
+  import { resolve } from '$app/paths';
+  import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
+
+  let { children } = $props();
+
+  onMount(() => {
+    let timer = setTimeout(() => {
+      goto(resolve('/admin'));
+    }, 10300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  });
+</script>
+
+<div class="flex h-full w-full flex-1 flex-col items-center justify-center">
+  {@render children()}
+</div>

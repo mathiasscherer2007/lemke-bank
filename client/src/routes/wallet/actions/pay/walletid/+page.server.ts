@@ -37,7 +37,6 @@ export const actions: Actions = {
       let message;
       switch (response.status) {
         case 422:
-          // This sucks.
           if (data.message != 'Insufficient funds to complete this transaction.') {
             message = 'Transações só podem ser feitas em dias úteis.';
           } else {
