@@ -5,7 +5,9 @@ export class AdminController
 {
     constructor(
         private readonly adminService: AdminService
-    ){}
+    ){
+        this.getOverview = this.getOverview.bind(this);
+    }
 
     public async getOverview(request: FastifyRequest, reply: FastifyReply)
     {
