@@ -4,7 +4,9 @@
     "scripts": {
         "dev": "npx tsx --env-file=./../.env Config/server.ts",
         "build": "npx tsc",
-        "generate-secret": "npx tsx Config/generate-secret.ts"
+        "generate-secret": "npx tsx Config/generate-secret.ts",
+        "create-admin": "npx tsx --env-file=./../.env scripts/create-admin.ts",
+        "add-bills": "npx tsx --env-file=./../.env scripts/add-bills.ts"
     },
     "dependencies": {
         "@fastify/swagger": "^9.8.1",
