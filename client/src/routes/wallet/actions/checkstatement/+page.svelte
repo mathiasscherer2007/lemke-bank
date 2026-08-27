@@ -61,8 +61,8 @@
           <span class="font-normal">Saldo no dia: BL$ {closingBalance}</span>
         </summary>
         <div class="flex flex-col gap-1 font-normal">
-          {#each transactions as { totalAmount, entries, description, transactionId } (transactionId)}
-            {@render transfer(entries[0].type, entries[0].relatedUser.username, totalAmount, description ?? '')}
+          {#each transactions as { entries, description, transactionId } (transactionId)}
+            {@render transfer(entries[0].type, entries[0].relatedUser.username, entries[0].amount, description ?? '')}
           {/each}
         </div>
       </details>

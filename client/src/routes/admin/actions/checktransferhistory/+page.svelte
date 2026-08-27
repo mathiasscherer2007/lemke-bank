@@ -9,6 +9,11 @@
   import arrowinIcon from '$lib/assets/icons/arrow-in.svg';
   import arrowoutIcon from '$lib/assets/icons/arrow-out.svg';
 
+  interface Entry {
+    amount: number,
+    relatedUser: { username: string }
+  }
+
   let { data, form }: PageProps = $props();
   let months: Array<{ month: string, year: number, endpoint: string | URL }> = $state([]);
 
@@ -36,13 +41,8 @@
   <MonthSlider {months} buttonFormAction="?/getMonthStatement" selectedButton={form?.selectedButton ?? ''} />
 </div>
 
-{#snippet transfer(
-  type: 'credit' | 'debit',
-  title: string,
-  amount: string,
-  description?: string | Array<string>
-)}
-  <div class="flex gap-2 bg-[#dddddd50] px-2 py-3 dark:bg-neutral-700">
+{#snippet transfer(type: 'credit' | 'debit', entries: Array<Entry>, amount: number, description: string)}
+  <div class="flex gap-2 bg-[#dddddd50] px-2 py-3 dark:bg-neutral-700 rounded">
     <div class="flex flex-col justify-evenly gap-2">
       <figure class="h-7 w-7 p-1 {type == 'credit' ? 'green-filter' : 'red-filter'}">
         <img src={type == 'credit' ? arrowinIcon : arrowoutIcon} alt={type} />
@@ -50,39 +50,40 @@
       <div class="mx-auto min-w-0.5 flex-1 rounded-xl bg-neutral-400"></div>
     </div>
     <div class="ml-1 flex flex-col gap-1">
-      <span class="m-0 text-xl">{title.toUpperCase()}</span>
-      {#if typeof description === 'string'}
-        <span class="text-md text-neutral-600 italic dark:text-neutral-300">{description ?? ''}</span>
+      <span class="m-0 text-xl font-semibold">{description?.length > 0 ? description : 'Sem Descrição'}</span>
+      {#if entries.length === 1}
+        <span class="text-md text-neutral-600 dark:text-neutral-300">{entries[0].relatedUser.username}</span>
       {:else}
         <details class="transition">
-          <summary class="text-md text-neutral-600 italic dark:text-neutral-300">{description?.length} recebedores</summary>
-		  <div class="grid grid-rows-5 auto-cols-fr grid-flow-col gap-1 pl-2 ml-1.25 py-1.25 border-l-2 border-neutral-400 bg-[#00000020] rounded-r-lg">
-          {#each description as name, index (index)}
-            <p class="ml-3">{name}</p>
-          {/each}
-		  </div>
+          <summary class="text-md text-neutral-600 italic dark:text-neutral-300">{entries?.length} recebedores</summary>
+          <div class="grid grid-rows-[repeat(5,minmax(0,max-content))] auto-cols-fr grid-flow-col pl-2 ml-1.25 py-1.25 border-l-2 border-neutral-400 bg-[#00000020] rounded-r-lg">
+              {#each entries as { relatedUser }, index (index)}
+                <p class="ml-3">{relatedUser.username}</p>
+              {/each}
+          </div>
         </details>
       {/if}
-      <span class="text-lg font-bold">BL$ {amount}</span>
+      <span class="text-lg font-bold">{type === 'debit' ? '-' : ''}BL$ {amount}</span>
     </div>
   </div>
 {/snippet}
 
-<div>
-  <ol in:slide class="mt-3 flex flex-col gap-1">
-    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">25/03</li>
-    {@render transfer(
-      'debit', 
-      'atividade de números binários', 
-      '10', 
-      [
-        'Mathias Scherer', 'Nícolas Kochhann', 
-        'Thaila Jesus', 'Paulo Nunes', 
-        'Leonardo Hoffmann', 'Marcelo Freitas', 
-        'Michael Jackson'
-      ]
-    )}
-    <li class="bg-[#bbbbbb95] p-2 text-lg font-bold dark:bg-neutral-800">24/03</li>
-    {@render transfer('credit', '2 questões da prova', '15', 'Mathias Scherer')}
-  </ol>
-</div>
+<ol class="mt-3 flex flex-col gap-1">
+  {#if form?.transactions.length > 0}
+    {#each form?.transactions as { date, transactions }, index (index)}
+      <details open in:slide|global class="bg-[#bbbbbb95] text-lg font-bold dark:bg-neutral-800 rounded">
+        <summary class="p-2 flex items-center justify-between">
+          <span>{date}</span>
+        </summary>
+        <div class="flex flex-col gap-1 font-normal">
+          {#each transactions as { totalAmount, entries, description, transactionId } (transactionId)}
+            {const relativeAmount = totalAmount/entries.length}
+            {@render transfer(entries[0].type, entries, relativeAmount, description ?? '')}
+          {/each}
+        </div>
+      </details>
+    {/each}
+  {:else}
+    <p class="mt-5 text-xl opacity-80">Não houveram movimentações no período selecionado.</p>
+  {/if}
+</ol>

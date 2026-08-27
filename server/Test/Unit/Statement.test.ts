@@ -72,10 +72,10 @@ describe("Statement", () => {
 
         const statement = new Statement("wallet", [
             createTransaction("1", date, [
-                createEntry(1000, 900, date),
+                createEntry(900, 850, date),
             ]),
             createTransaction("2", date, [
-                createEntry(900, 850, date),
+                createEntry(100, 900, date),
             ]),
         ]);
 
@@ -110,10 +110,10 @@ describe("Statement", () => {
 
         const statement = new Statement("wallet", [
             createTransaction("1", date, [
-                createEntry(1000, 900, date),
+                createEntry(900, 700, date),
             ]),
             createTransaction("2", date, [
-                createEntry(900, 700, date),
+                createEntry(1000, 900, date),
             ]),
         ]);
 

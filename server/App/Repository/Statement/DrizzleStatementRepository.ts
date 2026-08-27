@@ -17,7 +17,7 @@ export class DrizzleStatementRepository implements StatementRepository
                 id: transactions.id,
                 description: transactions.description,
                 totalAmount: transactions.amount,
-                relativeAmount: ledgerEntries.amount,
+                relativeAmount: sql<number>`MAX(${ledgerEntries.amount})`,
                 createdAt: transactions.createdAt,
                 entries: sql`
                     JSON_ARRAYAGG(
@@ -99,7 +99,7 @@ export class DrizzleStatementRepository implements StatementRepository
                 id: transactions.id,
                 description: transactions.description,
                 totalAmount: transactions.amount,
-                relativeAmount: ledgerEntries.amount,
+                relativeAmount: sql<number>`MAX(${ledgerEntries.amount})`,
                 createdAt: transactions.createdAt,
                 entries: sql`
                     JSON_ARRAYAGG(
