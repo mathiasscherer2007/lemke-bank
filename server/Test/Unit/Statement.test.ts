@@ -32,6 +32,7 @@ function createTransaction(
     return new StatementTransaction(
         id,
         100,
+        100,
         null,
         entries,
         createdAt,
