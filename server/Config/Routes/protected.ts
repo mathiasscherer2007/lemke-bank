@@ -7,7 +7,7 @@ import { getWalletParamsSchema, paymentByWalletIdDTO, chargeParamsSchema, create
 import { ChargeController } from "../../App/Http/Controller/ChargeController.js";
 import { AuthController } from "../../App/Http/Controller/AuthController.js";
 import { UserController } from "../../App/Http/Controller/UserController.js";
-import { AdminController } from "../Http/Controller/AdminController.js";
+import { AdminController } from "../../App/Http/Controller/AdminController.js";
 
 export const protectedRoutes: FastifyPluginAsync = async (app, options) => {
     
