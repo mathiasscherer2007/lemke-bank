@@ -1,6 +1,11 @@
 import { env } from "$env/dynamic/private";
 import type { PageServerLoad } from "./$types";
 
+interface User {
+	balance: number,
+	user: { username: string }
+}
+
 export const load: PageServerLoad = async ({ cookies }) => {
 	const response = await fetch(`${env.API_HOST}:${env.API_PORT}/admin/overview`, {
 		method: 'GET',
@@ -10,5 +15,11 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		}
 	});
 
-	console.log(await response.json());
+	const data = await response.json();
+
+	return {
+		totalBalance: data.totalBalance as number,
+		totalUsers: data.totalUsers as number,
+		topEarners: data.topEarners as Array<User>
+	}
 };
