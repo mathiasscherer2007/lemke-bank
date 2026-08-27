@@ -288,8 +288,8 @@ describe("TransactionProcessorService", () => {
 
         assert.strictEqual(
             entries.length,
-            4,
-            "Transaction should have 1 DEBIT and 3 CREDIT entries"
+            6,
+            "Transaction should have an equal amount of DEBIT and CREDIT entries."
         );
 
         // Find entries
