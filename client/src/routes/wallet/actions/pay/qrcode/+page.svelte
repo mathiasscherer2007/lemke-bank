@@ -87,7 +87,7 @@
 </script>
 
 <!-- for mobile -->
-<a href={resolve('/wallet/actions/pay')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
+<a href={resolve('/wallet/actions/pay')} class="flex aspect-square h-10 items-center text-lg lg:hidden">
   <img src={arrowIcon} alt="cancelar" class="aspect-square h-full rotate-180 white-filter" />
   cancelar
 </a>

@@ -9,7 +9,7 @@
 </script>
 
 <!-- for mobile -->
-<a href={resolve('/wallet/overview')} class="flex aspect-square h-10 items-center text-lg italic lg:hidden">
+<a href={resolve('/wallet/overview')} class="flex aspect-square h-10 items-center text-lg lg:hidden">
   <img src={arrowIcon} alt="cancelar" class="aspect-square h-full rotate-180 white-filter" />
   cancelar
 </a>
@@ -53,7 +53,7 @@
         class="flex-1 border-b border-b-teal-500 p-1 text-xl lg:text-2xl dark:border-b-teal-400"
       />
     </span>
-	<p class="italic my-3 text-neutral-400">Ao enviar, um link de pagamento com um QRcode será criado, e irá aparecer na tela para ser copiado.</p>
+	<p class="my-3 text-neutral-400">Ao enviar, um link de pagamento com um QRcode será criado, e irá aparecer na tela para ser copiado.</p>
 	<span class="flex flex-col mt-10 lg:m-0 lg:flex-row-reverse gap-1">
 		<button
 		type="submit"

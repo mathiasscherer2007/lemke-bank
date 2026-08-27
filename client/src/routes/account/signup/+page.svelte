@@ -109,7 +109,7 @@
 					<img src={showPassword ? crossedEyeIcon : eyeIcon} alt="show" class="h-full white-filter" />
 				</button>
 			</div>
-			<p class="opacity-70 italic">sua senha deve ter pelo menos 6 caracteres</p>
+			<p class="opacity-70">sua senha deve ter pelo menos 6 caracteres</p>
 		</div>
 		<div class="my-2 flex w-full flex-col">
 			<label for="password" class="pl-1">Confirme sua senha</label>

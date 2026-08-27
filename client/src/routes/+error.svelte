@@ -13,7 +13,7 @@
       <h2 class="absolute left-5 top-5 text-teal-500 dark:text-teal-400 font-[Stack_Sans_Notch] text-3xl lg:text-4xl">Lemke<b>Bank</b></h2>
       <h1 class="font-bold text-3xl italic">Oops!</h1>
       <h2 class="text-3xl font-semibold mb-4">{page?.status} - {page?.error?.message}</h2>
-      <p class="italic lg:max-w-2/3 text-center">
+      <p class="lg:max-w-2/3 text-center">
         {#if page?.status === 404}
           Página não encontrada. Talvez ela tenha sido movida ou o link está quebrado.
         {:else if page?.status === 500}

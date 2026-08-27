@@ -40,7 +40,7 @@
 		<div class="w-full">
 			<canvas {@attach generateQrCode} class="qrcode rounded-lg"></canvas>
 		</div>
-		<p class="text-lg lg:text-md italic text-neutral-500 dark:text-neutral-400">ou, copie o link</p>
+		<p class="text-lg lg:text-md text-neutral-500 dark:text-neutral-400">ou, copie o link</p>
 		<div class="flex gap-3 w-full max-w-80">
 			<textarea bind:this={linkElement} name="link" readonly rows="1" spellcheck="false" class="bg-neutral-400/10 flex-1 text-lg border border-neutral-500 rounded p-1 resize-none overflow-y-hidden overflow-x-scroll scrollbar-none text-nowrap">{link}</textarea>
 			<span class="h-6 aspect-square my-auto">

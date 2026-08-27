@@ -55,7 +55,7 @@
         <span class="text-md text-neutral-600 dark:text-neutral-300">{entries[0].relatedUser.username}</span>
       {:else}
         <details class="transition">
-          <summary class="text-md text-neutral-600 italic dark:text-neutral-300">{entries?.length} recebedores</summary>
+          <summary class="text-md text-neutral-600 dark:text-neutral-300">{entries?.length} recebedores</summary>
           <div class="grid grid-rows-[repeat(5,minmax(0,max-content))] auto-cols-fr grid-flow-col pl-2 ml-1.25 py-1.25 border-l-2 border-neutral-400 bg-[#00000020] rounded-r-lg">
               {#each entries as { relatedUser }, index (index)}
                 <p class="ml-3">{relatedUser.username}</p>

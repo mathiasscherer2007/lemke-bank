@@ -70,7 +70,8 @@
 
 <div class="flex flex-col">
   <p class="mb-3 text-xl lg:text-2xl">Transações recentes</p>
-  <ul class="flex-1 lg:px-2 divide-y divide-neutral-400 {data.recentTransactions.length > 0 ? 'border-y' : ''}">
+  <ul class="flex-1 lg:px-2 divide-y divide-neutral-400 ">
+    <div></div>
     {#if data.recentTransactions.length > 0}
       {#each data.recentTransactions as { type, relatedUser, date, amount }, i (i)}
         {@render transaction(type, relatedUser, date, amount)}
@@ -78,6 +79,7 @@
     {:else}
       <p class="w-full bg-neutral-300/10 p-2 text-lg rounded text-center lg:text-left">Não há nenhuma transação recente.</p>
     {/if}
+    <div></div>
   </ul>
 </div>
 
