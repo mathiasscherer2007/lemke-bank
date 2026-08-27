@@ -48,6 +48,8 @@ export class DrizzleUserRepository implements UserRepository {
             email: primitive.email,
             username: primitive.username,
             passwordHash: primitive.passwordHash,
+            role: primitive.role,
+            status: primitive.status,
         });
         return user;
     }
