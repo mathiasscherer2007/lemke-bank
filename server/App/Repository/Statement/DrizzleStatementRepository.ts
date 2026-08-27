@@ -17,6 +17,7 @@ export class DrizzleStatementRepository implements StatementRepository
                 id: transactions.id,
                 description: transactions.description,
                 totalAmount: transactions.amount,
+                relativeAmount: ledgerEntries.amount,
                 createdAt: transactions.createdAt,
                 entries: sql`
                     JSON_ARRAYAGG(
@@ -81,6 +82,7 @@ export class DrizzleStatementRepository implements StatementRepository
             return new StatementTransaction(
                 row.id,
                 row.totalAmount,
+                row.relativeAmount,
                 row.description,
                 entries,
                 row.createdAt
@@ -97,6 +99,7 @@ export class DrizzleStatementRepository implements StatementRepository
                 id: transactions.id,
                 description: transactions.description,
                 totalAmount: transactions.amount,
+                relativeAmount: ledgerEntries.amount,
                 createdAt: transactions.createdAt,
                 entries: sql`
                     JSON_ARRAYAGG(
@@ -158,6 +161,7 @@ export class DrizzleStatementRepository implements StatementRepository
             return new StatementTransaction(
                 row.id,
                 row.totalAmount,
+                row.relativeAmount,
                 row.description,
                 entries,
                 row.createdAt

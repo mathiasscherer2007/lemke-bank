@@ -36,3 +36,28 @@ Para executar o projeto, siga os seguintes passos:
   4. Configure um arquivo `.env` com base no `.env.example`.
   5. Execute o comando `docker compose up -d` para executar o docker.
   6. Execute o comando `npm run dev` e acesse o URL localhost:5173.
+
+### Operações administrativas pelo terminal
+
+Para criar um administrador com uma carteira e saldo inicial:
+
+```bash
+npm run create-admin -- \
+  --email admin@example.com \
+  --name Admin \
+  --password 'sua-senha' \
+  --initial-bills 1000
+```
+
+O argumento `--initial-bills` é opcional e assume `0`. A senha é usada apenas
+para gerar o hash compatível com o login da aplicação e não é salva no código.
+
+Para adicionar BL$ a uma carteira existente:
+
+```bash
+npm run add-bills -- \
+  --wallet-id ID_DA_CARTEIRA \
+  --amount 500
+```
+
+O crédito atualiza o saldo e registra a transação no ledger atomicamente.

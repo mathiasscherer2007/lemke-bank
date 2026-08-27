@@ -19,7 +19,9 @@
     "database:push": "drizzle-kit push",
     "database:pull": "drizzle-kit pull",
     "database:studio": "drizzle-kit studio",
-    "generate-secret": "npm run generate-secret -w server"
+    "generate-secret": "npm run generate-secret -w server",
+    "create-admin": "npm run create-admin -w server --",
+    "add-bills": "npm run add-bills -w server --"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^5.5.7",

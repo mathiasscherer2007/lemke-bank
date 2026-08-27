@@ -27,6 +27,7 @@ const createStatementTransaction = (
     return new StatementTransaction(
         id,
         100,
+        100,
         "Transfer",
         [
             {

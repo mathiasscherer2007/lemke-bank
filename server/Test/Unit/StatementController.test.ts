@@ -3,11 +3,12 @@ import { describe, test, beforeEach, afterEach } from 'node:test';
 import { StatementController } from '../../App/Http/Controller/StatementController.js';
 import { StatementGenerationService } from '../../App/Service/StatementGenerationService.js';
 
-describe('StatementController generateStatementLinks', () => {
+describe('StatementController', () => {
     let service!: StatementGenerationService;
     let controller!: StatementController;
     let RealDate!: DateConstructor;
     let fixedDate!: Date;
+    let generateCalls!: Array<[string, number, number]>;
 
     beforeEach(() => {
         // Freeze time to 2026-03-15 for all tests in this suite
@@ -26,8 +27,17 @@ describe('StatementController generateStatementLinks', () => {
             static now() { return fixedDate.getTime(); }
         } as unknown as DateConstructor;
 
-        // Mocked service and controller -> Just to test generateStatementLinks method
-        service = {} as StatementGenerationService;
+        generateCalls = [];
+        service = {
+            generate: async (userId: string, month: number, year: number) => {
+                generateCalls.push([userId, month, year]);
+                return {
+                    openingBalance: 250,
+                    entries: [],
+                    walletCreationDate: new RealDate('2026-01-10T00:00:00Z'),
+                };
+            },
+        } as unknown as StatementGenerationService;
         controller = new StatementController(service);
 
         // override API host/port parsed at module load time
@@ -75,7 +85,7 @@ describe('StatementController generateStatementLinks', () => {
     });
 
     test('when wallet created same month only one link is generated', () => {
-        const walletCreatedDate = new Date('2026-03-01T00:00:00Z');
+        const walletCreatedDate = new Date(2026, 2, 1);
 
         const links = controller.generateStatementLinks(walletCreatedDate);
 
@@ -91,7 +101,52 @@ describe('StatementController generateStatementLinks', () => {
         const walletYear = walletCreatedDate.getFullYear();
         const walletLink = `${host}:${port}/statement?month=${walletMonth}&year=${walletYear}`;
 
-        assert.strictEqual(links[0], expectedFirst);
-        assert.ok(links.includes(walletLink));
+        assert.deepStrictEqual(links, [expectedFirst]);
+        assert.strictEqual(links[0], walletLink);
+    });
+
+    test('getStatement forwards the requested period and generated statement to the response', async () => {
+        const request = {
+            user: { id: 'user-1' },
+            query: { month: 2, year: 2026 },
+        } as any;
+        const responseBody = {
+            openingBalance: 250,
+            entries: [],
+        };
+        const reply = {
+            status: (statusCode: number) => {
+                assert.strictEqual(statusCode, 200);
+                return {
+                    send: (body: unknown) => body,
+                };
+            },
+        } as any;
+
+        const result = await controller.getStatement(request, reply);
+
+        assert.deepStrictEqual(generateCalls, [['user-1', 2, 2026]]);
+        assert.deepStrictEqual(result, {
+            data: responseBody,
+            links: [
+                'test-host:1234/statement?month=3&year=2026',
+                'test-host:1234/statement?month=2&year=2026',
+                'test-host:1234/statement?month=1&year=2026',
+            ],
+        });
+    });
+
+    test('getStatement uses the current period when no query period is provided', async () => {
+        const request = {
+            user: { id: 'user-1' },
+            query: {},
+        } as any;
+        const reply = {
+            status: () => ({ send: (body: unknown) => body }),
+        } as any;
+
+        await controller.getStatement(request, reply);
+
+        assert.deepStrictEqual(generateCalls, [['user-1', 3, 2026]]);
     });
 });
