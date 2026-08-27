@@ -35,7 +35,8 @@ Para executar o projeto, siga os seguintes passos:
   3. Digite o comando `npm i` para instalar as dependências e bibliotecas.
   4. Configure um arquivo `.env` com base no `.env.example`.
   5. Execute o comando `docker compose up -d` para executar o docker.
-  6. Execute o comando `npm run dev` e acesse o URL localhost:5173.
+  6. Execute os comandos `npm run database:generate` e `npm run database:migrate`.
+  7. Execute o comando `npm run dev` e acesse o URL localhost:5173.
 
 ### Operações administrativas pelo terminal
 
