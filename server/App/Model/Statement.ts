@@ -44,8 +44,19 @@ export class Statement
             group.transactions.push(transaction);
             
             // Update closing balance as we add transactions
-            const lastEntry = transaction.getEntries().at(-1);
-            group.closingBalance = lastEntry!.balanceAfter;
+            // const firstEntry = transaction.getEntries()[0];
+            // group.closingBalance = firstEntry!.balanceAfter;
+        }
+
+        for(const group of groupedTransactions) 
+        {
+            const lastEntry = group[1].transactions[0].entries[0];
+
+            const transactionGroup = groupedTransactions.get(group[0]);
+
+            if (transactionGroup) {
+                transactionGroup.closingBalance = lastEntry.balanceAfter;
+            }
         }
 
         return Array.from(groupedTransactions.values());
