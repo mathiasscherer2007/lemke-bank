@@ -10,7 +10,12 @@ const config = {
 		adapter: adapter(),
 		env: {
 			dir: '../'
-		}
+		},
+		csrf: {
+            trustedOrigins: [
+                'https://iodine-oat-subsystem.ngrok-free.dev'
+            ]
+        }
 	}
 };
 

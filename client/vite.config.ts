@@ -2,4 +2,4 @@ import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
-export default defineConfig({ plugins: [tailwindcss(), sveltekit()], envDir: '../' });
+export default defineConfig({ plugins: [tailwindcss(), sveltekit()], envDir: '../', server: { host: '0.0.0.0', allowedHosts: true } }, );
