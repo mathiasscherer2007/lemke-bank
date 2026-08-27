@@ -4,6 +4,7 @@ export class StatementTransaction
 {
     private readonly transactionId: string;
     private readonly totalAmount: number;
+    private readonly relativeAmount: number;
     private readonly description?: string | null;
     private readonly entries: StatementEntry[];
     private readonly createdAt: Date;
@@ -11,12 +12,14 @@ export class StatementTransaction
     constructor(
         transactionId: string, 
         totalAmount: number,
+        relativeAmount: number,
         description: string | null,
         entries: StatementEntry[],
         createdAt: Date
     ) {
         this.transactionId = transactionId;
         this.totalAmount = totalAmount;
+        this.relativeAmount = relativeAmount;
         this.description = description;
         this.entries = entries;
         this.createdAt = createdAt;

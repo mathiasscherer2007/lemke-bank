@@ -9,9 +9,10 @@ import { MockUserRepository } from '../../App/Repository/User/MockUserRepository
 import { UserRole } from '../../App/Model/Enum/UserRole.js';
 import { User } from '../../App/Model/User.js';
 import { StatementTransaction } from '../../App/Model/StatementTransaction.js';
+import { UserNotFoundException, WalletNotFoundException } from '../../App/Exception/DomainException.js';
 
 describe('WalletManagementService', () => {
-    test('getWalletData returns repository.findById result', async () => {
+    test('getWalletData returns the wallet and its owner', async () => {
 
         const walletRepository = new MockWalletRepository();
         const statementRepository = new MockStatementRepository();
@@ -23,16 +24,35 @@ describe('WalletManagementService', () => {
         await userRepository.save(user);
         await walletRepository.create(wallet);
 
-        const service = new WalletManagementService(walletRepository as any, userRepository as any, statementRepository as any);
+        const service = new WalletManagementService(walletRepository, userRepository, statementRepository);
 
         const { user: resultUser, wallet: resultWallet } = await service.getWalletData('wallet-1');
-        const resultUserData = resultUser.toPrimitives() as any;
-        delete resultUserData.passwordHash; // Remove passwordHash for comparison
+        assert.strictEqual(resultWallet, wallet);
+        assert.strictEqual(resultUser, user);
+    });
 
-        const userData = user.toPrimitives() as any;
-        delete userData.passwordHash; // Remove passwordHash for comparison
+    test('getWalletData throws when the wallet does not exist', async () => {
+        const service = new WalletManagementService(
+            new MockWalletRepository(),
+            new MockUserRepository(),
+            new MockStatementRepository(),
+        );
 
-        assert.deepStrictEqual({ ...resultWallet, user: resultUserData }, { ...wallet, user: userData });
+        await assert.rejects(() => service.getWalletData('missing-wallet'), WalletNotFoundException);
+    });
+
+    test('getWalletData throws when the wallet owner does not exist', async () => {
+        const walletRepository = new MockWalletRepository();
+        const wallet = new Wallet('missing-user', WalletStatus.ACTIVE, 0, 'wallet-1', new Date('2026-01-01'));
+        await walletRepository.create(wallet);
+
+        const service = new WalletManagementService(
+            walletRepository,
+            new MockUserRepository(),
+            new MockStatementRepository(),
+        );
+
+        await assert.rejects(() => service.getWalletData(wallet.getId()), UserNotFoundException);
     });
 
     test('getOverview returns the wallet and its ten most recent transactions', async () => {
@@ -46,6 +66,7 @@ describe('WalletManagementService', () => {
         const transactions = Array.from({ length: 11 }, (_, index) => new StatementTransaction(
             `transaction-${index + 1}`,
             100,
+            10,
             `Transaction ${index + 1}`,
             [],
             new Date(2026, 0, index + 1),
@@ -55,7 +76,7 @@ describe('WalletManagementService', () => {
             statementRepository.addTransaction(wallet.getId(), transaction);
         }
 
-        const service = new WalletManagementService(walletRepository as any, userRepository as any, statementRepository as any);
+        const service = new WalletManagementService(walletRepository, userRepository, statementRepository);
 
         const result = await service.getOverview(wallet.getUserId());
 
